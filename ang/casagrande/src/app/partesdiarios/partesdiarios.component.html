@@ -1,0 +1,1224 @@
+<app-navbar></app-navbar>
+
+ 
+<mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
+  <mat-tab label="Maquinaria">
+
+    <div class="container">
+      <h1>Partes Diarios de Maquinaria Pesada</h1>
+
+
+      <div class="resumen row">
+        <div class="col-md-3 separacion">
+          <div class="resumen1 res animated  rollIn ">
+            <div class="sector1">
+              <span class="total">{{resumentodo.totalcompras}}</span>
+              <i class="iconillo fas fa-passport"></i>
+            </div>
+            <div class="sector2">
+              <span class="letra">Total de Partes</span>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="col-md-3 separacion">
+          <div class="resumen2 res animated  rollIn ">
+            <div class="sector1">
+              <span class="total">{{resumentodo.totalmes}}</span>
+
+              <i class="iconillo fas fa-file-medical-alt"></i>
+            </div>
+            <div class="sector2">
+              <span class="letra">Total Partes del Dia</span>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="col-md-3 separacion">
+          <div class="resumen3 res animated  rollIn ">
+            <div class="sector1">
+              <span class="total">{{resumentodo.gastosmes}}</span>
+              <i class="iconillo sinpa fas fa-thumbs-up"></i>
+            </div>
+            <div class="sector2">
+              <span class="letra">Gastos en Mes</span>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="col-md-3 separacion">
+          <div class="resumen4 res animated  rollIn ">
+            <div class="sector1">
+              <span class="total">{{resumentodo.gastostotal}}</span>
+              <i class="iconillo sinpa fas fa-lock"></i>
+            </div>
+            <div class="sector2">
+              <span class="letra">Gastos Totales</span>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+
+
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="tabla">
+            <mat-form-field>
+
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+            </mat-form-field>
+
+            <div class="mat-elevation-z8 example example-container">
+              <table mat-table [dataSource]="latabla" matSort class="mat-elevation-z8">
+                <ng-container matColumnDef="semaforizacion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Leyenda </th>
+                  <td mat-cell *matCellDef="let element"> {{element.semaforizacion}} </td>
+                </ng-container>
+
+
+
+                <ng-container matColumnDef="codigo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Codigo </th>
+                  <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="nombre">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nombre | titlecase}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="descripcion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </th>
+                  <td mat-cell *matCellDef="let element"> {{element.descripcion | titlecase}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="horometro">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Horometro </th>
+                  <td mat-cell *matCellDef="let element"> {{element.horometro}} </td>
+                </ng-container>
+                <ng-container matColumnDef="hodometro">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Hodometro </th>
+                  <td mat-cell *matCellDef="let element"> {{element.hodometro}} </td>
+                </ng-container>
+                <ng-container matColumnDef="estado">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+                  <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                  <td mat-cell *matCellDef="let element" [ngSwitch]="element.status"> <img src="assets/alerta.png"
+                      class="iconoo" *ngSwitchCase="'alerta'"> <img src="assets/precaucion.png" class="iconoo"
+                      *ngSwitchCase="'atencion'"> <img src="assets/good.png" class="iconoo"
+                      *ngSwitchCase="'tranquilos'"> </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ubicacion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Ubicacion </th>
+                  <td mat-cell *matCellDef="let element"> {{element.ubicacion}} </td>
+                </ng-container>
+                <ng-container matColumnDef="acciones">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                  <td mat-cell *matCellDef="let row" style="display: flex;" class="final">
+
+                    <button type='button'  matTooltip="Generar Parte" aria-label="Permisos"
+                      *ngIf="mispermitidos.generarpartes" class='editar btn btn-success' data-toggle="modal"
+                      data-target="#test-modal-5" (click)="maquina(row)"><i class="fas fa-user-tag sinpa"></i></button>
+
+                    <button type='button'  matTooltip="Reporte de Parte" aria-label="Permisos"
+                      class='editar btn btn-primary' *ngIf="mispermitidos.reportepartes" (click)="partepersonal(row)"><i
+                        class="fas fa-address-book sinpa"></i></button>
+
+                    <button type='button'  matTooltip="Agregar Costo" aria-label="Permisos"
+                      *ngIf="mispermitidos.agregarcosto" class='editar btn btn-danger' data-toggle="modal"
+                      data-target="#test-modal-66" (click)="agregarcosto(row)"><i
+                        class="fas fa-hand-holding-usd sinpa"></i></button>
+
+                    <button type='button'  matTooltip="Ver Costo" aria-label="Permisos"
+                      *ngIf="mispermitidos.vercosto" class='editar btn btn-dark' data-toggle="modal"
+                      data-target="#test-modal-61" (click)="vercosto(row)"><i
+                        class="fas fa-dollar-sign sinpa"></i></button>
+
+                    <button type='button'  matTooltip="Ver Costo Diesel" aria-label="Permisos"
+                      *ngIf="mispermitidos.costodiesel" class='editar btn btn-info' data-toggle="modal"
+                      data-target="#test-modal-62" (click)="vercostodiesel(row)"><i
+                        class="fas fa-gas-pump"></i></button>
+                    <button type='button'  matTooltip="Descuentos" aria-label="Permisos"
+                      *ngIf="mispermitidos.descuento" class='editar btn btn-warning' data-toggle="modal"
+                      data-target="#test-modal-67" (click)="descuentos(row)"><i
+                        class="fas fa-sort-numeric-down"></i></button>
+                        <button type='button'  matTooltip="Otros Ingresos" aria-label="Otros Ingresos"
+                      *ngIf="mispermitidos.descuento" class='editar btn btn-dark' (click)="nuevoIngreso(row)"><i
+                        class="fas fa-sort-numeric-down"></i></button>
+                  </td>
+
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </mat-tab>
+  <mat-tab label="Estadistica">
+    <div class="container">
+      <div class="row segunda">
+        <div class="col-md-12 otro" *ngIf="mispermitidos.estadistica">
+          <h1>Reporte Estadistico</h1>
+          <form (ngSubmit)="es1()">
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <mat-form-field>
+                  <mat-datepicker #picker1></mat-datepicker>
+                  <input matInput [matDatepicker]="picker1" name="fe1" [(ngModel)]="desde" placeholder="Desde">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+
+                </mat-form-field>
+              </div>
+
+
+              <div class="form-group col-md-4">
+                <mat-form-field>
+                  <mat-datepicker #picker2></mat-datepicker>
+                  <input matInput [matDatepicker]="picker2" name="fe2" [(ngModel)]="hasta" placeholder="Hasta">
+                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+
+                </mat-form-field>
+              </div>
+              <div class="form-group col-md-4">
+                <label for="inputEm">Bienes</label>
+                <angular2-multiselect [data]="itemsbienes" name="nose" [(ngModel)]="selectedItems"
+                  [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onDeSelect)="OnItemDeSelect($event)"
+                  (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>
+              </div>
+            </div>
+            <button type="submit" class="btn btn-primary btn-lg btn-block">Ver</button>
+          </form>
+        </div>
+        <div class="col-md-12">
+          <canvas #lineChart>{{ chart }}</canvas>
+        </div>
+      </div>
+    </div>
+
+
+  </mat-tab>
+  <mat-tab label="Partes Diarios">
+    <div class="otrocontenedor">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Reporte <span>{{elnombremaquina}}</span> <button class="btn btn-primary" (click)="alla()">Cambio</button>
+          </h1>
+          <div class="row cont">
+            <div class="col-md-4">
+              <mat-form-field>
+                <mat-datepicker #picker1></mat-datepicker>
+                <input matInput [matDatepicker]="picker1" name="fe1" [(ngModel)]="desde1" placeholder="Desde">
+                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <mat-form-field>
+                <mat-datepicker #picker2></mat-datepicker>
+                <input matInput [matDatepicker]="picker2" name="fe2" [(ngModel)]="hasta1" placeholder="Hasta">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+
+              </mat-form-field>
+            </div>
+            <div class="col-md-4">
+              <button type="button" class="btn btn-primary btn-lg" (click)="reportecompraq()">Ver Reporte</button>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+
+                <label for="exampleFormControlSelect2">Print</label>
+                <select multiple class="form-control" (dblclick)="sedlb()" [(ngModel)]="seleccionado" name="xxxx"
+                  id="exampleFormControlSelect2">
+                  <option *ngFor="let x of losprint">{{x}}</option>
+
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleFormControlSelect2">No Print</label>
+                <select multiple class="form-control" (dblclick)="noprin()" [(ngModel)]="seleccionado1"
+                  id="exampleFormControlSelect2">
+                  <option *ngFor="let x of losnoprint">{{x}}</option>
+
+                </select>
+              </div>
+
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-primary ee btn-lg btn-block" id="download-csv">CSV</button>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-success ee btn-lg btn-block" id="download-xlsx">Excel</button>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-dark ee btn-lg btn-block" id="downlo" (click)="armarPdf()">PDF</button>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-danger ee btn-lg btn-block" id="print-table">Print</button>
+
+            </div>
+
+
+          </div>
+
+
+
+
+
+
+
+
+
+
+
+          <div class="row resaltar">
+
+
+            <div class="col-md-3" *ngIf="tabla2">
+              <label for="inputEmail3">Buscar</label>
+              <select class="custom-select" id="filter-field" (change)="updateFilter()">
+                <option value="fecha">Fecha</option>
+                <option value="operadormaquina">Operador</option>
+                <option value="codigo">Codigo</option>
+                <option value="proyecto">Proyecto</option>
+                <!--  <option value="debe">Debe</option>
+                  <option value="haber">Haber</option>
+                  <option value="glosa">Glosa</option>
+                  <option value="comprobante.fecha">Fecha</option>
+                  <option value="comprobante.estado">Tipo</option>-->
+
+              </select>
+            </div>
+
+
+
+
+
+
+            <div class="col-md-3" *ngIf="tabla2">
+              <label for="inputEmail3">Por</label>
+              <select class="custom-select" id="filter-type" (change)="updateFilter()">
+                <option value="=">=</option>
+                <option value="<">
+                  << /option>
+                <option value="<=">
+                  <=< /option>
+                <option value=">">></option>
+                <option value=">=">>=</option>
+                <option value="!=">!=</option>
+                <option value="like" selected>Igual</option>
+              </select>
+            </div>
+
+
+
+            <div class="col-md-3" *ngIf="tabla2">
+              <label for="inputEmail3">Valor</label>
+              <input type="text" class="form-control" (keyup)="updateFilter()" id="filter-value" placeholder="Activos">
+            </div>
+
+
+
+            <div class="col-md-3 align-middle" style="padding-top: 10px;" *ngIf="tabla2">
+              <button class="btn btn-danger lim" (click)="limpieza()">Limpiar Filtros</button>
+            </div>
+
+          </div>
+          <div id="example-table-tabulator"></div>
+          <div class="table-responsive" id="datatabless">
+
+            <table class="table table-hover display table-striped table-bordered" id="tablita">
+              <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Proyecto</th>
+                  <th>Operador</th>
+                  <th>Fecha</th>
+                  <th>Horometro Antiguo</th>
+                  <th>Horometro Nuevo</th>
+
+                  <th>Observaciones</th>
+                  <th>Codigo</th>
+                  <th>Nulas</th>
+                  <th>Habiles</th>
+                  <th>Dia</th>
+                  <th>Basura</th>
+                  <th>Descarte</th>
+                  <th>Gravilla</th>
+                  <th>Grava</th>
+                  <th>Ripio</th>
+                  <th>Piedra</th>
+                  <th>Arena</th>
+                  <th>Cubos</th>
+                  <th>Operador Maquina</th>
+                  <th>Viajes</th>
+                  <th>Agua Destilada</th>
+                  <th>Filtro Combustible</th>
+                  <th>Filtro Aceite</th>
+                  <th>Aceite Transmisión</th>
+                  <th>Diesel</th>
+
+
+
+                </tr>
+              </thead>
+              <tfoot>
+                <tr>
+                  <th colspan="4" style="text-align:right">Total:</th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+                  <th></th>
+
+                </tr>
+              </tfoot>
+              <tbody>
+
+              </tbody>
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </mat-tab>
+  <mat-tab label="Reportes" *ngIf="mispermitidos.reporte">
+    <app-filtradorpartes></app-filtradorpartes>
+
+  </mat-tab>
+
+</mat-tab-group>
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-5" tabindex="-1" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header cabeza1">
+        <div class="row">
+          <div class="col-md-3">
+            <h4 class="modal-title">Partes Diarios</h4>
+          </div>
+          <div class="col-md-3 ">
+
+            <label for="inputEm">Fecha del Parte</label>
+            <input type="date" name="ss" [(ngModel)]="unitaayuda">
+            <!--<mat-form-field class="f">
+					  <input matInput [matDatepicker]="picker" [(ngModel)]="fechaactual" placeholder="Fecha Parte Diario">
+					  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+					  <mat-datepicker #picker></mat-datepicker>
+					</mat-form-field>-->
+          </div>
+          <div class="col-md-2">
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="true" (change)="ee()" [(ngModel)]="leafecto"
+                name="sss" id="defaultCheck1">
+              <label class="form-check-label" for="defaultCheck1">
+                Afectar Maquina
+              </label>
+            </div>
+          </div>
+          <div class="col-md-3 offset-md-1">
+
+            <label for="inputEm">Proyecto</label>
+            <angular2-multiselect [data]="itemsbienes1" style="color: black;" name="nose" [(ngModel)]="selectedItems1"
+              name="nom1111" [settings]="dropdownSettings1" (onSelect)="onItemSelect1($event)"
+              (onDeSelect)="OnItemDeSelect1($event)" (onSelectAll)="onSelectAll1($event)"
+              (onDeSelectAll)="onDeSelectAll1($event)"></angular2-multiselect>
+
+
+          </div>
+
+        </div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Close</span></button>
+
+
+
+
+
+
+
+
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <form (ngSubmit)="enviar()">
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputEmail4"><i class="fas fa-tractor"></i> Maquinaria</label>
+                    <input type="text" class="form-control" id="inputEmail4" [(ngModel)]="partediario.nombre" disabled
+                      name="nom1" placeholder="Retroexcavadora">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputPassword4">Usuario</label>
+                    <input type="text" disabled class="form-control" id="inputPassword4"
+                      [(ngModel)]="partediario.operador" name="nom2" placeholder="Juan Ramon">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputPassword4">Operador</label>
+                    <input type="text" class="form-control" id="inputPassword4"
+                      [(ngModel)]="partediario.operadormaquina" name="nom222" placeholder="Juan">
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="exampleFormControlSelect1">Metodo de Pago</label>
+                    <select class="form-control" [(ngModel)]="partediario.metododepago" name="pagadiesel3"
+                      id="exampleFormControlSelect13">
+                      <option value="ninguno" selected>Seleccionar un metodo</option>
+                      <option [value]="item.tipo" *ngFor="let item of listadePrecios">{{item.tipo | uppercase}}</option>
+                    </select>
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label for="inputAddress">Horometro Actual</label>
+                    <input type="number" [(ngModel)]="partediario.horometroactual" (change)="calcular()" name="nom3" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputAddress">Horometro Nuevo</label>
+                    <input type="number" [(ngModel)]="partediario.horometronuevo" (change)="calcular()" name="nom4" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label for="inputAddress">HABILES</label>
+                    <input type="number" [(ngModel)]="partediario.habiles"
+                      name="nom422scc" class="form-control" id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label for="inputAddress">DIA</label>
+                    <input type="number" [(ngModel)]="partediario.dia" name="nom42211" class="form-control"
+                      id="inputAddress">
+                  </div>
+
+
+                  <!-- <div class="form-group col-md-4">
+				    <label for="inputAddress">Hodometro Antiguo</label>
+				    <input type="number" [(ngModel)]="partediario.hodometroactual" name="nom5" class="form-control" id="inputAddress" >
+				  </div>
+				  <div class="form-group col-md-4">
+				    <label for="inputAddress">Hodometro Nuevo</label>
+				    <input type="number" [(ngModel)]="partediario.hodometronuevo" name="nom6" class="form-control" id="inputAddress" >
+				  </div>-->
+                  <div class="form-group col-md-7">
+                    <label for="exampleFormControlTextarea1">Observaciones</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" name="nom7"
+                      [(ngModel)]="partediario.observaciones" rows="3"></textarea>
+                  </div>
+                  <div class="form-group col-md-2">
+                    <label for="inputAddress">Numero de Parte</label>
+                    <input type="text" [(ngModel)]="partediario.codigo" name="nom6123111" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputAddress">Horas Nulas</label>
+                    <input type="number" [(ngModel)]="partediario.nulas" (change)="calcular()" name="nom6123pppp" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputAddress">Viajes</label>
+                    <input type="number" [(ngModel)]="partediario.viajes" name="nom612123" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputAddress">Cubos</label>
+                    <input type="number" [(ngModel)]="partediario.cubos" name="nom23111" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputAddress">Arena</label>
+                    <input type="number" [(ngModel)]="partediario.arena" name="nom23111a" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputAddress">Ripio</label>
+                    <input type="number" [(ngModel)]="partediario.ripio" name="nom23111b" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputAddress">Gravilla</label>
+                    <input type="number" [(ngModel)]="partediario.gravilla" name="nom23111c" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputAddress">Piedra</label>
+                    <input type="number" [(ngModel)]="partediario.piedra" name="nom23111d" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputAddress">Descarte</label>
+                    <input type="number" [(ngModel)]="partediario.descarte" name="nom23111e" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputAddress">Grava</label>
+                    <input type="number" [(ngModel)]="partediario.grava" name="nom23111f" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputAddress">Basura</label>
+                    <input type="number" [(ngModel)]="partediario.basura" name="nom23111g" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputAddress">Km</label>
+                    <input type="number" [(ngModel)]="partediario.km" name="nom23111ga" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputAddress">Traslado</label>
+                    <input type="number" [(ngModel)]="partediario.traslado" name="nom23111gz" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-3">
+                    <label for="inputAddress">Otro</label>
+                    <input type="number" [(ngModel)]="partediario.otro" name="nom23111gz33" class="form-control"
+                      id="inputAddress">
+                  </div>
+
+                </div>
+                <div class="form-row">
+                  <div class="form-group col-md-12">
+                    <h4>Opcionales</h4>
+                  </div>
+
+                  <div class="form-group col-md-4">
+                    <label for="inputAddress">Diesel</label>
+                    <input type="text" [(ngModel)]="partediario.diesel" name="nom8" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="exampleFormControlSelect1">Diesel Pagado Por</label>
+                    <select class="form-control" [(ngModel)]="partediario.dieselpagado" name="pagadiesel"
+                      id="exampleFormControlSelect1">
+                      <option value="usuario">Usuario</option>
+                      <option selected value="obra">Obra</option>
+                    </select>
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputAddress">Aceite de Motor</label>
+                    <input type="text" [(ngModel)]="partediario.aceitemotor" name="nom9" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputAddress">Grasa</label>
+                    <input type="text" [(ngModel)]="partediario.grasa" name="nom10" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputAddress">Líquido de freno</label>
+                    <input type="text" [(ngModel)]="partediario.liquidofreno" name="nom11" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputAddress">Gasolina</label>
+                    <input type="text" [(ngModel)]="partediario.gasolina" name="nom12" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputAddress">Aceite Hidráulico</label>
+                    <input type="text" [(ngModel)]="partediario.aceitehidraulico" name="nom13" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputAddress">Aceite Transmisión</label>
+                    <input type="text" [(ngModel)]="partediario.aceitetransmision" name="nom14" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputAddress">Filtro de Aceite</label>
+                    <input type="text" [(ngModel)]="partediario.filtroaceite" name="nom15" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputAddress">Filtro Combustible</label>
+                    <input type="text" [(ngModel)]="partediario.filtrocombustible" name="nom16" class="form-control"
+                      id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-4">
+                    <label for="inputAddress">Agua Destilada</label>
+                    <input type="text" [(ngModel)]="partediario.aguadestilada" name="nom1733" class="form-control"
+                      id="inputAddress">
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Guardar</button>
+              </form>
+              <button style="margin-top:20px" type="button" (click)="adicionarParte()" class="btn btn-success btn-lg btn-block">Cargas Mas</button>
+
+              <button type="button" (click)="guardarParte()" class="btn btn-dark btn-lg btn-block">Guardar Partes</button>
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+
+
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-77" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header cabeza6">
+        <h4 class="modal-title">Editar</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail42">Proyecto</label>
+              <input type="text" class="form-control" id="inputEmail42" name="operador339999"
+                [(ngModel)]="partediariopersonal.proyecto" disabled>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">Usuario</label>
+              <input type="text" class="form-control" id="inputEmail4" name="operador23"
+                [(ngModel)]="partediariopersonal.nombreo" disabled>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputEmail4">Operardor</label>
+              <input type="text" class="form-control" id="inputEmail4" name="operador13"
+                [(ngModel)]="partediariopersonal.operadormaquina">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputEmail4">Dia</label>
+              <input type="text" class="form-control" id="inputEmail4" name="operador34"
+                [(ngModel)]="partediariopersonal.dia">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputEmail4">Numero de Parte</label>
+              <input type="text" class="form-control" id="inputEmail4" name="operador3421"
+                [(ngModel)]="partediariopersonal.codigo">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputEmail4">Basura</label>
+              <input type="text" class="form-control" id="inputEmail4" name="operador34444"
+                [(ngModel)]="partediariopersonal.basura">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputEmail4">Descarte</label>
+              <input type="text" class="form-control" id="inputEmail4" name="operador34444a"
+                [(ngModel)]="partediariopersonal.descarte">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputEmail4">Gasolina</label>
+              <input type="text" class="form-control" id="inputEmail4" name="operador34444aasf"
+                [(ngModel)]="partediariopersonal.gasolina">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputEmail4">Gravilla</label>
+              <input type="text" class="form-control" id="inputEmail4" name="operador34444v"
+                [(ngModel)]="partediariopersonal.gravilla">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputEmail4">Grava</label>
+              <input type="text" class="form-control" id="inputEmail4" name="operador34444c"
+                [(ngModel)]="partediariopersonal.grava">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputEmail4">Ripio</label>
+              <input type="text" class="form-control" id="inputEmail4" name="operador34444d"
+                [(ngModel)]="partediariopersonal.ripio">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputEmail4">Piedra</label>
+              <input type="text" class="form-control" id="inputEmail4" name="operador34444h"
+                [(ngModel)]="partediariopersonal.piedra">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputEmail4">Arena</label>
+              <input type="text" class="form-control" id="inputEmail4" name="operador34444q"
+                [(ngModel)]="partediariopersonal.arena">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputEmail4">Cubos</label>
+              <input type="text" class="form-control" id="inputEmail4" name="operador34444r"
+                [(ngModel)]="partediariopersonal.cubos">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputEmail4">Diesel</label>
+              <input type="text" class="form-control" id="inputEmail4" name="operador34444bb"
+                [(ngModel)]="partediariopersonal.diesel">
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputEmail4">Viajes</label>
+              <input type="text" class="form-control" id="inputEmail4" name="operador34444o"
+                [(ngModel)]="partediariopersonal.viajes">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">Horometro Antiguo</label>
+              <input type="text" class="form-control" name="operador2"
+                [(ngModel)]="partediariopersonal.horometroantiguo" id="inputPassword4">
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">Diesel o Gasolina por</label>
+              <select class="form-control" [(ngModel)]="partediariopersonal.dieselpagado" name="pagadieselzz"
+                id="exampleFormControlSelect1">
+                <option value="usuario">Usuario</option>
+                <option selected value="obra">Obra</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">Horometro Nuevo</label>
+              <input type="number" class="form-control" name="operador1"
+                [(ngModel)]="partediariopersonal.horometronuevo" id="inputPassword4">
+            </div>
+
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">Nulas</label>
+              <input type="text" class="form-control" name="nulas" [(ngModel)]="partediariopersonal.nulas"
+                id="inputPassword4">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">Habiles</label>
+              <input type="text" class="form-control" name="habiles" [(ngModel)]="partediariopersonal.habiles"
+                id="inputPassword4">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">Observaciones</label>
+              <input type="text" class="form-control" name="obs" [(ngModel)]="partediariopersonal.observaciones"
+                id="inputPassword4">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">Fecha</label>
+              <input type="date" class="form-control" name="fecha" (change)="cambiolafecha()"
+                [(ngModel)]="partediariopersonal.fecha" id="inputPassword4">
+            </div>
+          </div>
+
+
+        </form>
+
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-success" (click)="editardiario()">
+          Guardar
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="modal fade bd-example-modal-xl" id="test-modal-66" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content segunda">
+      <div class="modal-header cabeza2">
+        <div class="row">
+          <div class="col-md-5">
+            <h4 class="modal-title">Agregar Costo</h4>
+          </div>
+
+          <div class="col-md-6 offset-md-1">
+
+            <label for="inputEm">Bienes</label>
+            <angular2-multiselect [data]="itemsbienes1" style="color:black;" name="nose"
+              [(ngModel)]="costosdebien.proyecto" name="nom1111" [settings]="dropdownSettings1"
+              (onSelect)="onItemSelect1($event)" (onDeSelect)="OnItemDeSelect1($event)"
+              (onSelectAll)="onSelectAll1($event)" (onDeSelectAll)="onDeSelectAll1($event)"></angular2-multiselect>
+
+
+          </div>
+
+        </div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">Bien</label>
+              <input type="text" class="form-control" id="inputEmail4" name="operador111"
+                [(ngModel)]="costosdebien.bien" disabled>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="exampleFormControlSelect1">Tipo</label>
+              <select class="form-control" [(ngModel)]="costosdebien.tipo" name="tipo1" id="exampleFormControlSelect1">
+                <option value="dia">Por Dia</option>
+                <option value="hora">Por Hora</option>
+                <option value="cubo">Por Cubo</option>
+                <option value="km">Por Km</option>
+                <option value="traslado">Por Traslado</option>
+                <option value="diesel">Diesel</option>
+                <option value="otro">Otro</option>
+                <option value="gasolina">Gasolina</option>
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">Precio</label>
+              <input type="number" class="form-control" [(ngModel)]="costosdebien.precio" name="operador2"
+                id="inputPassword4">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="exampleFormControlSelect1">Tipo Moneda</label>
+              <select class="form-control" [(ngModel)]="costosdebien.moneda" name="tipo1"
+                id="exampleFormControlSelect1">
+                <option value="dolar">Dolar</option>
+                <option value="boliviano">Bs</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+
+          </div>
+
+
+        </form>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="agregarunprecio()">
+          Guardar
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-61" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header cabeza3">
+        <h4 class="modal-title">Costos de Maquinaria</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-7">
+            <div class="table-responsive" id="datatabless">
+
+              <table class="table table-hover display table-striped table-bordered" id="tablita1">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Idproyectos</th>
+                    <th>Proyecto</th>
+                    <th>Moneda</th>
+                    <th>Precio</th>
+                    <th>Tipo</th>
+
+
+
+
+
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+          <div class="col-md-5">
+            <form>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="inputEmail4">Bien</label>
+                  <input type="text" class="form-control" id="inputEmail4" name="operador1112"
+                    [(ngModel)]="preciodemaquina.bien" disabled>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="exampleFormControlSelect1">Tipo</label>
+                  <select class="form-control" [(ngModel)]="preciodemaquina.tipo" name="tipo12"
+                    id="exampleFormControlSelect1">
+                    <option value="dia">Por Dia</option>
+                    <option value="hora">Por Hora</option>
+                    <option value="otro">Otro</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="inputPassword4">Precio</label>
+                  <input type="number" class="form-control" [(ngModel)]="preciodemaquina.precio" name="operador23"
+                    id="inputPassword4">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="exampleFormControlSelect1">Tipo Moneda</label>
+                  <select class="form-control" [(ngModel)]="preciodemaquina.moneda" name="tipo14"
+                    id="exampleFormControlSelect1">
+                    <option value="dolar">Dolar</option>
+                    <option value="boliviano">Bs</option>
+                    <option value="otro">Otro</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-12">
+                  <button type="button" (click)="hacercambioprecio()"
+                    class="btn btn-outline-success btn-lg btn-block">Cambiar</button>
+                </div>
+
+              </div>
+
+
+            </form>
+          </div>
+
+        </div>
+
+
+
+
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-62" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header cabeza4">
+        <h4 class="modal-title">Costos de Diesel</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-7">
+            <div class="table-responsive" id="datatabless">
+
+              <table class="table table-hover display table-striped table-bordered" id="tablita2">
+                <thead>
+                  <tr>
+                    <th>Id</th>
+                    <th>Idproyectos</th>
+                    <th>Proyecto</th>
+                    <th>Moneda</th>
+                    <th>Precio</th>
+                    <th>Tipo</th>
+
+
+
+
+
+                  </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+              </table>
+
+            </div>
+          </div>
+          <div class="col-md-5">
+            <form>
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="inputEmail4">Bien</label>
+                  <input type="text" class="form-control" id="inputEmail4" name="operador11121"
+                    [(ngModel)]="preciodiesel.bien" disabled>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="inputPassword4">Precio</label>
+                  <input type="number" class="form-control" [(ngModel)]="preciodiesel.precio" name="operador2223"
+                    id="inputPassword4">
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="exampleFormControlSelect1">Tipo Moneda</label>
+                  <select class="form-control" [(ngModel)]="preciodiesel.moneda" name="tipo124"
+                    id="exampleFormControlSelect1">
+                    <option value="dolar">Dolar</option>
+                    <option value="boliviano">Bs</option>
+                    <option value="otro">Otro</option>
+                  </select>
+                </div>
+                <div class="form-group col-md-12">
+                  <button type="button" (click)="hacercambiopreciodiesel()"
+                    class="btn btn-outline-success btn-lg btn-block">Cambiar</button>
+                </div>
+
+              </div>
+
+
+            </form>
+          </div>
+
+        </div>
+
+
+
+
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+<div class="modal fade bd-example-modal-xl" id="test-modal-67" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content segunda">
+      <div class="modal-header cabeza5">
+        <div class="row">
+          <div class="col-md-5">
+            <h4 class="modal-title">Descuento</h4>
+          </div>
+
+          <div class="col-md-6 offset-md-1">
+
+            <label for="inputEm">Bienes</label>
+            <angular2-multiselect [data]="itemsbienes1" style="color:black;" name="nose"
+              [(ngModel)]="descuento.proyecto" name="nom1111" [settings]="dropdownSettings1"
+              (onSelect)="onItemSelect1($event)" (onDeSelect)="OnItemDeSelect1($event)"
+              (onSelectAll)="onSelectAll1($event)" (onDeSelectAll)="onDeSelectAll1($event)"></angular2-multiselect>
+
+
+          </div>
+
+        </div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="inputEmail4">Bien</label>
+              <input type="text" class="form-control" id="inputEmail4" name="operador1113" [(ngModel)]="descuento._id"
+                disabled>
+            </div>
+            <div class="form-group col-md-6">
+              <mat-form-field class="f">
+                <input matInput [matDatepicker]="picker11" name="fechadescuento" [(ngModel)]="descuento.fecha"
+                  placeholder="Fecha">
+                <mat-datepicker-toggle matSuffix [for]="picker11"></mat-datepicker-toggle>
+                <mat-datepicker #picker11></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="inputPassword4">Costo</label>
+              <input type="number" class="form-control" [(ngModel)]="descuento.precio" name="operador422"
+                id="inputPassword4">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="exampleFormControlSelect1">Tipo Descuento</label>
+              <select class="form-control" [(ngModel)]="descuento.motivo" name="tipo21" id="exampleFormControlSelect1">
+                <option value="repuesto">Repuestos</option>
+                <option value="mantenimiento">Mant</option>
+                <option value="sueldos">Sueldos</option>
+                <option value="ropa">Ropa de Trabajo</option>
+                <option value="diesel">Diesel</option>
+                <option value="otros">Otro</option>
+              </select>
+            </div>
+
+          </div>
+
+
+        </form>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="agregarundescuento()">
+          Guardar
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,59 @@
+<button class="btn btn-primary" [useExistingCss]="true" printSectionId="print-section" ngxPrint>Imprimir</button>
+<mat-dialog-content class="mat-typography">
+  <div id="print-section">
+    <div class="row">
+
+      <div class="col-md-2">
+        <img src="./assets/log.jpg" width="100%" alt="">
+      </div>
+      <div class="col-md-8">
+        <h3>INFORME DE CHECK LIST</h3>
+
+      </div>
+      <div class="col-md-2">
+
+      </div>
+      <div class="col-md-6">
+
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Descripcion</th>
+              <th>Valor</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let x of detalle">
+              <td>{{x.name}}</td>
+              <td>{{x.valor}}</td>
+            </tr>
+          </tbody>
+
+        </table>
+
+      </div>
+      <div class="col-md-6">
+        <a [href]="datos.bien.combustibleUrl" data-lightbox="roadtrip"><img [src]="datos.bien.combustibleUrl" width="100%" alt=""></a>
+        
+        <h4>Nivel combustible <b>{{datos.bien.combustible}}</b> </h4>
+
+        <br>
+        <a [href]="datos.bien.neumaticosUrl" data-lightbox="roadtrip"> <img [src]="datos.bien.neumaticosUrl" width="100%" alt=""></a>
+        
+       
+        <h4>Neumaticos <b>{{datos.bien.neumaticos}}</b> </h4>
+
+        <br>
+        <a [href]="datos.bien.rodilloUrl" data-lightbox="roadtrip"> <img [src]="datos.bien.rodilloUrl" width="100%" alt=""></a>
+        
+       
+        <h4>Rodillo <b>{{datos.bien.rodillo}}</b> </h4>
+        <br>
+        <a [href]="datos.bien.rodadoUrl" data-lightbox="roadtrip"><img [src]="datos.bien.rodadoUrl" width="100%" alt=""></a>
+        
+        
+        <h4>Rodado <b>{{datos.bien.rodado}}</b> </h4>
+      </div>
+    </div>
+  </div>
+</mat-dialog-content>

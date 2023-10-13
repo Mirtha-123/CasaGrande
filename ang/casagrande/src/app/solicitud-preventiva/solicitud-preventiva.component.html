@@ -1,0 +1,192 @@
+<app-navbar></app-navbar>
+
+
+<div class="container ss">
+  <div class="row">
+    <div class="col-md-12">
+
+
+      <div class="bordeado">
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-3">
+
+              <label for="exampleFormControlInput1">Codigo</label>
+              <input type="text" name="nom" [(ngModel)]="nombres" disabled class="form-control"
+                id="exampleFormControlInput1" placeholder="0000545">
+
+            </div>
+            <div class="form-group col-md-3">
+              <mat-form-field class="f">
+                <input matInput [matDatepicker]="picker" name="fechaa" [(ngModel)]="fechaactual"
+                  placeholder="Fecha Solicitud">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputEmail4">Proyecto</label>
+
+              <!--<input type="text" class="form-control" id="inputEmail4" [(ngModel)]="compra.proyecto" name="nom1342" placeholder="JP08">-->
+              <angular2-multiselect [data]="losp" name="nose1" [(ngModel)]="selectedItems1"
+                [settings]="dropdownSettings1" (onSelect)="onItemSelect1($event)" (onDeSelect)="OnItemDeSelect1($event)"
+                (onSelectAll)="onSelectAll1($event)" (onDeSelectAll)="onDeSelectAll1($event)"></angular2-multiselect>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputEm">Bienes</label>
+              <angular2-multiselect [data]="itemsbienes" name="nose" [(ngModel)]="selectedItems"
+                [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onDeSelect)="OnItemDeSelect($event)"
+                (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>
+            </div>
+            <div class="form-group col-md-3">
+              <button type="button" class="btn btn-success" (click)="guardando()">Guardar</button>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="exampleFormControlTextarea1">Observaciones</label>
+              <textarea class="form-control" name="area" [(ngModel)]="observaciones" id="exampleFormControlTextarea1"
+                rows="3"></textarea>
+            </div>
+
+
+          </div>
+        </form>
+      </div>
+
+      <div class="row">
+        <div class="col-md-6">
+          <div class="form-group">
+            <label for="exampleFormControlSelect1">Lista Prevenciones</label>
+            <select class="form-control" id="exampleFormControlSelect1" [(ngModel)]="preventivo" name="unoa">
+              <option value="Ninguno" selected>Seleccionar un valor</option>
+              <option *ngFor="let item of prevenciones" [value]="item._id">{{item.nombre}}</option>
+
+            </select>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <button type="button" class="btn btn-success btn-lg btn-block" (click)="cargarKit()">Cargar Kits</button>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <div class="card">
+        <div class="card-header cabezita">
+          <h3 class=" text-center font-weight-bold text-uppercase py-4">Kit</h3>
+          <span class="table-add un  float-right mb-3 mr-2">
+            <a class="text-success" (click)="otralinea()">
+              <mdb-icon fas icon="plus" size="2x"></mdb-icon>
+            </a>
+          </span><span class="table-add un  float-right mb-3 mr-2" data-toggle="modal"
+            data-target="#test-modal-importacion">
+            <a class="text-primary">
+              <mdb-icon fas icon="file-import" size="2x"></mdb-icon>
+            </a>
+          </span>
+        </div>
+
+        <div class="card-body">
+          <div id="table" class="table-editable">
+
+            <table class="table table-bordered table-responsive-md table-striped text-center">
+              <tr>
+                <th class="text-center">Item</th>
+                <th class="text-center">Cantidad</th>
+                <th class="text-center">Unidad</th>
+                <th class="text-center">Numero de Parte</th>
+                <th class="text-center">Descripcion</th>
+
+
+
+                <th class="text-center">Eliminar</th>
+              </tr>
+              <tr *ngFor="let x of kits; let id = index">
+                <td>
+                  <span class="objs" contenteditable="true" (keyup)="changeValue(id, 'id', $event)"
+                    (blur)="updateList(id, 'id', $event)">{{x.id}}</span>
+                </td>
+                <td>
+                  <span class="objs" contenteditable="true" (keyup)="changeValue(id, 'cantidad', $event)"
+                    (blur)="updateList(id, 'cantidad', $event)">{{x.cantidad}}</span>
+                </td>
+                <td>
+                  <span class="objs" contenteditable="true" (keyup)="changeValue(id, 'unidad', $event)"
+                    (blur)="updateList(id, 'unidad', $event)">{{x.unidad}}</span>
+                </td>
+                <td>
+
+                  <span class="objs" contenteditable="true" (keyup)="changeValue(id, 'codigo', $event)"
+                    (blur)="updateList(id, 'codigo', $event)">{{x.codigo}}</span>
+                </td>
+
+
+                <td>
+                  <span class="objs" contenteditable="true" (keyup)="changeValue(id, 'descripcion', $event)"
+                    (blur)="updateList(id, 'descripcion', $event)">{{x.descripcion}}</span>
+                </td>
+
+                <!--<td>
+            <span class="objs" contenteditable="true" (keyup)="changeValue(id, 'costo', $event)" (blur)="updateList(id, 'costo', $event)">{{x.costo}}</span>
+          </td>-->
+
+                <td>
+                  <span class="table-remove">
+                    <button type="button" mdbBtn color="danger" rounded="true" size="sm" class="my-0"
+                      (click)="remove(id)">Eliminar</button>
+                  </span>
+                </td>
+              </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-importacion" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <h4 class="modal-title">Importacion</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+
+        <form action="/api/subir" method="post" enctype="multipart/form-data">
+          <input type="file" name="file" (change)="diferente($event)">
+
+        </form>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="enviar1()">
+          Importar
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

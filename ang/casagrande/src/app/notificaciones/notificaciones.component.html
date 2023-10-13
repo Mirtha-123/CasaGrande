@@ -1,0 +1,59 @@
+<app-navbar></app-navbar>
+
+
+
+<div class="container">
+
+  <div style="margin-top: 10px;">
+    <h3>Notificaciones </h3>
+  </div>
+  <div style="float: right;">
+    <button mat-flat-button color="warn" (click)="quitarTodo()">Eliminar Todas</button>
+  </div>
+  <div class="tabla">
+    <div class="buscador ">
+
+      <i class="fas fa-search lupa"></i>
+
+      <mat-form-field>
+        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscador">
+      </mat-form-field>
+
+
+    </div>
+
+
+    <div class="mat-elevation-z8 example">
+      <table mat-table [dataSource]="latabla" matSort class="mat-elevation-z8">
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha </th>
+          <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+        </ng-container>
+
+
+
+        <ng-container matColumnDef="tema">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Tema </th>
+          <td mat-cell *matCellDef="let element"> {{element.tema}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+          <td mat-cell *matCellDef="let row" class="final">
+
+            <button type='button' mat-raised-button matTooltip="Eliminar" aria-label="Borrar"
+              class='editar btn btn-danger' (click)="borrar(row)"><i class="fas fa-trash-alt sinpa" ></i></button>
+
+          </td>
+
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <mat-paginator [pageSizeOptions]="[50, 75, 100]"></mat-paginator>
+    </div>
+  </div>
+</div>

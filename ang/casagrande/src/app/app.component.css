@@ -1,0 +1,19 @@
+html{
+	height: 100%;
+}
+app-bien{
+  display: block;
+}
+*{
+	display: block;
+	 
+}
+.fondo{
+	height: 100%;
+}
+input{
+	color: white;
+}
+app-navbar{
+	position: fixed;
+}

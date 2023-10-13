@@ -1,0 +1,1363 @@
+<div class="spinner" *ngIf="loading">
+
+  <mat-spinner class="loadings"></mat-spinner>
+
+</div>
+
+<app-navbar></app-navbar>
+
+
+<!--<button type="button" class="btn btn-primary caja" ><i class="fas fa-plus"></i></button>-->
+<mat-tab-group>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <span class="table-add un mb-3 mr-2">
+        <a class="">
+          <mdb-icon fas icon="file-alt" size="2x"></mdb-icon>
+        </a>
+      </span>
+      Solicitudes
+    </ng-template>
+    <div class="container">
+
+
+
+
+      <h1>Solicitudes</h1>
+
+
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="tabla">
+            <mat-form-field>
+
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+            </mat-form-field>
+
+            <div class="mat-elevation-z8 example example-container">
+              <table mat-table [dataSource]="latabla" matSort class="mat-elevation-z8">
+                <ng-container matColumnDef="proyecto">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nombre | titlecase}} </td>
+                </ng-container>
+
+
+
+                <ng-container matColumnDef="usuario">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Usuario </th>
+                  <td mat-cell *matCellDef="let element"> <strong>{{element.usuario }} </strong> </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="fecha">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha </th>
+                  <td mat-cell *matCellDef="let element"> {{element.fecha | date}} </td>
+                </ng-container>
+
+
+
+
+
+                <ng-container matColumnDef="maquinaria">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Maquinaria </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nombrema}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="estado">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                  <td mat-cell *matCellDef="let element" [ngSwitch]="element.estado">
+                    <div *ngSwitchCase="'nueva'">
+                      <span class="text-info">En espera</span>
+                      <!--<img src="assets/alerta.png" class="iconoo"  *ngSwitchCase="'nueva'">-->
+                    </div>
+                    <div *ngSwitchCase="'aprobado'">
+                      <span class="text-success">Aprobado</span>
+                      <!--<img src="assets/precaucion.png" class="iconoo"  > -->
+                    </div>
+                    <div *ngSwitchCase="'rechazado'">
+                      <span class="text-danger">Rechazado</span>
+                      <!--<img src="assets/good.png" class="iconoo"  >-->
+                    </div>
+                    <div *ngSwitchCase="'cotizando'">
+                      <span class="text-warning">Cotizando</span>
+                      <!--<img src="assets/good.png" class="iconoo"  >-->
+                    </div>
+                  </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="acciones">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                  <td mat-cell *matCellDef="let row" class="final" style="display: flex;">
+                    <span class="table-add un mb-3 mr-2" (click)="ver(row)" data-toggle="modal"
+                      data-target="#test-modal-7" *ngIf="row.estado=='nueva' && row.tipo=='img'">
+                      <a class="text-danger">
+                        <mdb-icon fas icon="eye" size="2x" data-toggle="tooltip" data-placement="top"
+                          title="Ver Solicitud"></mdb-icon>
+                      </a>
+                    </span>
+                    <span class="table-add un mb-3 mr-2" (click)="ver(row)" data-toggle="modal"
+                      data-target="#test-modal-76" *ngIf="row.estado=='nueva' && row.tipo=='list'">
+                      <a class="text-danger">
+                        <mdb-icon fas icon="eye" size="2x" data-toggle="tooltip" data-placement="top"
+                          title="Ver Solicitud"></mdb-icon>
+                      </a>
+                    </span>
+
+
+
+                    <span class="table-add un mb-3 mr-2" (click)="ver(row)" data-toggle="modal"
+                      data-target="#test-modal-7" *ngIf="row.estado=='cotizando' && row.tipo=='img'">
+                      <a class="text-warning">
+                        <mdb-icon fas icon="eye" size="2x" data-toggle="tooltip" data-placement="top"
+                          title="Ver Solicitud"></mdb-icon>
+                      </a>
+                    </span>
+                    <span class="table-add un mb-3 mr-2" (click)="ver(row)" data-toggle="modal"
+                      data-target="#test-modal-76" *ngIf="row.estado=='cotizando' && row.tipo=='list'">
+                      <a class="text-warning">
+                        <mdb-icon fas icon="eye" size="2x" data-toggle="tooltip" data-placement="top"
+                          title="Ver Solicitud"></mdb-icon>
+                      </a>
+                    </span>
+
+
+
+                    <span class="table-add un mb-3 mr-2" (click)="ver1(row)" data-toggle="modal"
+                      data-target="#test-modal-88" *ngIf="row.estado=='aprobado' && row.tipo=='list'">
+                      <a class="text-primary">
+                        <mdb-icon fas icon="eye" size="2x" data-toggle="tooltip" data-placement="top"
+                          title="Ver Aprobacion"></mdb-icon>
+                      </a>
+                    </span>
+
+                    <span class="table-add un mb-3 mr-2" (click)="ver(row)" data-toggle="modal"
+                      data-target="#test-modal-8" *ngIf="row.estado=='aprobado' && row.tipo=='img'">
+                      <a class="text-primary">
+                        <mdb-icon fas icon="eye" size="2x" data-toggle="tooltip" data-placement="top"
+                          title="Ver Aprobacion"></mdb-icon>
+                      </a>
+                    </span>
+                    <span class="table-add un mb-3 mr-2" (click)="ver(row)" data-toggle="modal"
+                      data-target="#test-modal-9" *ngIf="row.estado=='aprobado' && row.tipo=='img'">
+                      <a class="text-info">
+                        <mdb-icon fas icon="clipboard-check" size="2x" data-toggle="tooltip" data-placement="top"
+                          title="Detallar Solicitud"></mdb-icon>
+                      </a>
+                    </span>
+                    <span class="table-add un mb-3 mr-2" (click)="fotos(row);uploader.clearQueue()" data-toggle="modal"
+                      data-target="#test-modal-74">
+                      <a class="text-success">
+                        <mdb-icon fas icon="photo" size="2x" data-toggle="tooltip" data-placement="top" title="fotos">
+                        </mdb-icon>
+                      </a>
+                    </span>
+                    <span class="table-add un mb-3 mr-2" (click)="imprimir(row)" data-toggle="modal"
+                      data-target="#test-modal-impresion">
+                      <a class="text-dark">
+
+                        <mdb-icon fas icon="print" size="2x" data-toggle="tooltip" data-placement="top"
+                          title="Imprimir">
+                        </mdb-icon>
+                      </a>
+                    </span>
+                    <span class="table-add un mb-3 mr-2" (click)="editar(row)" *ngIf="row.estado=='nueva'"
+                      data-toggle="modal" data-target="#test-modal-impresion">
+                      <a class="text-dark">
+
+                        <mdb-icon fas icon="edit" size="2x" data-toggle="tooltip" data-placement="top" title="Editar">
+                        </mdb-icon>
+                      </a>
+                    </span>
+
+
+                  </td>
+
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+
+              <mat-paginator (page)="getServerData($event)" [pageSizeOptions]="[5, 10, 25, 100]" [pageSize]="resumen.count" [showFirstLastButtons]="true" [length]="resumen.large" [pageIndex]="resumen.page"></mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </mat-tab>
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon"></mat-icon>
+      <mdb-icon fas icon="book-open" size="2x"></mdb-icon>Reporte Solicitudes
+    </ng-template>
+
+
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <form (ngSubmit)="es1()">
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <mat-form-field>
+                  <mat-datepicker #picker1></mat-datepicker>
+                  <input matInput [matDatepicker]="picker1" name="fe1" [(ngModel)]="desde" placeholder="Desde">
+                  <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+
+                </mat-form-field>
+              </div>
+
+
+              <div class="form-group col-md-4">
+                <mat-form-field>
+                  <mat-datepicker #picker2></mat-datepicker>
+                  <input matInput [matDatepicker]="picker2" name="fe2" [(ngModel)]="hasta" placeholder="Hasta">
+                  <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+
+                </mat-form-field>
+              </div>
+              <div class="form-group col-md-4">
+                <button type="button" class="btn btn-primary" (click)="solicitudesreportes()">Buscar</button>
+              </div>
+
+
+            </div>
+          </form>
+
+
+        </div>
+        <div class="col-md-12">
+          <div class="">
+            <button class="btn btn-outline-primary  sup" (click)="imprimir1(1)">Imprimir</button>
+            <button class="btn btn-outline-dark  sup" (click)="imprimir1(2)">CSV</button>
+            <button class="btn btn-outline-warning sup" (click)="imprimir1(3)">JSON</button>
+            <button class="btn btn-outline-success  sup" (click)="imprimir1(4)">EXCEL</button>
+            <button class="btn btn-outline-danger  sup" (click)="imprimir1(5)">PDF</button>
+
+          </div>
+          <div id="verreporte"></div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+
+
+
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon"></mat-icon>
+      <mdb-icon fas icon="book-open" size="2x"></mdb-icon>Reporte por Maquina
+    </ng-template>
+
+
+    <div class="containera" style="margin-top: 15px;margin-left: 10px;margin-left: 10px;">
+      <div class="row">
+        <div class="col-md-8">
+
+          <div class="">
+            <button class="btn btn-outline-primary  sup" (click)="imprimir3(1)">Imprimir</button>
+            <button class="btn btn-outline-dark  sup" (click)="imprimir3(2)">CSV</button>
+            <button class="btn btn-outline-warning sup" (click)="imprimir3(3)">JSON</button>
+            <button class="btn btn-outline-success  sup" (click)="imprimir3(4)">EXCEL</button>
+            <button class="btn btn-outline-danger  sup" (click)="imprimir3(5)">PDF</button>
+
+          </div>
+          <div class="row resaltar">
+
+
+            <div class="col-md-3">
+              <label for="inputEmail3">Buscar</label>
+              <select class="custom-select" id="filter-field" (change)="updateFilter()">
+                <option value="fecha">Fecha</option>
+                <option value="maquina">Maquina</option>
+                <option value="observaciones">Observaciones</option>
+                <option value="proyecto">Proyecto</option>
+
+                <option value="estado">Estado</option>
+                <option value="tipo">Tipo</option>
+                <option value="usuario">Usuario</option>
+
+
+              </select>
+            </div>
+
+
+
+
+
+
+            <div class="col-md-3">
+              <label for="inputEmail3">Por</label>
+              <select class="custom-select" id="filter-type" (change)="updateFilter()">
+                <option value="=">=</option>
+                <option value="<">
+                  << /option>
+                <option value="<=">
+                  <=< /option>
+                <option value=">">></option>
+                <option value=">=">>=</option>
+                <option value="!=">!=</option>
+                <option value="like">Like</option>
+              </select>
+            </div>
+
+
+
+            <div class="col-md-3">
+              <label for="inputEmail3">Valor</label>
+              <input type="text" class="form-control" (keyup)="updateFilter()" id="filter-value" placeholder="Activos">
+            </div>
+
+
+
+            <div class="col-md-3">
+              <button class="btn btn-danger lim" (click)="limpieza()">Limpiar Filtros</button>
+            </div>
+
+          </div>
+          <div id="verreporte1"></div>
+
+        </div>
+        <div class="col-md-4">
+          <form (ngSubmit)="es1()">
+            <div class="form-row">
+              <div class="form-group col-md-12">
+                <button type="button" class="btn btn-primary" (click)="solicitudesreportesma()">Buscar</button>
+              </div>
+              <div class="form-group col-md-12">
+                <mat-form-field>
+                  <mat-datepicker #picker11a></mat-datepicker>
+                  <input matInput [matDatepicker]="picker11a" name="dddd" [(ngModel)]="desde3" placeholder="Desde">
+                  <mat-datepicker-toggle matSuffix [for]="picker11a"></mat-datepicker-toggle>
+
+                </mat-form-field>
+              </div>
+
+
+              <div class="form-group col-md-12">
+                <mat-form-field>
+                  <mat-datepicker #picker22a></mat-datepicker>
+                  <input matInput [matDatepicker]="picker22a" name="eeee" [(ngModel)]="hasta3" placeholder="Hasta">
+                  <mat-datepicker-toggle matSuffix [for]="picker22a"></mat-datepicker-toggle>
+
+                </mat-form-field>
+              </div>
+              <div class="form-group col-md-12">
+                <label for="inputEm">Bienes</label>
+                <angular2-multiselect [data]="itemsbienes" name="nose" [(ngModel)]="selectedItems"
+                  [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onDeSelect)="OnItemDeSelect($event)"
+                  (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>
+              </div>
+
+
+
+            </div>
+          </form>
+
+
+        </div>
+
+      </div>
+    </div>
+
+
+  </mat-tab>
+
+</mat-tab-group>
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-76" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <h4 class="modal-title">Solicitud Lista {{datos.nombrema}}</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+
+        <div class="container">
+          <div class="row">
+
+            <div class="col-md-12">
+
+              <h1>Detalles</h1>
+              <form>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputAddress">Fecha</label>
+                    <input type="text" [(ngModel)]="datos.fecha" disabled="true" value="0" name="nom433"
+                      class="form-control" id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="exampleFormControlTextarea1">Observaciones</label>
+                    <textarea class="form-control" name="area2" [(ngModel)]="datos.observaciones" disabled="true"
+                      id="exampleFormControlTextarea1" rows="3"></textarea>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="exampleFormControlTextarea1">Nuevas Observaciones</label>
+                    <textarea class="form-control" name="area1" [(ngModel)]="datos.observaciones_nuevas"
+                      id="exampleFormControlTextarea1" rows="3"></textarea>
+                  </div>
+                </div>
+
+              </form>
+              <div class="table-responsive" id="datatabless">
+
+                <table class="table table-hover display table-striped table-bordered" id="tablita23">
+                  <thead>
+                    <tr class="cabeza">
+                      <th>Item</th>
+                      <th>Cantidad</th>
+                      <th>Unidad</th>
+                      <th>Numero de Parte</th>
+                      <th>SI O NO</th>
+                      <th>Descripcion</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                  </tbody>
+                </table>
+
+              </div>
+              <button type="button" (click)="aprobarTodo()" *ngIf="mispermitidos.aprobarsolicitud"
+                class="btn btn-success btn-lg btn-block">Aprobar Todo</button>
+
+              <button type="button" (click)="aprobar1()" *ngIf="mispermitidos.aprobarsolicitud"
+                class="btn btn-primary btn-lg btn-block">Aprobar Parcial</button>
+              <button type="button" (click)="cotizarlos()" *ngIf="mispermitidos.aprobarsolicitud"
+                class="btn btn-warning btn-lg btn-block">Cotizar</button>
+              <button type="button" (click)="desaprobar1()" *ngIf="mispermitidos.aprobarsolicitud"
+                class="btn btn-danger btn-lg btn-block">Rechazar</button>
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+
+      </div>
+      <div class="modal-footer">
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-7" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <h4 class="modal-title">Solicitud {{datos.nombrema}}</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-12" *ngFor="let x of imagenes">
+                  <a [href]="x" target="_blank"><img [src]="x" class="imglista"></a>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-8">
+
+              <h1>Detalles</h1>
+              <form>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputAddress">Fecha</label>
+                    <input type="text" [(ngModel)]="datos.fecha" disabled="true" value="0" name="nom433"
+                      class="form-control" id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="exampleFormControlTextarea1">Observaciones</label>
+                    <textarea class="form-control" name="area2" [(ngModel)]="datos.observaciones" disabled="true"
+                      id="exampleFormControlTextarea1" rows="3"></textarea>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="exampleFormControlTextarea1">Nuevas Observaciones</label>
+                    <textarea class="form-control" name="area1" [(ngModel)]="datos.observaciones_nuevas"
+                      id="exampleFormControlTextarea1" rows="3"></textarea>
+                  </div>
+                </div>
+
+              </form>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+              <button type="button" (click)="aprobar()" *ngIf="mispermitidos.aprobarsolicitud"
+                class="btn btn-primary btn-lg btn-block">Aprobar</button>
+              <button type="button" (click)="desaprobar()" *ngIf="mispermitidos.aprobarsolicitud"
+                class="btn btn-danger btn-lg btn-block">Rechazar</button>
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+
+      </div>
+      <div class="modal-footer">
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-8" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <h4 class="modal-title text-primary">Solicitud Aprobada {{datos.nombrema}}</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+
+        <div class="container">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="row">
+                <div class="col-md-12" *ngFor="let x of imagenes">
+                  <a [href]="x" target="_blank"><img [src]="x" class="imglista"></a>
+                </div>
+              </div>
+
+            </div>
+            <div class="col-md-8">
+
+              <h1>Detalles</h1>
+              <form>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputAddress">Fecha</label>
+                    <input type="text" [(ngModel)]="datos.fecha" disabled="true" value="0" name="nom433"
+                      class="form-control" id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="exampleFormControlTextarea1">Observaciones</label>
+                    <textarea class="form-control" name="area2" [(ngModel)]="datos.observaciones" disabled="true"
+                      id="exampleFormControlTextarea1" rows="3"></textarea>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="exampleFormControlTextarea1">Nuevas Observaciones</label>
+                    <textarea class="form-control" name="area1" [(ngModel)]="datos.observaciones_nuevas" disabled="true"
+                      id="exampleFormControlTextarea1" rows="3"></textarea>
+                  </div>
+                </div>
+
+              </form>
+              <button type="button" data-dismiss="modal" class="btn btn-primary btn-lg btn-block">Cerrar</button>
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+
+
+      </div>
+      <div class="modal-footer">
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-88" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <h4 class="modal-title text-primary">Solicitud Aprobada {{datos.nombrema}}</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+
+        <div class="container" *ngIf="siguientepasito1">
+          <div class="row">
+
+            <div class="col-md-12">
+
+              <h1>Detalles</h1>
+              <form>
+                <div class="form-row">
+                  <div class="form-group col-md-6">
+                    <label for="inputAddress">Fecha</label>
+                    <input type="text" [(ngModel)]="datos.fecha" disabled="true" value="0" name="nom433"
+                      class="form-control" id="inputAddress">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="exampleFormControlTextarea1">Observaciones</label>
+                    <textarea class="form-control" name="area2" [(ngModel)]="datos.observaciones" disabled="true"
+                      id="exampleFormControlTextarea1" rows="3"></textarea>
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="exampleFormControlTextarea1">Nuevas Observaciones</label>
+                    <textarea class="form-control" name="area1" [(ngModel)]="datos.observaciones_nuevas" disabled="true"
+                      id="exampleFormControlTextarea1" rows="3"></textarea>
+                  </div>
+                </div>
+
+              </form>
+              <div class="table-responsive" id="datatabless">
+
+                <table class="table table-hover display table-striped table-bordered" id="tablita231">
+                  <thead>
+                    <tr class="cabeza">
+
+                      <th>Item</th>
+                      <th>Cantidad</th>
+                      <th>Unidad</th>
+                      <th>Numero de Parte</th>
+                      <th>Estado</th>
+                      <th>Descripcion</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+
+                  </tbody>
+                </table>
+
+              </div>
+              <button type="button" data-dismiss="modal" (click)="siguientepaso1();correl()"
+                class="btn btn-danger btn-lg btn-block">Siguiente</button>
+              <button type="button" data-dismiss="modal" class="btn btn-primary btn-lg btn-block">Cerrar</button>
+
+            </div>
+
+          </div>
+
+
+        </div>
+
+        <div class="container" *ngIf="!siguientepasito1">
+          <div class="row">
+            <div class="col-md-12">
+              <form>
+                <div class="form-group">
+                  <label for="exampleFormControlInput1">Fecha</label>
+                  <input type="date" class="form-control" name="2111" [(ngModel)]="recepcion.fecha"
+                    id="exampleFormControlInput1">
+                </div>
+                <div class="form-group">
+                  <label for="exampleFormControlInput1">Mecanico Chofere</label>
+                  <input type="text" class="form-control" name="545" [(ngModel)]="recepcion.mecanico"
+                    id="exampleFormControlInput1">
+                </div>
+                <div class="form-group">
+                  <label for="exampleFormControlInput1">Entrega</label>
+                  <input type="text" class="form-control" name="545" [(ngModel)]="recepcion.entrega"
+                    id="exampleFormControlInput1">
+                </div>
+                <div class="form-group">
+                  <label for="exampleFormControlInput1">Obra</label>
+                  <input type="text" class="form-control" name="12343" [(ngModel)]="recepcion.obra"
+                    id="exampleFormControlInput1">
+                </div>
+                <div class="form-group">
+                  <label for="exampleFormControlTextarea1">Observaciones</label>
+                  <textarea class="form-control" name="3111" [(ngModel)]="recepcion.observaciones"
+                    id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+              </form>
+            </div>
+            <!-- <div class="col-md-12">
+                  <table class="table" id="recepciones1">
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th>Cantidad</th>
+                        <th>Unidad</th>
+                        <th>Numero de Parte</th>
+                        <th>Descripcion</th>
+                        <th>LLegada</th>
+
+                      </tr>
+                    </thead>
+                    <tbody id="datooo">
+                      <tr *ngFor="let x of datos.kit">
+                        <td>{{x.id}}</td>
+                        <td>{{x.cantidad}}</td>
+                        <td>{{x.unidad}}</td>
+                        <td>{{x.codigo}}</td>
+                        <td>{{x.descripcion}}</td>
+                        <td><div class="custom-control custom-switch">
+  <input type="checkbox" [name]="x.id"  class="custom-control-input" [id]="x.id">
+  <label class="custom-control-label" [for]="x.id">Llego</label>
+</div>
+</td>
+                        
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>-->
+          </div>
+          <div class="sectorimp" id="print-section">
+
+            <div class="row">
+              <div class="col-md-12">
+                <img src="./assets/casa.jpg" style="width: 200px;float: left;">
+              </div>
+              <div class="col-md-12">
+                <div class="cabez" style="text-align: center;">
+
+                  <h2>Nota de Entrega</h2>
+                  <h4>N° {{correlativo}}</h4>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <h5>Fecha:</h5>
+                <p>{{datos.fecha}}</p>
+              </div>
+              <div class="col-md-4">
+                <h5>Maquina: </h5>
+                <p>{{datos.nombrema}}</p>
+
+              </div>
+              <div class="col-md-4">
+                <h5>Obra: </h5>
+                <p>{{recepcion.obra}}</p>
+
+              </div>
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>Item</th>
+                        <th>Cantidad</th>
+                        <th>Unidad</th>
+                        <th>Codigo</th>
+                        <th>Aprobacion</th>
+                        <th>Descripcion</th>
+                        <th style="display: inline-flex;">Entrega
+                          <mat-checkbox class="example-margin" id="master" name="'taream" [(ngModel)]="marcarTodos"
+                            (change)="cambioTodo($event)"></mat-checkbox>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let x of datos.kit; let id = index">
+                        <td>{{x.id}}</td>
+                        <td><input type="number" [value]="x.cantidad" [(ngModel)]="x.nCantidad" style="width: 100%;">
+                        </td>
+                        <td>{{x.unidad}}</td>
+                        <td>{{x.codigo}}</td>
+                        <td *ngIf="x.aprobado=='si'"><span class="badge badge-primary">Aprobado</span></td>
+                        <td *ngIf="x.aprobado!='si'"><span class="badge badge-danger">No Aprobado</span></td>
+                        <td>{{x.descripcion}}</td>
+                        <td>
+                          <section class="example-section">
+                            <mat-checkbox class="example-margin" [id]="'tarea'+id" [name]="'tarea'+id"
+                              [(ngModel)]="x.completo">Completado</mat-checkbox>
+                          </section>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="row" style="margin-top: 20%;">
+                  <div class="col-md-4 " style="text-align: center;">
+                    <p style="margin-bottom: 0px;">{{recepcion.entrega | titlecase}} </p>
+                    <h5>Entregue Conforme</h5>
+                  </div>
+                  <div class="col-md-4 offset-md-4" style="text-align: center;">
+                    <p style="margin-bottom: 0px;">{{recepcion.mecanico | titlecase}} </p>
+                    <h5>Recibi Conforme</h5>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+
+
+
+          <button type="button" printSectionId="print-section" [useExistingCss]="true" ngxPrint
+            class="btn btn-outline-success btn-lg btn-block">Imprimir</button>
+          <button type="button" data-dismiss="modal" (click)="acabar1()"
+            class="btn btn-danger btn-lg btn-block">Finalizar</button>
+          <button type="button" data-dismiss="modal" (click)="parcial()"
+            class="btn btn-secondary btn-lg btn-block">Guardar Parcial</button>
+          <button type="button" data-dismiss="modal" class="btn btn-primary btn-lg btn-block">Cerrar</button>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+<div class="modal fade bd-example-modal-lg" id="test-modal-9" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <h4 class="modal-title text-success">Detallar Informacion</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+        <div class="row" *ngIf="false">
+          <div class="col-md-12 ayudis">
+            <!--	<gc-spread-sheets [backColor]="spreadBackColor"  [hostStyle]="hostStyle" (workbookInitialized)="workbookInit($event)">
+				  <gc-worksheet [name]="sheetName" [dataSource]="data">
+				       <gc-column dataField="Name" width=300></gc-column>
+				       <gc-column dataField="Category" [width]=columnWidth></gc-column>
+				       <gc-column dataField="Price" [width]=columnWidth formatter="$ #.00"></gc-column>
+				       <gc-column dataField="Shopping Place" [width]=columnWidth></gc-column>
+				  </gc-worksheet>
+				</gc-spread-sheets>-->
+          </div>
+        </div>
+
+
+
+
+        <div class="row" *ngIf="true">
+          <div class="col-md-12">
+            <form>
+              <div class="form-row">
+
+                <div class="form-group col-md-4">
+                  <label for="exampleFormControlTextarea1">Fecha</label>
+                  <input type="date" class="form-control" name="area2svf" [(ngModel)]="rece.fecha"
+                    id="exampleFormControlTextarea1" rows="3">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="exampleFormControlTextarea1">Mecanico</label>
+                  <input type="text" class="form-control" name="area1czxaa" [(ngModel)]="rece.mecanico"
+                    id="exampleFormControlTextarea1" rows="3">
+                </div>
+                <div class="form-group col-md-4">
+                  <label for="exampleFormControlTextarea1">Obra</label>
+                  <input type="text" class="form-control" name="area1scz" [(ngModel)]="rece.obra"
+                    id="exampleFormControlTextarea1" rows="3">
+                </div>
+                <div class="form-group col-md-12">
+                  <label for="exampleFormControlTextarea1">Observaciones de Recepcion</label>
+                  <input type="text" class="form-control" name="area1aaas" [(ngModel)]="rece.observaciones"
+                    id="exampleFormControlTextarea1" rows="3">
+                </div>
+
+              </div>
+            </form>
+
+          </div>
+          <div class="col-md-12">
+            <form>
+              <div class="form-row">
+
+                <div class="form-group col-md-6">
+                  <label for="exampleFormControlTextarea1">Observaciones</label>
+                  <textarea class="form-control" name="area2" [(ngModel)]="datos.observaciones" disabled="true"
+                    id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="exampleFormControlTextarea1">Nuevas Observaciones</label>
+                  <textarea class="form-control" name="area1" [(ngModel)]="datos.observaciones_nuevas" disabled="true"
+                    id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+                <div class="form-group col-md-12">
+                  <label for="exampleFormControlTextarea1">Observaciones Finales</label>
+                  <textarea class="form-control" name="area1" [(ngModel)]="observaciones_finales"
+                    id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+              </div>
+
+            </form>
+          </div>
+
+          <div class="col-md-12">
+
+            <div class="card">
+              <div class="card-header cabezita">
+                <h3 class=" text-center font-weight-bold text-uppercase py-4">Kit</h3>
+                <span class="table-add un  float-right mb-3 mr-2">
+                  <a class="text-success" (click)="otralinea()">
+                    <mdb-icon fas icon="plus" size="2x"></mdb-icon>
+                  </a>
+                </span><span class="table-add un  float-right mb-3 mr-2" data-toggle="modal"
+                  data-target="#test-modal-importacion">
+                  <a class="text-primary">
+                    <mdb-icon fas icon="file-import" size="2x"></mdb-icon>
+                  </a>
+                </span>
+              </div>
+
+              <div class="card-body">
+                <div id="table" class="table-editable">
+
+                  <table class="table table-bordered table-responsive-md table-striped text-center">
+                    <tr>
+                      <th class="text-center">Item</th>
+                      <th class="text-center">Cantidad</th>
+                      <th class="text-center">Unidad</th>
+                      <th class="text-center">Numero de Parte</th>
+                      <th class="text-center">Descripcion</th>
+
+
+
+                      <th class="text-center">Eliminar</th>
+                    </tr>
+                    <tr *ngFor="let x of kits; let id = index">
+                      <td>
+                        <span class="objs" contenteditable="true" (keyup)="changeValue(id, 'id', $event)"
+                          (blur)="updateList(id, 'id', $event)">{{x.id}}</span>
+                      </td>
+                      <td>
+                        <span class="objs" contenteditable="true" (keyup)="changeValue(id, 'cantidad', $event)"
+                          (blur)="updateList(id, 'cantidad', $event)">{{x.cantidad}}</span>
+                      </td>
+                      <td>
+                        <span class="objs" contenteditable="true" (keyup)="changeValue(id, 'unidad', $event)"
+                          (blur)="updateList(id, 'unidad', $event)">{{x.unidad}}</span>
+                      </td>
+                      <td>
+
+                        <span class="objs" (keyup)="changeValue(id, 'codigo', $event)"
+                          (blur)="updateList(id, 'codigo', $event)" contenteditable="true">{{x.codigo}}</span>
+                      </td>
+
+
+                      <td>
+                        <span class="objs" contenteditable="true" (keyup)="changeValue(id, 'descripcion', $event)"
+                          (blur)="updateList(id, 'descripcion', $event)">{{x.descripcion}}</span>
+                      </td>
+
+                      <!--<td>
+            <span class="objs" contenteditable="true" (keyup)="changeValue(id, 'costo', $event)" (blur)="updateList(id, 'costo', $event)">{{x.costo}}</span>
+          </td>-->
+
+                      <td>
+                        <span class="table-remove">
+                          <button type="button" mdbBtn color="danger" rounded="true" size="sm" class="my-0"
+                            (click)="remove(id)">Eliminar</button>
+                        </span>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="acabar()">Guardar</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-impresion" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <h4 class="modal-title">Imprimir</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+
+
+        <div id="impresion" style="text-align: center;">
+          <img src="./assets/log.jpg" alt="" style="width: 150px;">
+
+
+          <div class="row">
+            <div style="text-align: center;" class="col-md-12">
+              <h2> Lista de Solicitudes Pendientes</h2>
+            </div>
+            <div class="col-md-3">
+              <p><strong>Codigo: {{solicitudEmpresion.nombre}}</strong> </p>
+            </div>
+            <div class="col-md-3">
+              <p>Fecha: <strong>{{solicitudEmpresion.fecha}}</strong> </p>
+            </div>
+            <div class="col-md-3">
+              <p>Maquina: <strong>{{solicitudEmpresion.maquina.nombre}}
+                  {{solicitudEmpresion.maquina.descripcion}}</strong> </p>
+
+            </div>
+            <div class="col-md-3">
+              <p>Peticion a cargo de: <strong>{{solicitudEmpresion.usuario.nombre}}
+                  {{solicitudEmpresion.usuario.apaterno}}</strong> </p>
+
+            </div>
+          </div>
+
+
+
+          <table class="table table-dark">
+            <thead>
+              <tr>
+                <th scope="col">ID</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Unidad</th>
+                <th scope="col">Numero</th>
+                <th scope="col">Estado</th>
+                <th scope="col">Descripcion</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of solicitudImpresion">
+                <th scope="row">{{item.id}}</th>
+                <td>{{item.cantidad}}</td>
+                <td>{{item.unidad}}</td>
+                <td>{{item.codigo}}</td>
+                <td [ngStyle]="{'color':item.aprobado ? 'green' : 'red' }">
+                  {{item.aprobado? 'Aprobado': ''}}</td>
+                <td>{{item.descripcion}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" printTitle=" Impresion" printSectionId="impresion" ngxPrint
+          [useExistingCss]="true">Imprimir</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-importacion" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <h4 class="modal-title">Importacion</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+
+        <form action="/api/subir" method="post" enctype="multipart/form-data">
+          <input type="file" name="file" (change)="diferente($event)">
+
+        </form>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="enviar1()">
+          Importar
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-74" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <div class="row">
+          <div class="col-md-3">
+            <h4 class="modal-title" style="margin-right: 10px;">Fotos</h4>
+          </div>
+          <!--<div class="col-md-6">
+            <form action="" method="post">
+              <input type="file" class="form-control" ng2FileSelect [uploader]="uploader" />
+
+            </form>
+          </div>
+
+          <div class="col-md-3">
+            <button [disabled]="loading" (click)="uploader.uploadAll()" class="btn btn-dark">Subir Nueva</button>
+          </div>-->
+        </div>
+
+
+
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Close</span></button>
+
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Imagen</th>
+              <th>Eliminar</th>
+              <th>Url</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let x of lasfotos">
+              <td><a [href]="x" data-lightbox="roadtrip"><img class="it" (click)="mandar(x)" [src]="x"
+                    style="width: 50px"></a></td>
+              <td><button class="btn btn-danger" (click)="eliminarUnaFoto(x)">
+                  <mdb-icon fas icon="trash" size="0.5x"></mdb-icon>
+                </button></td>
+              <td>Imagen</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="row" *ngIf="soyYo">
+          <div class="col-md-4">
+
+            <h3>Seleccionar Imagenes</h3>
+
+
+
+            <div class="d-none d-sm-block" ng2FileDrop [ngClass]="{'another-file-over-class': hasAnotherDropZoneOver}"
+              (fileOver)="fileOverAnother($event)" [uploader]="uploader" class="well my-drop-zone">
+              Arrastra aqui
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <button (click)="fileInput1.click()" class="btn btn-success  btn-lg btn-block">Multiple</button>
+                <span style="visibility: hidden; position: absolute; overflow: hidden; border:none;margin:0; padding:0">
+                  <input type="file" #fileInput1 ng2FileSelect [uploader]="uploader" multiple />
+                </span>
+              </div>
+              <div class="col-md-6">
+                <button (click)="fileInput.click()" class="btn btn-primary  btn-lg btn-block">Simple</button>
+                <span style="visibility: hidden; position: absolute; overflow: hidden;border:none;margin:0; padding:0">
+                  <input type="file" #fileInput ng2FileSelect [uploader]="uploader" />
+                </span>
+              </div>
+            </div>
+
+
+
+
+          </div>
+
+          <div class="col-md-8" style="margin-bottom: 40px">
+
+            <div class="row">
+              <div class="col-md-12">
+                <h3>Imagenes</h3>
+                <p>Cantidad Total: {{ uploader?.queue?.length }}</p>
+              </div>
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th width="50%">Nombre</th>
+                        <th>Size</th>
+                        <th>Progress</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of uploader.queue">
+                        <td><strong>{{ item?.file?.name }}</strong></td>
+                        <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                        <td>
+                          <div class="progress" style="margin-bottom: 0;">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }">
+                            </div>
+                          </div>
+                        </td>
+                        <td class="text-center">
+                          <span *ngIf="item.isSuccess"><i class="fas fa-check-circle" style="color:green"></i></span>
+                          <span *ngIf="item.isCancel"><i class="fas fa-stop-circle" style="color:yellow"></i></span>
+                          <span *ngIf="item.isError"><i class="fas fa-window-close" style="color:red"></i></span>
+                        </td>
+                        <td nowrap>
+                          <button type="button" class="btn btn-success btn-xs" (click)="item.upload()"
+                            [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                            <span class="glyphicon glyphicon-upload"></span> Subir
+                          </button>
+                          <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()"
+                            [disabled]="!item.isUploading">
+                            <span class="glyphicon glyphicon-ban-circle"></span> Cancelar
+                          </button>
+                          <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                            <span class="glyphicon glyphicon-trash"></span> Eliminar
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+
+
+              </div>
+              <div class="col-md-12">
+                <div>
+                  Barra Progreso
+                  <section class="example-section">
+                    <mat-progress-bar class="example-margin" [color]="color" [mode]="mode" [value]="uploader.progress"
+                      [bufferValue]="bufferValue">
+                    </mat-progress-bar>
+                  </section>
+
+                </div>
+                <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()"
+                  [disabled]="!uploader.getNotUploadedItems().length">
+                  <span class="fas fa-check-circle"></span> Subir Todo
+                </button>
+                <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()"
+                  [disabled]="!uploader.isUploading">
+                  <span class="fas fa-stop-circle"></span> Cancelar Todo
+                </button>
+                <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()"
+                  [disabled]="!uploader.queue.length">
+                  <span class="fas fa-trash"></span> Eliminar Todo
+                </button>
+
+              </div>
+
+            </div>
+
+
+
+
+          </div>
+        </div>
+
+        <!--<div class="row"><img *ngFor="let x of lasfotos" class="it" (click)="mandar(x)" [src]="x" style="width: 15%;">  </div>
+          <div class="row">
+            <div class="col-md-12">
+              <img [src]="lafoto" style="width: 100%;">
+            </div>
+          </div>-->
+
+
+      </div>
+      <div class="modal-footer">
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+<div id="circularMenu" class="circular-menu">
+
+  <a class="floating-btn" onclick="document.getElementById('circularMenu').classList.toggle('active');">
+    <i class="fa fa-plus"></i>
+  </a>
+
+  <menu class="items-wrapper">
+    <a *ngIf="mispermitidos.generarsolicitud" (click)="nuevo()" class="menu-item fas fa-camera-retro"></a>
+    <a (click)="nuevalista()" class="menu-item fas fa-list-alt"></a>
+    <a href="#" class="menu-item fa fa-google-plus"></a>
+    <a href="#" class="menu-item fa fa-linkedin"></a>
+  </menu>
+
+</div>

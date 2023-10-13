@@ -1,0 +1,73 @@
+<nav class="navbar navbar-dark bg-dark navbar-expand-lg ">
+  <a class="navbar-brand nombre" style="color:white;cursor: pointer;" (click)="home()">Casa Grande</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <form class="form-inline">
+        <input class="form-control mr-sm-2" type="search" placeholder="Buscador" aria-label="Search">
+
+      </form>
+      <!--<li class="nav-item active">
+        <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Configuracion</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Equipos
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Maquinaria Pesada</a>
+          <a class="dropdown-item" href="#">Activos</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" href="#">Bienes</a>
+        </div>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+      </li>-->
+    </ul>
+    <div style="color:white;margin-right: 5px;">
+      V. 2.5.3
+    </div>
+    <div id="clockdate" class="form-inline my-2 my-lg-0">
+      <i class="far fa-clock elicono"></i>
+      <div class="clockdate-wrapper">
+
+        <div id="reloj" (click)="aqui()"><span></span></div>
+      </div>
+    </div>
+
+    <a class="text-primary" style="margin-right: 5px;" (click)="notificaciones()">
+
+      <mdb-icon fas icon="bell" size="2x" data-toggle="tooltip" data-placement="top" title="Notificaciones" [matBadge]="notificacion.length"
+        matBadgePosition="before" matBadgeColor="accent">
+      </mdb-icon>
+    </a>
+
+
+    <ul class="navbar-nav ">
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <img src="assets/persona.jpg" class="gente"> {{nombres.nombre | titlecase}} {{nombres.apaterno | titlecase}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" (click)="perfil()"><i class="far fa-edit"></i> Editar Perfil</a>
+          <a class="dropdown-item" (click)="cerrar()" href="#" style="cursor: pointer;"><i class="fas fa-times"></i>
+            Cerrar Sesión</a>
+
+        </div>
+      </li>
+      <li class="identificador"></li>
+      <li class="nav-item">
+
+      </li>
+    </ul>
+  </div>
+</nav>

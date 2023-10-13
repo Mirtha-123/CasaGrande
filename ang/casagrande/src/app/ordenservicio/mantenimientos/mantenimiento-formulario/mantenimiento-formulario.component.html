@@ -1,0 +1,81 @@
+<!-- TITULO -->
+<div mat-dialog-title>
+  <div class="row">
+    <div class="col-md-3">
+      <i class="fas fa-plus"></i>
+      Crear Mantenimiento
+    </div>
+
+    <div class="col-md-1 offset-8" style="text-align: right; cursor: pointer;" (click)="onNoClick()">
+      <i class="fas fa-window-close"></i>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+</div>
+
+<!-- FORM -->
+<form (ngSubmit)="onSubmit()">
+
+  <!-- CUERPO -->
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Detalle</mat-label>
+          <input matInput autocomplete="off" [(ngModel)]="item.detalle" name="nombre-item" placeholder="Bateria"
+            type="text" [required]="true">
+
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Horometro</mat-label>
+          <input matInput autocomplete="off" [(ngModel)]="item.horometro" name="codigo-item" placeholder=""
+            type="number">
+
+
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Lugar</mat-label>
+          <input matInput autocomplete="off" [(ngModel)]="item.lugar" name="codigo-empresa-itemzz"
+            placeholder="" type="text" [required]="true">
+
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Mecanico</mat-label>
+          <input matInput autocomplete="off" placeholder="" [(ngModel)]="item.mecanico"
+            name="descripcion-item" type="text" [required]="true">
+
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Fecha</mat-label>
+          <input matInput autocomplete="off" placeholder="Celular" [(ngModel)]="item.fecha"
+            name="descripcion-itemas" type="date" [required]="true">
+
+        </mat-form-field>
+      </div>
+      
+    </div>
+
+
+
+
+    <span>Nota: guardar toda información en Mayúscula</span>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- PIE -->
+  <div mat-dialog-actions>
+    <button type="submit" class="btn btn-primary">Generar</button>
+  </div>
+
+</form>

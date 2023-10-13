@@ -1,0 +1,197 @@
+<div class="c" *ngIf="cargando">
+	<div class="rec spinner1"></div>
+</div>
+
+<div class="base">
+	<div class="row">
+		<div class="col-md-4">
+			<div class="row" style="min-height: 500px;">
+
+				<div class="col-md-12 bloques">
+					<label for="inputEm">Proyectos</label>
+					<angular2-multiselect [data]="itemsbienes1" name="nose" [(ngModel)]="selectedItems1" name="nom1111"
+						[settings]="dropdownSettings1" (onSelect)="onItemSelect1($event)"
+						(onDeSelect)="OnItemDeSelect1($event)" (onSelectAll)="onSelectAll1($event)"
+						(onDeSelectAll)="onDeSelectAll1($event)"></angular2-multiselect>
+				</div>
+				<div class="col-md-12 bloques">
+					<label for="inputEm">Bienes</label>
+					<angular2-multiselect [data]="itemsbienes2" name="nose" [(ngModel)]="selectedItems2" name="nom1111"
+						[settings]="dropdownSettings2" (onSelect)="onItemSelect1($event)"
+						(onDeSelect)="OnItemDeSelect1($event)" (onSelectAll)="onSelectAll1($event)"
+						(onDeSelectAll)="onDeSelectAll1($event)"></angular2-multiselect>
+				</div>
+				<div class="col-md-12 bloques">
+					<mat-form-field class="f">
+						<input matInput [matDatepicker]="picker" [(ngModel)]="desde" placeholder="Desde">
+						<mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+						<mat-datepicker #picker></mat-datepicker>
+					</mat-form-field>
+				</div>
+				<div class="col-md-12">
+					<mat-form-field class="f">
+						<input matInput [matDatepicker]="picker1" [(ngModel)]="hasta" placeholder="Hasta">
+						<mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+						<mat-datepicker #picker1></mat-datepicker>
+					</mat-form-field>
+				</div>
+				<div class="col-md-12 bloques">
+					<button class="btn btn-success btn-lg btn-block" type="button" (click)="buscar()">
+						Filtrar
+					</button>
+				</div>
+			</div>
+
+		</div>
+
+		<div class="col-md-8">
+			<div class="row">
+				<div class="col-md-12" style="padding-bottom: 10px;">
+					<div class="form-group">
+						<label for="exampleFormControlTextarea1">Observaciones</label>
+						<textarea name="obseFinal" [(ngModel)]="observacionesFinales" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+					</div>
+
+
+				</div>
+				<div class="col-md-3" style="padding-bottom: 10px;">
+					<div class="form-group">
+						<label for="exampleFormControlInput1">Firmas</label>
+						<input type="Text" class="form-control" [(ngModel)]="lafirma" name="fir"
+							id="exaxxmpleFormControlInput1" placeholder="">
+					</div>
+
+
+
+				</div>
+				<div class="col-md-3" style="padding-bottom: 10px;">
+					<div class="form-group">
+						<label for="exampleFormControlInput1">Accion</label>
+						<input type="Text" class="form-control" [(ngModel)]="laaccion" name="firggqqwr"
+							id="exaxxmpleFoxrmControlInpusst1" placeholder="">
+					</div>
+				</div>
+				<div class="col-md-3" style="padding-bottom: 10px;">
+					<div class="form-group">
+						<label for="exampleFormControlInput1">Cargo</label>
+						<input type="Text" class="form-control" [(ngModel)]="elcargo" name="firgg"
+							id="exaxxmpleFoxrmControlInput1" placeholder="">
+					</div>
+				</div>
+				<div class="col-md-3">
+					<li>
+						<ul *ngFor="let item of firmas">{{item.accion}} {{item.persona}}- {{item.cargo}} </ul>
+					</li>
+				</div>
+			</div>
+			<div class="col-md-12" style="padding-bottom: 10px;">
+
+				<button class="btn btn-primary" (click)="firmar()">Agregar Firma</button>
+			</div>
+			<!--<div class="row">
+				<div class="col-md-12">
+					<div class="form-group">
+    <label for="exampleInputEmail1">Firma</label>
+    <input type="text" class="form-control" name="1" [(ngModel)]="fir.nombre" id="exampleInputEmail13" aria-describedby="emailHelp">
+    <small id="emailHelp" class="form-text text-muted"></small>
+  </div>
+  <div class="form-group">
+    <label for="exampleInputEmail1">Cargo</label>
+    <input type="email" class="form-control" name="3" [(ngModel)]="fir.cargo" id="exampleInputEmail12" aria-describedby="emailHelp">
+    <small id="emailHelp" class="form-text text-muted"></small>
+  </div>
+  <div>
+  	<button class="btn btn-primary" type="button" (click)="anadidura()">Cargar</button>
+  </div>
+				</div>
+			</div>-->
+
+
+
+
+
+			<button class="btn btn-primary ee" id="download-csv">CSV</button>
+
+			<button class="btn btn-success ee" id="download-xlsx">Excel</button>
+
+			<button class="btn btn-dark ee" id="download-pdf">PDF</button>
+			<button class="btn btn-info ee" id="print-table">Print</button>
+
+			<div class="form-check">
+				<input type="checkbox" class="form-check-input" name="dss" (change)="verCategorizar()"
+					[(ngModel)]="categorizar" id="exampleCheck1">
+				<label class="form-check-label" for="exampleCheck1zz">Separar por
+					Categorias</label>
+			</div>
+			<div class="row">
+				<div class="col-md-6">
+					<div class="form-group">
+
+						<label for="exampleFormControlSelect2">Imprimir</label>
+						<select multiple class="form-control" (dblclick)="sedlb()" [(ngModel)]="seleccionado"
+							name="xxxx" id="exampleFormControlSelect2">
+							<option *ngFor="let x of losprint">{{x}}</option>
+
+						</select>
+					</div>
+				</div>
+				<div class="col-md-6">
+					<div class="form-group">
+						<label for="exampleFormControlSelect2">No Imprimir</label>
+						<select multiple class="form-control" (dblclick)="noprin()" [(ngModel)]="seleccionado1"
+							id="exampleFormControlSelect2">
+							<option *ngFor="let x of losnoprint">{{x}}</option>
+
+						</select>
+					</div>
+
+				</div>
+			</div>
+
+			<div id="example-table-tabulator"></div>
+
+			<!--		<div class="table-responsive" id="datatabless" >
+  
+  <table class="table table-hover display table-striped table-bordered" id="tablita23" >
+    <thead>
+      <tr class="cabeza">
+      	<th>Codigo</th>
+        <th>Bien</th>
+        <th>Proyecto</th>
+        <th>Horas</th>
+        <th>Dias</th>
+        <th>Precio</th>
+        <th>Moneda</th>
+        <th>Total Ganado</th>
+    	<th>Cantidad Diesel</th>
+        <th>Precio Diesel</th>
+        <th>Moneda Diesel</th>
+        <th>Total Ganado</th>
+        <th>Descuento Repuestos</th>
+        <th>Descuento Mant.</th>
+        <th>Descuento Sueldo</th>
+        <th>Descuento Ropa</th>
+        <th>Total Descuentos</th>
+        <th>Liquido Pagable</th>
+
+       
+        
+      </tr>
+    </thead>
+    <tbody >
+      
+    </tbody>
+  </table>
+
+</div> -->
+
+		</div>
+
+
+
+
+	</div>
+
+</div>
+
+

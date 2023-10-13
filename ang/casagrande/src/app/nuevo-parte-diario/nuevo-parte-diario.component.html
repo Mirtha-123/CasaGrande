@@ -1,0 +1,17 @@
+<app-navbar></app-navbar>
+
+
+<div class="container ss">
+  <div class="row">
+    <div class="col-md-12">
+      <h2>{{maquina.codigo}} {{maquina.nombre}} {{maquina.descripcion}} </h2>
+
+      <button type="button" class="btn btn-primary" (click)="cargarPartes()">Guardar</button>
+      <button type="button" class="btn btn-danger" (click)="nuevo()">Cancelar</button>
+      
+      <span id="select-stats"></span>
+      <div id="example-table"></div>
+
+    </div>
+  </div>
+</div>

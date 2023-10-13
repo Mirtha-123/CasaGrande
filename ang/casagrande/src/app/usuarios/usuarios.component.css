@@ -1,0 +1,51 @@
+.todo{
+	
+	
+}
+.totalidad{
+	
+}
+.mat-tab-body-wrapper{
+	
+}
+.mat-tab-body.mat-tab-body-active{
+	
+}
+.formulario{
+	padding: 10px;
+}
+.contenido{
+	padding-top: 10px;
+}
+.us{
+	width: 100%;
+}
+table {
+  width: 100%;
+}
+.ti{
+	padding-right: 2px;
+}
+.permi{
+	text-align: center;
+}
+#exampleFormControlSelect2{
+	height: 50%;
+}
+.medio{
+	display: grid;
+}
+.lospermisos{
+	height: 200px;
+	width: 100%;
+	border:1px solid rgba(0,0,0,0.2);
+	border-radius: 10px;
+}
+.er{
+	text-decoration: none;
+	padding: 0px;
+}
+.lista{
+	list-style: none;
+}
+.demo { overflow:auto; border:1px solid silver; min-height:100px; text-align: left; height: 350px;}

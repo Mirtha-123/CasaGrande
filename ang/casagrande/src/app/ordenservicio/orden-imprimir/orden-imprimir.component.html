@@ -1,0 +1,53 @@
+<!-- TITULO -->
+<div mat-dialog-title>
+  <div class="row">
+    <div class="col-md-3">
+      <i class="fas fa-plus"></i>
+      Impresion
+    </div>
+
+    <div class="col-md-1 offset-8" style="text-align: right; cursor: pointer;" (click)="onNoClick()">
+      <i class="fas fa-window-close"></i>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+</div>
+<div mat-dialog-content>
+  <div class="container" id="impresion">
+    <div class="row" >
+      <div class="col-md-8">
+        <h4>Fecha: {{datos.extra.fecha | date}}</h4>
+
+        <h4>Tipo: {{datos.extra.tipo | titlecase}}</h4>
+
+        <h4>Maquina: {{datos.extra.maquina.nombre | titlecase}} {{datos.extra.maquina.descripcion | titlecase}} </h4>
+        <h4>N° Solicitudes : {{datos.extra.sol.length}} </h4>
+        <h2 style="color: blue;">Lista de Solicitudes </h2>
+      </div>
+      <div class="col-md-4">
+        <img src="assets/log.jpg" alt="" style="width: 100%;">
+      </div>
+
+      <div class="col-md-12" style="margin-top: 25px;">
+        <div *ngFor="let item of datos.extra.sol">
+          <h5>Codigo {{item.nombre}} </h5>
+          <h5>Fecha: {{item.fecha}} </h5>
+
+          <table class="table">
+            <tbody>
+              <tr *ngFor="let x of item.kit">
+                <td>{{x.id}}</td>
+                <td>{{x.cantidad}}</td>
+                <td>{{x.codigo}}</td>
+                <td>{{x.descripcion}}</td>
+                <td>{{x.unidad}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<button class="btn btn-primary" printTitle=" Impresion" printSectionId="impresion" ngxPrint
+  [useExistingCss]="true">Imprimir</button>

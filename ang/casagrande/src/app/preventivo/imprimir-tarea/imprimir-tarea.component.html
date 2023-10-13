@@ -1,0 +1,71 @@
+<!-- TITULO -->
+<div mat-dialog-title>
+  <div class="row">
+    <div class="col-md-3">
+      <i class="fas fa-plus"></i>
+      Tareas Impresión
+    </div>
+
+    <div class="col-md-1 offset-8" style="text-align: right; cursor: pointer;" (click)="onNoClick()">
+      <i class="fas fa-window-close"></i>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+</div>
+<div class="row">
+  <div class="col-md-6">
+    <div class="row">
+      <div class="col-md-12">
+        <label for="">Prevenciones</label>
+        <angular2-multiselect [data]="dropdownList" style="color: black;" name="nose" [(ngModel)]="selectedItems"
+          name="nom1111" [settings]="dropdownSettings" (onSelect)="onItemSelect1($event)"
+          (onDeSelect)="OnItemDeSelect1($event)" (onSelectAll)="onSelectAll($event)"
+          (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>
+      </div>
+      <div class="col-md-12" style="margin-top: 10px;">
+        <label for="">Tarea</label>
+        <angular2-multiselect [data]="dropdownList1" style="color: black;" name="nose" [(ngModel)]="selectedItems1"
+          name="nom1111" [settings]="dropdownSettings1" (onSelect)="onItemSelect($event)"
+          (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)"
+          (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>
+      </div>
+      
+    </div>
+
+  </div>
+  <div class="col-md-6">
+    <button printSectionId="print-section" [useExistingCss]="true" ngxPrint mat-raised-button
+      color="warn">Imprimir</button>
+  </div>
+  <div class="col-md-12" id="print-section">
+    <div class="row" style="text-align: center;">
+      <div class="col-md-12">
+        <img src="./assets/casa.jpg" style="width: 200px;float: left;">
+      </div>
+      <div class="col-md-12">
+        <h2>Tareas para : <strong>{{prevencion.nombre}}</strong></h2>
+        <h5>Fecha: <strong>{{fecha | date}}</strong> </h5>
+        <h5>Mecanico: <strong>{{launica.mecanico}}</strong> </h5>
+      </div>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Nombre</th>
+          <th>Realizada</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let item of laliasta">
+          <td>{{item}}</td>
+          <td>
+            <mat-checkbox class="example-margin">Realizado</mat-checkbox>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+
+
+</div>

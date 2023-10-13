@@ -1,0 +1,22 @@
+.nombre{
+	font-family: 'Dancing Script', cursive;
+	font-size: 1.7em;
+}
+.gente{
+	background-size: 40px;
+	
+	width: 40px;
+	height: 40px;
+	border-radius: 50%;
+	margin-right: 
+}
+.identificador{
+	color: white;
+
+}
+#clockdate{
+	color: white;
+	margin-right: 10%;
+	
+	display: inline-flex;
+}

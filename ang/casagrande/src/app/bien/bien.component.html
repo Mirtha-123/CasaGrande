@@ -1,0 +1,594 @@
+<app-navbar></app-navbar>
+
+
+<link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
+
+<!--<div class="l1 col-md-2 col-sm-12 sinpa">
+      <div class="lateral">
+        <nav>
+          <ul>
+            <li><a href="#"><i class="fas fa-home sinpa"></i>Inicio</a></li>
+            <li><a href="#"  ><i class="fas fa-bacon sinpa"></i>Transpaso</a></li>
+            <li><a href="#" (click)="encargado()"><i class="fas fa-credit-card sinpa"></i>Encargados</a></li>
+            <li><a href="#"><i class="fas fa-credit-card sinpa"></i>Ajustes</a></li>
+          </ul>
+        </nav>
+        </div>
+    </div>-->
+<div class="qqq">
+
+
+
+
+
+
+
+  <div class="">
+
+    <mat-tab-group color="primary" backgroundColor="primary">
+      <mat-tab label="Bienes">
+        <div class="veamos1">
+          <div class="containerr " style="padding: 20px;">
+            <div class="row ">
+              <div class="col-md-12 veamos" *ngIf="mispermitidos.ver">
+
+
+
+
+
+
+
+
+
+                <div class="resumen row">
+                  <div class="col-md-3">
+                    <div class="resumen1 res animated  bounceIn">
+                      <div class="sector1">
+                        <span class="total">{{totalb}}</span>
+                        <i class="iconillo sinpa fas fa-tractor"></i>
+                      </div>
+                      <div class="sector2">
+                        <span class="letra">Total Bienes</span>
+                      </div>
+
+
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="resumen2 res animated  bounceIn">
+                      <div class="sector1">
+                        <span class="total">{{totalmant}}</span>
+                        <i class="iconillo sinpa fas fa-cogs"></i>
+                      </div>
+                      <div class="sector2">
+                        <span class="letra">Bienes en Mantenimiento</span>
+                      </div>
+
+
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="resumen3 res animated  bounceIn">
+                      <div class="sector1">
+                        <span class="total">{{totalliberado}}</span>
+                        <i class="iconillo sinpa fas fa-thumbs-up"></i>
+                      </div>
+                      <div class="sector2">
+                        <span class="letra">Bienes Liberados</span>
+                      </div>
+
+
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="resumen4 res animated  bounceIn">
+                      <div class="sector1">
+                        <span class="total">{{inactivo}}</span>
+                        <i class="iconillo sinpa fas fa-lock"></i>
+                      </div>
+                      <div class="sector2">
+                        <span class="letra">Inactivos</span>
+                      </div>
+
+
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="table-responsive" id="datatabless" *ngIf="tabla2">
+
+                  <table class="table table-hover display table-striped table-bordered" id="tablita">
+                    <thead>
+                      <tr>
+                        <th>Codigo</th>
+                        <th>Nombre</th>
+                        <th>Descripcion</th>
+                        <th>Horometro</th>
+                        <th>Hodometro</th>
+                        <th>Estado</th>
+                        <th>Semaforizacion</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                    </tbody>
+                  </table>
+
+                </div>
+
+                <div class="tabla" *ngIf="tabla1">
+                  <div class="buscador ">
+
+                    <i class="fas fa-search lupa"></i>
+
+                    <mat-form-field>
+                      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscador">
+                    </mat-form-field>
+
+
+                  </div>
+
+
+                  <div class="mat-elevation-z8 example">
+                    <table mat-table [dataSource]="latabla" matSort class="mat-elevation-z8">
+                      <ng-container matColumnDef="semaforizacion">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo </th>
+                        <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+                      </ng-container>
+
+
+
+                      <ng-container matColumnDef="codigo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Placa </th>
+                        <td mat-cell *matCellDef="let element"> {{element.placa}} </td>
+                      </ng-container>
+
+
+                      <ng-container matColumnDef="nombre">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </th>
+                        <td mat-cell *matCellDef="let element"> {{element.nombre | titlecase}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="categoria">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Categoria </th>
+                        <td mat-cell *matCellDef="let element"> {{element.categoria | titlecase}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="modelo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Modelo </th>
+                        <td mat-cell *matCellDef="let element"> {{element.modelo | titlecase}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="descripcion">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Marca </th>
+                        <td mat-cell *matCellDef="let element"> {{element.descripcion | titlecase}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="serieM">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Serie M </th>
+                        <td mat-cell *matCellDef="let element"> {{element.serieMaquina }} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="serieMo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Serie Mo </th>
+                        <td mat-cell *matCellDef="let element"> {{element.serieMotor }} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="estado">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+                        <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+                      </ng-container>
+
+
+                      <ng-container matColumnDef="ubicacion">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Ubicacion </th>
+                        <td mat-cell *matCellDef="let element"> {{element.ubicacion}} </td>
+                      </ng-container>
+                      <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                        <td mat-cell *matCellDef="let row" class="final">
+
+                          <button type='button' matTooltip="Encargados" aria-label="Permisos"
+                            class='editar btn btn-success' *ngIf="mispermitidos.encargados" data-toggle="modal"
+                            data-target="#test-modal-5" (click)="maquina(row)"><i
+                              class="fas fa-user-tag sinpa"></i></button>
+                          <button type='button' matTooltip="Editar" aria-label="Edicion" class='editar btn btn-primary'
+                            *ngIf="mispermitidos.editar" data-toggle="modal" data-target="#exampleModal"
+                            (click)="biened(row)"><i class="fas fa-edit sinpa"></i></button>
+                          <button type='button' matTooltip="Eliminar" aria-label="Borrar" class='editar btn btn-danger'
+                            *ngIf="mispermitidos.eliminar" (click)="eliminarb(row)"><i
+                              class="fas fa-trash-alt sinpa"></i></button>
+                          <button type='button' matTooltip="Fotos" aria-label="Fotos" class='editar btn btn-dark'
+                            (click)="fotos(row)"><i class="fa fa-picture-o" aria-hidden="true"></i></button>
+                          <button type='button' matTooltip="items" aria-label="Items" class='editar btn btn-info'
+                            (click)="items(row)"><i class="fas fa-sitemap"></i></button>
+
+                        </td>
+
+                      </ng-container>
+
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+
+                    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                  </div>
+                </div>
+
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+      <mat-tab label="Categorias">
+        <app-categorias></app-categorias>
+      </mat-tab>
+      <mat-tab label="Reporte Transferencia">
+        <app-reporte-transferencia></app-reporte-transferencia>
+      </mat-tab>
+    </mat-tab-group>
+
+
+
+
+
+
+  </div>
+
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel" *ngIf="newb">Nuevo Bien</h5>
+          <h5 class="modal-title" id="exampleModalLabel" *ngIf="edb">Editar Bien</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="form-row">
+              <div class="form-group col-md-6">
+                <label for="inputEmail4">Alias</label>
+                <input type="text" class="form-control" id="inputEmail42" [(ngModel)]="bien.nombre" name="nombre1"
+                  placeholder="Retroexcavadora">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputEmail4">Cuenta</label>
+                <input type="text" class="form-control" id="inputEmail4" [(ngModel)]="bien.cuenta" name="nomcue"
+                  placeholder="1911900">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">Marca</label>
+                <input type="text" class="form-control" id="inputPassword4" [(ngModel)]="bien.descripcion" name="nom2"
+                  placeholder="">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">Placa / Codigo</label>
+                <input type="text" class="form-control" id="inputPassword4" [(ngModel)]="bien.placa" name="nom2v"
+                  placeholder="">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">Modelo</label>
+                <input type="text" class="form-control" id="inputPassword4" [(ngModel)]="bien.modelo" name="nom2b"
+                  placeholder="">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">Serie Maquina</label>
+                <input type="text" class="form-control" id="inputPassword4" [(ngModel)]="bien.serieMaquina"
+                  name="nom2gg" placeholder="">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">Serie Motor</label>
+                <input type="text" class="form-control" id="inputPassword4" [(ngModel)]="bien.serieMotor"
+                  name="nom2nnnn" placeholder="">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">Marca del Motor</label>
+                <input type="text" class="form-control" id="inputPassword42" [(ngModel)]="bien.marcaMotor" name="nom2df"
+                  placeholder="">
+              </div>
+              <div class="form-group col-md-6">
+                <label for="exampleFormControlSelect1">Categoria</label>
+                <select class="form-control" id="exampleFormControlSelect1vb" name="pqss" [(ngModel)]="bien.categoria">
+                  <option value="Camionetas">Camionetas</option>
+                  <option value="Estacionario">Equipo Estacionario</option>
+                  <option value="Volquetas">Volquetas</option>>
+                  <option value="Equipo Pesado">Equipo Pesado</option>>
+                </select>
+
+              </div>
+              <div class="form-group col-md-6">
+                <label for="inputPassword4">Tipo de Maquinaria</label>
+                <input type="text" class="form-control" id="inputPassword42" [(ngModel)]="bien.tipoMaq" name="nom2dfs"
+                  placeholder="">
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-6" *ngIf="edb">
+                <label for="inputPassword4">Tipo</label>
+                <input type="text" disabled="true" class="form-control" id="inputPassword4" [(ngModel)]="bien.tipo"
+                  name="nom22" placeholder="">
+              </div>
+              <div class="form-group col-md-4" *ngIf="newb">
+                <label for="inputState">Tipo Contador</label>
+                <select id="inputState" [(ngModel)]="bien.tipo" (change)="cambio($event)" name="nom46"
+                  class="form-control">
+                  <option value="horometro">Horometro</option>
+                  <option value="hodometro">Hodometro</option>
+
+                </select>
+              </div>
+            </div>
+            <div class="form-row">
+            <!--  <div class="form-group col-md-4" *ngIf="edb">
+                <label for="inputAddress">Horometro</label>
+                <input type="number" [(ngModel)]="bien.horometro" disabled="true" value="0" name="nom43"
+                  class="form-control" id="inputAddress">
+              </div>
+              <div class="form-group col-md-4" *ngIf="edb">
+                <label for="inputAddress2">Hodometro</label>
+                <input type="number" [(ngModel)]="bien.hodometro" disabled="true" value="0" name="nom565"
+                  class="form-control" id="inputAddress2">
+              </div>
+              <div class="form-group col-md-4" *ngIf="tipo1">
+                <label for="inputAddress">Horometro</label>
+                <input type="number" [(ngModel)]="bien.horometro" value="0" name="nom3" class="form-control"
+                  id="inputAddress">
+              </div>
+              <div class="form-group col-md-4" *ngIf="tipo2">
+                <label for="inputAddress2">Hodometro</label>
+                <input type="number" [(ngModel)]="bien.hodometro" value="0" name="nom5" class="form-control"
+                  id="inputAddress2">
+              </div>
+            -->
+            </div>
+            <div class="form-row">
+              <div class="form-group col-md-4" *ngIf="edb">
+                <label for="inputAddress2zzz">RENDIMIENTO DE COMBUSTIBLE PROMEDIO</label>
+                <input type="number" [(ngModel)]="bien.combustiblePromedio" value="0" name="nom5sss"
+                  class="form-control" id="inputAddress2zz">
+              </div>
+              <div class="form-group col-md-4">
+                <label for="inputState">Estado</label>
+                <select id="inputState" [(ngModel)]="bien.estado" name="nom6" class="form-control">
+                  <option selected value="liberado">Operativo</option>
+                  <option value="mantenimiento">Mantenimiento</option>
+                </select>
+              </div>
+
+            </div>
+            <div class="form-group">
+              <label for="inputAddress2">Ubicacion</label>
+              <input type="text" class="form-control" [(ngModel)]="bien.ubicacion" name="nom7" id="inputAddress2"
+                placeholder="Tarija, Villazon">
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" class="btn btn-primary" (click)="terminar()" *ngIf="newb">Guardar</button>
+          <button type="button" class="btn btn-success" (click)="edibien()" *ngIf="edb">Guardar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+
+
+</div>
+
+
+<!--<div id="circularMenu1" class="circular-menu circular-menu-left active">
+
+  <a class="floating-btn" onclick="document.getElementById('circularMenu1').classList.toggle('active');">
+    <i class="fa fa-bars"></i>
+  </a>
+
+  <menu class="items-wrapper">
+    <a href="#" class="menu-item fa fa-home"></a>
+    <a href="#" class="menu-item fa fa-user"></a>
+    <a href="#" class="menu-item fa fa-pie-chart"></a>
+    <a href="#" class="menu-item fa fa-cog"></a>
+  </menu>
+
+</div>-->
+
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-3" tabindex="-1" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <h4 class="modal-title">Importacion</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Close</span></button>
+
+      </div>
+      <div class="modal-body">
+
+        <form action="/api/subir" method="post" enctype="multipart/form-data">
+          <input type="file" name="file" (change)="diferente($event)">
+
+        </form>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="enviar()">
+          Importar
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-51" tabindex="-1" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <h4 class="modal-title" style="margin-right: 10px;">Fotos del Bien</h4>
+        <form action="" method="post" enctype="multipart/form-data">
+          <input type="file" class="form-control" ng2FileSelect [uploader]="uploader" />
+
+        </form>
+        `<button [disabled]="loading" (click)="uploader.uploadAll()" class="btn btn-dark">Subir Nueva</button>`
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Close</span></button>
+
+      </div>
+      <div class="modal-body">
+        <div class="row"><img *ngFor="let x of lasfotos" class="it" (click)="mandar(x)" [src]="x" style="width: 15%;">
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <img [src]="lafoto" style="width: 100%;">
+          </div>
+        </div>
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="quitarfoto()">
+          Quitar esta Foto
+        </button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-5" tabindex="-1" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <h4 class="modal-title">Encargado</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Close</span></button>
+
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-6">
+              <form class="example-form">
+                <mat-form-field class="example-full-width">
+                  <input matInput placeholder="Buscar Usuario" (keyup)="buscarusuario()" [(ngModel)]="busquedausuario"
+                    name="usuario" value="Sushi">
+                </mat-form-field>
+
+              </form>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="exampleFormControlSelect2">Usuarios</label>
+                <select multiple class="form-control" id="exampleFormControlSelect2">
+                  <option *ngFor="let topping of toppingList" (dblclick)="agregarpersonal(topping)" name="usuario"
+                    [value]="topping">{{topping.nombre}} {{topping.apaterno}} {{topping.amaterno}} </option>
+
+                </select>
+              </div>
+
+            </div>
+
+          </div>
+          <div class="row">
+            <div class="col-md-12 table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Apellido Paterno</th>
+                    <th scope="col">Apellido Materno</th>
+                    <th scope="col">Eliminar</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let topping of maquinaria.encargado">
+                    <th scope="row">{{topping._id}}</th>
+                    <td>{{topping.nombre}}</td>
+                    <td>{{topping.apaterno}}</td>
+                    <td>{{topping.amaterno}} </td>
+                    <td>
+                      <button type="button" class="btn btn-danger" (click)="quitarpersonal(topping)">Quitar</button>
+                    </td>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="encargadobien()">
+          Guardar
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div id="circularMenu" class="circular-menu" *ngIf="mispermitidos.agregar">
+
+  <a class="floating-btn" onclick="document.getElementById('circularMenu').classList.toggle('active');">
+    <i class="fa fa-plus sinpa"></i>
+  </a>
+
+  <menu class="items-wrapper">
+    <a class="menu-item fa fa-user-plus sinpa" matTooltip="Crear Bien" aria-label="Permisos" (click)="nb()"
+      data-toggle="modal" data-target="#exampleModal"></a>
+    <a class="menu-item fa fa-file-import sinpa" matTooltip="Importar" aria-label="Permisos" data-toggle="modal"
+      data-target="#test-modal-3"></a>
+    <a (click)="reporte()" matTooltip="Reporte" aria-label="Permisos" class="menu-item fa fa-users sinpa"></a>
+    <a href="#" class="menu-item fa fa-times sinpa"></a>
+  </menu>
+
+</div>

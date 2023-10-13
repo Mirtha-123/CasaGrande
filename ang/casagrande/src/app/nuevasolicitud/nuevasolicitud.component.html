@@ -1,0 +1,270 @@
+<app-navbar></app-navbar>
+
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="row linea">
+
+        <div class="col-md-10">
+          <h1>Nueva Solicitud</h1>
+        </div>
+        <div class="col-md-2">
+          <button type="button" (click)="genial()" class="btn btn-primary btn-lg btn-block">Enviar Solicitud</button>
+        </div>
+      </div>
+
+      <div class="bordeado">
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-3">
+
+              <label for="exampleFormControlInput1">Nombre</label>
+              <input type="text" name="nom" [(ngModel)]="nombres" class="form-control" id="exampleFormControlInput1"
+                placeholder="0000545">
+
+            </div>
+            <div class="form-group col-md-3">
+              <mat-form-field class="f">
+                <input matInput [matDatepicker]="picker" name="fechaa" [(ngModel)]="fechaactual"
+                  placeholder="Fecha Solicitud">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker [startAt]="fechaactual"></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputEmail4">Proyecto</label>
+
+              <!--<input type="text" class="form-control" id="inputEmail4" [(ngModel)]="compra.proyecto" name="nom1342" placeholder="JP08">-->
+              <angular2-multiselect [data]="losp" name="nose" [(ngModel)]="selectedItems1"
+                [settings]="dropdownSettings1" (onSelect)="onItemSelect1($event)" (onDeSelect)="OnItemDeSelect1($event)"
+                (onSelectAll)="onSelectAll1($event)" (onDeSelectAll)="onDeSelectAll1($event)"></angular2-multiselect>
+            </div>
+            <div class="form-group col-md-3">
+              <label for="inputEm">Bienes</label>
+              <angular2-multiselect [data]="itemsbienes" name="nose" [(ngModel)]="selectedItems"
+                [settings]="dropdownSettings" (onSelect)="onItemSelect($event)" (onDeSelect)="OnItemDeSelect($event)"
+                (onSelectAll)="onSelectAll($event)" (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="exampleFormControlTextarea1">Observaciones</label>
+              <textarea class="form-control" name="area" [(ngModel)]="compra.observaciones"
+                id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+
+
+          </div>
+        </form>
+      </div>
+      <div class="bordeado">
+        <div class="row">
+          <div class="col-md-4">
+
+            <h3>Seleccionar Imagenes</h3>
+
+
+
+            <div class="d-none d-sm-block" ng2FileDrop [ngClass]="{'another-file-over-class': hasAnotherDropZoneOver}"
+              (fileOver)="fileOverAnother($event)" [uploader]="uploader" class="well my-drop-zone">
+              Arrastra aqui
+            </div>
+            <div class="row">
+              <div class="col-md-6">
+                <button (click)="fileInput1.click()" class="btn btn-success  btn-lg btn-block">Multiple</button>
+                <span style="visibility: hidden; position: absolute; overflow: hidden; border:none;margin:0; padding:0">
+                  <input type="file" #fileInput1 ng2FileSelect [uploader]="uploader" multiple />
+                </span>
+              </div>
+              <div class="col-md-6">
+                <button (click)="fileInput.click()" class="btn btn-primary  btn-lg btn-block">Simple</button>
+                <span style="visibility: hidden; position: absolute; overflow: hidden;border:none;margin:0; padding:0">
+                  <input type="file" #fileInput ng2FileSelect [uploader]="uploader" />
+                </span>
+              </div>
+            </div>
+
+
+
+
+          </div>
+
+          <div class="col-md-8" style="margin-bottom: 40px">
+
+            <div class="row">
+              <div class="col-md-12">
+                <h3>Imagenes</h3>
+                <p>Cantidad Total: {{ uploader?.queue?.length }}</p>
+              </div>
+              <div class="col-md-12">
+                <div class="table-responsive">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th width="50%">Nombre</th>
+                        <th>Size</th>
+                        <th>Progress</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of uploader.queue">
+                        <td><strong>{{ item?.file?.name }}</strong></td>
+                        <td nowrap>{{ item?.file?.size/1024/1024 | number:'.2' }} MB</td>
+                        <td>
+                          <div class="progress" style="margin-bottom: 0;">
+                            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }">
+                            </div>
+                          </div>
+                        </td>
+                        <td class="text-center">
+                          <span *ngIf="item.isSuccess"><i class="fas fa-check-circle" style="color:green"></i></span>
+                          <span *ngIf="item.isCancel"><i class="fas fa-stop-circle" style="color:yellow"></i></span>
+                          <span *ngIf="item.isError"><i class="fas fa-window-close" style="color:red"></i></span>
+                        </td>
+                        <td nowrap>
+                          <button type="button" class="btn btn-success btn-xs" (click)="item.upload()"
+                            [disabled]="item.isReady || item.isUploading || item.isSuccess">
+                            <span class="glyphicon glyphicon-upload"></span> Subir
+                          </button>
+                          <button type="button" class="btn btn-warning btn-xs" (click)="item.cancel()"
+                            [disabled]="!item.isUploading">
+                            <span class="glyphicon glyphicon-ban-circle"></span> Cancelar
+                          </button>
+                          <button type="button" class="btn btn-danger btn-xs" (click)="item.remove()">
+                            <span class="glyphicon glyphicon-trash"></span> Eliminar
+                          </button>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+
+
+              </div>
+              <div class="col-md-12">
+                <div>
+                  Barra Progreso
+                  <section class="example-section">
+                    <mat-progress-bar class="example-margin" [color]="color" [mode]="mode" [value]="uploader.progress"
+                      [bufferValue]="bufferValue">
+                    </mat-progress-bar>
+                  </section>
+
+                </div>
+                <button type="button" class="btn btn-success btn-s" (click)="uploader.uploadAll()"
+                  [disabled]="!uploader.getNotUploadedItems().length">
+                  <span class="fas fa-check-circle"></span> Subir Todo
+                </button>
+                <button type="button" class="btn btn-warning btn-s" (click)="uploader.cancelAll()"
+                  [disabled]="!uploader.isUploading">
+                  <span class="fas fa-stop-circle"></span> Cancelar Todo
+                </button>
+                <button type="button" class="btn btn-danger btn-s" (click)="uploader.clearQueue()"
+                  [disabled]="!uploader.queue.length">
+                  <span class="fas fa-trash"></span> Eliminar Todo
+                </button>
+
+              </div>
+
+            </div>
+
+
+
+
+          </div>
+        </div>
+      </div>
+
+
+      <!--<div class="card bordeado">
+				  			<div class="card-header cabezita">
+				  				<h3 class=" text-center font-weight-bold text-uppercase py-4">Kit</h3>
+  <span class="table-add un  float-right mb-3 mr-2">
+        <a class="text-success" (click)="otralinea()">
+          <mdb-icon fas icon="plus" size="2x"></mdb-icon>
+        </a>
+      </span><span class="table-add un  float-right mb-3 mr-2" data-toggle="modal" data-target="#test-modal-7">
+        <a class="text-primary">
+          <mdb-icon fas icon="file-import" size="2x"></mdb-icon>
+        </a>
+      </span>
+				  			</div>
+  
+  <div class="card-body">
+    <div id="table" class="table-editable">
+      
+      <table class="table table-bordered table-responsive-md table-striped text-center">
+        <tr>
+          <th class="text-center">Piezas</th>
+          <th class="text-center">Cantidad</th>
+          <th class="text-center">Unidad de Medida</th>
+          
+          <th class="text-center">Costo Bs</th>
+          <th class="text-center">Remove</th>
+        </tr>
+        <tr *ngFor="let x of kits; let id = index">
+          <td>
+            <span class="objs" (keyup)="changeValue(id, 'pieza', $event)" (blur)="updateList(id, 'pieza', $event)" contenteditable="true">{{x.pieza}}</span>
+          </td>
+          <td>
+            <span class="objs" contenteditable="true" (keyup)="changeValue(id, 'cantidad', $event)" (blur)="updateList(id, 'cantidad', $event)">{{x.cantidad}}</span>
+          </td>
+           <td>
+            <span class="objs" contenteditable="true" (keyup)="changeValue(id, 'unidad', $event)" (blur)="updateList(id, 'unidad', $event)">{{x.unidad}}</span>
+          </td>
+          <td>
+            <span class="objs" contenteditable="true" (keyup)="changeValue(id, 'costo', $event)" (blur)="updateList(id, 'costo', $event)">{{x.costo}}</span>
+          </td>
+         
+          <td>
+            <span class="table-remove">
+              <button type="button" mdbBtn color="danger" rounded="true" size="sm" class="my-0" (click)="remove(id)">Eliminar</button>
+            </span>
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>-->
+
+
+
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-7" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <h4 class="modal-title">Importacion</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+
+        <form action="/api/subir" method="post" enctype="multipart/form-data">
+          <input type="file" name="file" (change)="diferente($event)">
+
+        </form>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="enviar1()">
+          Importar
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

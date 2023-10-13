@@ -1,0 +1,563 @@
+<app-navbar></app-navbar>
+<mat-tab-group>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <i class="fas fa-truck-monster"></i>
+      Bienes
+    </ng-template>
+
+    <div class="container">
+      <h1>Preventivo</h1>
+
+      <div class="resumen row">
+        <div class="col-md-3 separacion">
+          <div class="resumen1 res animated  rollIn ">
+            <div class="sector1">
+              <span class="total">{{resumentodo.general}}</span>
+              <i class="iconillo sinpa fas fa-tractor"></i>
+            </div>
+            <div class="sector2">
+              <span class="letra">Bajo Direccion</span>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="col-md-3 separacion">
+          <div class="resumen2 res animated  rollIn ">
+            <div class="sector1">
+              <span class="total">{{resumentodo.alerta}}</span>
+              <i class="iconillo sinpa fas fa-cogs"></i>
+            </div>
+            <div class="sector2">
+              <span class="letra">Alerta</span>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="col-md-3 separacion">
+          <div class="resumen3 res animated  rollIn ">
+            <div class="sector1">
+              <span class="total">{{resumentodo.atencion}}</span>
+              <i class="iconillo sinpa fas fa-thumbs-up"></i>
+            </div>
+            <div class="sector2">
+              <span class="letra">Precaución</span>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="col-md-3 separacion">
+          <div class="resumen4 res animated  rollIn ">
+            <div class="sector1">
+              <span class="total">{{resumentodo.tranquilos}}</span>
+              <i class="iconillo sinpa fas fa-lock"></i>
+            </div>
+            <div class="sector2">
+              <span class="letra">Regular</span>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="tabla">
+            <mat-form-field>
+
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+            </mat-form-field>
+
+            <div class="mat-elevation-z8 example example-container">
+              <table mat-table [dataSource]="latabla" matSort class="mat-elevation-z8">
+                <ng-container matColumnDef="semaforizacion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Leyenda </th>
+                  <td mat-cell *matCellDef="let element"> {{element.semaforizacion}} </td>
+                </ng-container>
+
+
+
+                <ng-container matColumnDef="codigo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Codigo </th>
+                  <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="nombre">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nombre | titlecase}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="descripcion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </th>
+                  <td mat-cell *matCellDef="let element"> {{element.descripcion | titlecase}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="horometro">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Horometro </th>
+                  <td mat-cell *matCellDef="let element"> {{element.horometro}} </td>
+                </ng-container>
+                <ng-container matColumnDef="hodometro">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Hodometro </th>
+                  <td mat-cell *matCellDef="let element"> {{element.hodometro}} </td>
+                </ng-container>
+                <ng-container matColumnDef="estadopre">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+                  <td mat-cell *matCellDef="let element"> {{element.estadopre}} </td>
+                </ng-container>
+
+
+
+                <ng-container matColumnDef="ubicacion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Ubicacion </th>
+                  <td mat-cell *matCellDef="let element"> {{element.ubicacion}} </td>
+                </ng-container>
+                <ng-container matColumnDef="acciones">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                  <td mat-cell *matCellDef="let row" class="final">
+
+                    <button mat-raised-button [matMenuTriggerFor]="menu" color="primary">Acciones</button>
+                    <mat-menu #menu="matMenu">
+                      <button mat-menu-item color="primary" (click)="generarprevencion(row)" data-toggle="modal"
+                        data-target=".bd-example-modal-lg1" class='editar btn btn-warning'>
+
+                        <span>Generar Prevencion </span>
+                        <i class="fas fa-cogs"></i>
+                      </button>
+                      <button mat-menu-item color="accent" data-toggle="modal" data-target=".bd-example-modal-lg2"
+                        class='editar btn btn-dark' (click)="generarprevencion1(row)">
+                        <span>Lista </span>
+                        <i class="fas fa-radiation sinpa"></i> <span class="badge badge-danger ba"
+                          *ngIf="row.alerta==0">{{row.alerta}}</span>
+                        <span class="badge badge-danger ba animated infinite heartBeat delay-1s"
+                          *ngIf="row.alerta>=1">{{row.alerta}}</span>
+                        <span class="badge badge-warning ba" *ngIf="row.atencion==0">{{row.atencion}}</span>
+                        <span class="badge badge-warning ba animated infinite heartBeat delay-1s"
+                          *ngIf="row.atencion!=0">{{row.atencion}}</span>
+                      </button>
+                      <button mat-menu-item color="primary" data-toggle="modal" data-target=".bd-example-modal-lg3"
+                        class='editar btn btn-primary' (click)="ordenpreventiva(row)">
+
+                        <span>Abrir Orden Preventiva </span>
+                        <i class="fas fa-cogs"></i>
+                      </button>
+
+                      <button mat-menu-item color="primary" data-toggle="modal" data-target=".bd-example-modal-lg44"
+                        *ngIf="row.estadopre=='mantenimiento'" class='editar btn btn-success'
+                        (click)="transformar(row)">
+
+                        <span>T/Correctivo </span>
+                        <i class="fas fa-cogs"></i>
+                      </button>
+
+                      <button mat-menu-item color="primary" *ngIf="row.estadopre=='mantenimiento'"
+                        class='editar btn btn-dark' (click)="solicitar(row)">
+
+                        <span>Solicitar Pedido </span>
+                        <i class="fas fa-cogs"></i>
+                      </button>
+
+                      <button mat-menu-item color="primary" class='editar btn btn-danger'
+                        *ngIf="row.estadopre=='mantenimiento'" data-toggle="modal" data-target="#test-modal-6"
+                        [routerLink]="['/preventivo_cg/cerrar_od_pre/preventivo', row]">
+
+                        <span>Cerrar Orden </span>
+                        <i class="fas fa-file-import sinpa"></i>
+                      </button>
+                    </mat-menu>
+
+                    <button mat-raised-button color="warn" class='editar btn btn-danger'
+                      *ngIf="row.estadopre=='mantenimiento'" (click)="imprimirTareas(row)">
+                      <i class="fas fa-print sinpa"></i>
+                    </button>
+                    <!--
+                    <button type='button' matTooltip="Crear Prevencion" aria-label="Permisos" data-toggle="modal"
+                      data-target=".bd-example-modal-lg1" class='editar btn btn-warning'
+                      (click)="generarprevencion(row)"></button>
+
+                    <button type='button' matTooltip="Ver Prevenciones" aria-label="Permisos" data-toggle="modal"
+                      data-target=".bd-example-modal-lg2" class='editar btn btn-dark'
+                      (click)="generarprevencion1(row)"><i class="fas fa-radiation sinpa"></i> <span
+                        class="badge badge-danger ba" *ngIf="row.alerta==0">{{row.alerta}}</span>
+                      <span class="badge badge-danger ba animated infinite heartBeat delay-1s"
+                        *ngIf="row.alerta>=1">{{row.alerta}}</span>
+                      <span class="badge badge-warning ba" *ngIf="row.atencion==0">{{row.atencion}}</span>
+                      <span class="badge badge-warning ba animated infinite heartBeat delay-1s"
+                        *ngIf="row.atencion!=0">{{row.atencion}}</span></button>
+
+                    <button type='button' matTooltip="Abrir Orden de Servicio" aria-label="Permisos" data-toggle="modal"
+                      data-target=".bd-example-modal-lg3" class='editar btn btn-primary'
+                      (click)="ordenpreventiva(row)"><i class="fas fa-cogs"></i></button>
+                    <button type='button' matTooltip="Cerrar OD" aria-label="Permisos" class='editar btn btn-danger'
+                      *ngIf="row.estadopre=='mantenimiento'" data-toggle="modal" data-target="#test-modal-6"
+                      [routerLink]="['/preventivo_cg/cerrar_od_pre/preventivo', row]"><i
+                        class="fas fa-file-import sinpa"></i></button>
+                    <button type='button' matTooltip="Transformar a Orden Correctiva" aria-label="Transformar"
+                      data-toggle="modal" data-target=".bd-example-modal-lg44" *ngIf="row.estadopre=='mantenimiento'"
+                      class='editar btn btn-success' (click)="transformar(row)"><i class="fas fa-cogs"></i></button>
+
+                    <button type='button' matTooltip="Solicitud" aria-label="Solicitud"
+                      *ngIf="row.estadopre=='mantenimiento'" class='editar btn btn-dark' (click)="solicitar(row)"><i
+                        class="fas fa-cogs"></i></button>
+-->
+                  </td>
+
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </mat-tab>
+
+  <!--<mat-tab>
+    <ng-template mat-tab-label>
+      <i class="far fa-clipboard"></i>
+      Reporte
+    </ng-template>
+    <div class="container">
+      <div class="row">
+        <div class="col col-md-12 xs">
+          <button class="btn btn-primary btn-lg btn-block" (click)="lo()">Ver</button>
+        </div>
+        <div class="col col-md-12 xs">
+          <div id="marca"></div>
+        </div>
+      </div>
+    </div>
+  </mat-tab>-->
+
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon">Kits</mat-icon>
+
+    </ng-template>
+
+    <app-preventivo-kit></app-preventivo-kit>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon">Tareas</mat-icon>
+
+    </ng-template>
+
+    <app-preventivo-tarea></app-preventivo-tarea>
+  </mat-tab>
+  <mat-tab>
+    <ng-template mat-tab-label>
+      <mat-icon class="example-tab-icon">Reportes</mat-icon>
+
+    </ng-template>
+
+    <app-reporte-preventivo></app-reporte-preventivo>
+  </mat-tab>
+</mat-tab-group>
+
+
+
+<div class="modal fade bd-example-modal-lg1" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header cabeza1">
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo Preventivo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="recipient-name" class="col-form-label">Nombre del Preventivo</label>
+              <input type="text" class="form-control" pattern="[A-Z]" name="nom" [(ngModel)]="preventivo.nombre"
+                id="recipient-name">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="recipient-name" class="col-form-label">Cada cuanto avisar</label>
+              <input type="number" class="form-control" value="0" name="nom2" [(ngModel)]="preventivo.anticipacion"
+                id="recipient-name">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="exampleFormControlSelect1">Tipo</label>
+              <select class="form-control" [(ngModel)]="preventivo.tipo" name="tipo123" id="exampleFormControlSelect1">
+                <option selected="true" value="hr">Horometro</option>
+
+              </select>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="recipient-name" class="col-form-label">Cuanto antes Avisar</label>
+              <input type="number" class="form-control" value="0" name="nom3" [(ngModel)]="preventivo.aviso"
+                id="recipient-name">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="recipient-name" class="col-form-label">Horometro de Partida</label>
+              <input type="number" class="form-control" value="0" name="nom31" [(ngModel)]="preventivo.partida"
+                id="recipient-name">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="recipient-name" class="col-form-label">Item a Relacionar</label>
+              <angular2-multiselect [data]="dropdownList" style="color: black;" name="nose" [(ngModel)]="selectedItems"
+                name="nom1111" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+                (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)"
+                (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>
+            </div>
+
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="guardar()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+<div class="modal fade bd-example-modal-lg3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header cabeza2">
+        <h5 class="modal-title" id="exampleModalLabel">Mantenimiento Preventivo</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="recipient-name" class="col-form-label">Bien</label>
+              <input type="text" class="form-control" disabled name="nom1" [(ngModel)]="odp.nombre" id="recipient-name">
+            </div>
+            <div class="form-group col-md-6">
+              <label for="recipient-name" class="col-form-label">Fecha</label>
+              <mat-form-field class="f">
+                <input matInput [matDatepicker]="picker2" name="fe" [(ngModel)]="odp.fecha" placeholder="Fecha Orden">
+                <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="form-group col-md-12">
+              <label for="recipient-name2" class="col-form-label">Mecanico</label>
+              <input type="text" class="form-control" name="nom1zxc" [(ngModel)]="odp.mecanico" id="recipient-name2">
+            </div>
+            <div class="form-group col-md-12">
+              <label for="exampleFormControlTextarea1">Observaciones</label>
+              <textarea class="form-control" name="ob" [(ngModel)]="odp.observaciones" id="exampleFormControlTextarea1"
+                rows="3"></textarea>
+            </div>
+
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="odps()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade bd-example-modal-lg2" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header cabeza3">
+        <h5 class="modal-title" id="exampleModalLabel">Maquina {{maquina.nombre | titlecase}} </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive" id="datatabless">
+
+          <table class="table table-hover display table-striped table-bordered" id="tablita">
+            <thead>
+              <tr>
+                <th>Status</th>
+                <th>Preventivo</th>
+                <th>Maquina</th>
+                <th>Horometro Actual</th>
+                <th>Horometro Actual</th>
+                <th>Proximo Mantenimietno</th>
+                <th>Cada Cuanto</th>
+                <th>Antes de</th>
+                <th>Eliminar </th>
+                <th>Item </th>
+                <th>Kit </th>
+                <th>Tarea</th>
+
+
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let x of prevenciones">
+                <td [ngSwitch]="x.status"><img src="assets/alerta.png" class="iconoo" *ngSwitchCase="'alerta'"> <img
+                    src="assets/precaucion.png" class="iconoo" *ngSwitchCase="'atencion'"> <img src="assets/good.png"
+                    class="iconoo" *ngSwitchCase="'tranquilos'"> </td>
+                <td>{{x.nombre}}</td>
+                <td>{{x.bien.nombre}}</td>
+                <td>{{x.bien.hodometro}}</td>
+                <td>{{x.bien.horometro}}</td>
+                <td><strong>{{x.proximo}}</strong></td>
+                <td>{{x.anticipacion}}</td>
+                <td>{{x.aviso}}</td>
+                <td><button class="btn btn-danger" (click)="eliminarestaprevencion(x)">Eliminar</button></td>
+                <td><button class="btn btn-success" (click)="items(x)">Item</button></td>
+                <td><button class="btn btn-dark" (click)="kits(x)">Kits</button></td>
+                <td><button class="btn btn-warning" (click)="tarea(x)">Tareas</button></td>
+              </tr>
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="guardar()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="modal fade bd-example-modal-lg44" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header cabeza3">
+        <h5 class="modal-title" id="exampleModalLabel">Transformar Preventivo a Correctivo </h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+
+        <div class="container">
+          <div class="col-md-12">
+            <form>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Fecha</label>
+                <input type="date" class="form-control" name="2111" [(ngModel)]="falla.fecha"
+                  id="exampleFormControlInput1">
+              </div>
+              <div class="form-group col-md-12 bloques">
+                <label for="inputEm">Proyectos</label>
+                <angular2-multiselect [data]="itemsbienes1" name="nose" [(ngModel)]="selectedItems1" name="nom1111"
+                  [settings]="dropdownSettings1" (onSelect)="onItemSelect1($event)"
+                  (onDeSelect)="OnItemDeSelect1($event)" (onSelectAll)="onSelectAll1($event)"
+                  (onDeSelectAll)="onDeSelectAll1($event)"></angular2-multiselect>
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Solicitante</label>
+                <input type="text" class="form-control" name="545" [(ngModel)]="falla.solicitante"
+                  id="exampleFormControlInput1">
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Ubicacion</label>
+                <input type="text" class="form-control" name="12343" [(ngModel)]="falla.ubicacion"
+                  id="exampleFormControlInput1">
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Fallas</label>
+                <input type="text" class="form-control" name="123431" [(ngModel)]="fallas"
+                  id="exampleFormControlInput1">
+              </div>
+              <div class="form-group">
+                <button class="btn btn-success" (click)="fallasagregar()">Agregar</button>
+              </div>
+            </form>
+            <table class="table">
+              <thead>
+                <tr>
+
+                  <th>Item</th>
+                  <th>Descripcion</th>
+                  <th>Eliminar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let x of listafallas;let i = index">
+                  <td>{{i}}</td>
+                  <td>{{x}}</td>
+                  <td><button class="btn btn-danger" (click)="quitar(x)">Quitar</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-primary" (click)="trans()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>

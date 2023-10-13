@@ -1,0 +1,73 @@
+<!-- TITULO -->
+<div mat-dialog-title>
+  <div class="row">
+    <div class="col-md-3">
+      <i class="fas fa-plus"></i>
+      Nuevo Ingreso
+    </div>
+
+    <div class="col-md-1 offset-8" style="text-align: right; cursor: pointer;" (click)="onNoClick()">
+      <i class="fas fa-window-close"></i>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+</div>
+
+
+<!-- FORM -->
+<form (ngSubmit)="onSubmit()"  style="height: 80%;">
+
+  <!-- CUERPO -->
+  <div mat-dialog-content style="height: 100%;">
+
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Detalle</mat-label>
+          <input matInput autocomplete="off" [(ngModel)]="item.detalle" name="nombre-item" placeholder="Monto por Diesel"
+            type="text" [required]="true">
+
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Fecha</label>
+          <input type="date" class="form-control" name="ffffffas" [(ngModel)]="item.fecha" id="exampleFormControlInput1" placeholder="name@example.com">
+        </div>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Monto en Bs</mat-label>
+          <input matInput autocomplete="off" [(ngModel)]="item.monto" name="codigo-item" placeholder="300"
+            type="number">
+
+
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        
+          <label for="inputEmail4">Proyecto</label>
+
+          <!--<input type="text" class="form-control" id="inputEmail4" [(ngModel)]="compra.proyecto" name="nom1342" placeholder="JP08">-->
+          <angular2-multiselect [data]="losp" name="nose" [(ngModel)]="selectedItems1"
+            [settings]="dropdownSettings1" (onSelect)="onItemSelect1($event)" (onDeSelect)="OnItemDeSelect1($event)"
+            (onSelectAll)="onSelectAll1($event)" (onDeSelectAll)="onDeSelectAll1($event)"></angular2-multiselect>
+      
+      </div>
+      
+    </div>
+
+
+
+
+    <span>Nota: guardar toda información en Mayúscula</span>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- PIE -->
+  <div mat-dialog-actions>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+  </div>
+
+</form>

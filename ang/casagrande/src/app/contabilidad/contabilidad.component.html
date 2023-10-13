@@ -1,0 +1,977 @@
+<app-navbar></app-navbar>
+<button type="button" class="btn btn-primary caja" (click)="nuevocomp()" *ngIf="cuentascontables"><i
+    class="fas fa-plus"></i></button>
+<button type="button" class="btn btn-success caja" data-toggle="modal" data-target="#test-modal-112"
+  *ngIf="loscomprobantes"><i class="fas fa-plus"></i></button>
+
+<mat-tab-group [selectedIndex]="selected.value" (selectedTabChange)="aver($event)">
+
+  <mat-tab index="2">
+    <ng-template mat-tab-label>
+      <i class="fas fa-file-invoice"></i>
+      Cuentas Contables
+    </ng-template>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h3 class="modal-title text-primary">Cuentas Contables</h3>
+          <div class="tabla">
+            <div class="buscador form-group col-md-6">
+
+              <i class="fas fa-search lupa"></i>
+              <input type="text" name="buscando" class="form-control" style="padding-left: 10px;" (keyup)="bucando()"
+                [(ngModel)]="bucador">
+              <!-- <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscador">
+    </mat-form-field>-->
+              <button class="btn btn-primary" style="float: right; padding-left: 10px;" (click)="jugar(0)">
+                << </button>
+                  <button class="btn btn-primary" style="float: right; padding-left: 10px;"
+                    (click)="jugar(1)">>></button>
+            </div>
+
+
+            <div class="mat-elevation-z8 example">
+              <table mat-table [dataSource]="principal" matSort class="mat-elevation-z8">
+                <ng-container matColumnDef="_id">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Leyenda </th>
+                  <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+                </ng-container>
+
+
+
+                <ng-container matColumnDef="nombre">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nombre | titlecase}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="numero">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Numero </th>
+                  <td mat-cell *matCellDef="let element"> {{element.numero }} </td>
+                </ng-container>
+
+
+
+                <ng-container matColumnDef="acciones">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                  <td mat-cell *matCellDef="let row" class="final">
+
+                    <button type='button' matTooltip="Auxiliares" aria-label="Permisos" class='editar btn btn-success'
+                      data-toggle="modal" data-target="#test-modal-5"><i class="fas fa-user-tag sinpa"></i></button>
+                    <button type='button' matTooltip="Editar" aria-label="Edicion" class='editar btn btn-primary'
+                      data-toggle="modal" data-target="#exampleModal"><i class="fas fa-edit sinpa"></i></button>
+                    <button type='button' matTooltip="Eliminar" aria-label="Borrar" class='editar btn btn-danger'><i
+                        class="fas fa-trash-alt sinpa"></i></button>
+
+                  </td>
+
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </div>
+  </mat-tab>
+  <mat-tab index="1">
+    <ng-template mat-tab-label>
+      <i class="fas fa-file-alt"></i>
+      Comprobantes
+    </ng-template>
+    <div class="container">
+      <div class="row">
+        <div class="col-md-6">
+          <h4 class="modal-title text-primary">Comprobantes</h4>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="container">
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="inputEmail4">Entidad</label>
+                <select class="custom-select" [(ngModel)]="elcomprobante.entidad" (change)="traercomprobante()">
+                  <option selected value="casagrande">Empresa Casa Grande Costructora</option>
+                  <option value="prezical">Prezical</option>
+                  <option value="gradiente">Gradiente</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <mat-form-field class="f">
+                  <input matInput [matDatepicker]="picker" [(ngModel)]="fechaactual" placeholder="Fecha">
+                  <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+
+              </div>
+              <div class="col-md-2">
+                <label>Estado</label>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" [(ngModel)]="elcomprobante.estado" name="exampleRadios"
+                    id="exampleRadios1" value="abierto" checked>
+                  <label class="form-check-label" for="exampleRadios1">
+                    Abierto
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input" type="radio" [(ngModel)]="elcomprobante.estado" name="exampleRadios"
+                    id="exampleRadios2" value="cerrado">
+                  <label class="form-check-label" for="exampleRadios2">
+                    Cerrado
+                  </label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="inputEmail4">Fondo</label>
+                <select class="custom-select" [(ngModel)]="elcomprobante.proyecto" (change)="traercomprobante()">
+                  <option *ngFor="let x of proyect" [value]="x._id">{{x.nombre}}</option>
+
+                </select>
+              </div>
+              <div class="col-md-6">
+                <label for="comp">Numero</label>
+                <input type="number" class="form-control" (change)="otrocomprobante()" name="numeo" min="0"
+                  [max]="maximo" id="comp" [(ngModel)]="elcomprobante.numero">
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-6">
+                <label for="inputEmail4">Documento</label>
+                <select class="custom-select" [(ngModel)]="elcomprobante.documento" (change)="traercomprobante()">
+                  <option selected value="ingreso">Ingreso</option>
+                  <option value="egreso">Egreso</option>
+                  <option value="traspaso">Traspaso</option>
+                  <option value="apertura">Apertura</option>
+                  <option value="presupuesto">Presupuesto periodo</option>
+                </select>
+              </div>
+              <div class="col-md-6">
+                <form>
+
+
+
+                  <button type="button" class="btn btn-primary" (click)="guardar()"
+                    *ngIf="funcion=='nuevo'">Guardar</button>
+                  <button type="button" class="btn btn-success" (click)="actualizacion()"
+                    *ngIf="funcion=='actualizar'">Actualizar</button>
+                  <button type="button" class="btn btn-info" data-toggle="modal" data-target="#test-modal-8">Buscar
+                    Comprobantes</button>
+
+                </form>
+              </div>
+            </div>
+            <div class="row">
+              <div class="form-group col-md-12">
+                <label for="exampleFormControlTextarea1">Glosa</label>
+                <textarea class="form-control" id="exampleFormControlTextarea1"
+                  [disabled]="elcomprobante.estado=='cerrado'" rows="3" [(ngModel)]="elcomprobante.glosa"></textarea>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-12">
+          <div class="container cuadrado">
+            <div id='my-spreadsheet'></div>
+
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+
+  </mat-tab>
+
+  <mat-tab index="3">
+    <ng-template mat-tab-label>
+      <i class="far fa-clipboard"></i>
+      Reportes Categoria
+    </ng-template>
+
+    <div class="container todo">
+      <div class="row" style="margin-top: 10px;">
+        <div class="col-md-4">
+          <button class="btn btn-primary btn-lg btn-block" style="float: right;" (click)="abrirPrimerReporte()">Reporte
+            1</button>
+
+        </div>
+        <div class="col-md-4">
+          <button class="btn btn-primary btn-lg btn-block" style="float: right;" (click)="abrirPrimerReporte2()">Reporte
+            2</button>
+
+        </div>
+        <div class="col-md-4">
+          <button class="btn btn-primary btn-lg btn-block" style="float: right;" (click)="abrirSegundoReporte()">Libro
+            Mayor</button>
+
+        </div>
+      </div>
+      <div class="row columa">
+        <div class="col-md-4">
+          <label>Categoria</label>
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck1" [(ngModel)]="primero"
+              (change)="seleccionotodo(1)">
+            <label class="form-check-label" for="exampleCheck1">Seleccionar Todo</label>
+          </div>
+          <div id="jstree_demo_div2" class="demo"></div>
+
+          <!--<angular2-multiselect [data]="dropdownList" [(ngModel)]="selectedItems" 
+              [settings]="dropdownSettings" 
+              (onSelect)="onItemSelect($event)" 
+              (onDeSelect)="OnItemDeSelect($event)"
+              (onSelectAll)="onSelectAll($event)"
+              (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>-->
+        </div>
+        <div class="col-md-4">
+          <label>Cuentas</label>
+          <div class="form-group form-check">
+            <input type="checkbox" class="form-check-input" id="exampleCheck2" [(ngModel)]="segundo"
+              (change)="seleccionotodo(2)">
+            <label class="form-check-label" for="exampleCheck2">Seleccionar Todo</label>
+          </div>
+          <div id="jstree_demo_div3" class="demo"></div>
+
+          <!--<angular2-multiselect [data]="dropdownList1" [(ngModel)]="selectedItems1" 
+              [settings]="dropdownSettings1" 
+              (onSelect)="onItemSelect1($event)" 
+              (onDeSelect)="OnItemDeSelect1($event)"
+              (onSelectAll)="onSelectAll1($event)"
+              (onDeSelectAll)="onDeSelectAll1($event)"></angular2-multiselect>-->
+        </div>
+        <div class="col-md-4">
+          <angular2-multiselect [data]="dropdownListAux" [(ngModel)]="selectedItemsAux" [settings]="dropdownSettingsAux"
+            (onSelect)="onItemSelect($event)" (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)"
+            (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col-md-3">
+
+          <mat-form-field class="f">
+            <input matInput [matDatepicker]="picker1" [(ngModel)]="fechadesde" placeholder="Fecha Desde">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+
+          <mat-form-field class="f">
+            <input matInput [matDatepicker]="picker2" [(ngModel)]="fechahasta" placeholder="Fecha Hasta">
+            <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+            <mat-datepicker #picker2></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-md-3">
+          <label>Tipo de Documento</label>
+          <select class="custom-select1 form-control" name="tipoo" [(ngModel)]="tipito">
+            <option value="all" selected="true">Todos</option>
+            <option value="ingresos">Ingresos</option>
+            <option value="egresos">Egresos</option>
+            <option value="traspasos">Traspasos</option>
+
+          </select>
+        </div>
+        <div class="col-md-3">
+          <button type="button" class="btn btn-outline-primary" (click)="pasarreporte()"><i
+              class="fas fa-redo"></i></button>
+          <button class="btn btn-primary" style="float: right;" (click)="reporte()">Buscar</button>
+        </div>
+      </div>
+
+
+      <div class="row" *ngIf="tablaabierta">
+        <div class="col-md-12">
+          <button class="btn btn-outline-primary  sup" (click)="imprimir(1)">Imprimir</button>
+          <button class="btn btn-outline-dark  sup" (click)="imprimir(2)">CSV</button>
+          <button class="btn btn-outline-warning sup" (click)="imprimir(3)">JSON</button>
+          <button class="btn btn-outline-success  sup" (click)="imprimir(4)">EXCEL</button>
+          <button class="btn btn-outline-danger  sup" (click)="imprimir(5)">PDF</button>
+        </div>
+
+
+
+      </div>
+      <div class="row resaltar" *ngIf="tablaabierta">
+
+
+        <div class="col-md-3">
+          <label for="inputEmail3">Buscar</label>
+          <select class="custom-select" id="filter-field" (change)="updateFilter()">
+            <option value="categoria">Categoria</option>
+            <option value="cuenta">Cuenta</option>
+            <option value="nombre">Nombre</option>
+            <option value="auxiliar">C. Auxiliar</option>
+
+            <option value="auxiliarAyuda">N. Auxiliar</option>
+            <option value="debe">Debe</option>
+            <option value="haber">Haber</option>
+            <option value="glosa">Glosa</option>
+            <option value="comprobante.fecha">Fecha</option>
+            <option value="comprobante.estado">Tipo</option>
+
+          </select>
+        </div>
+
+
+
+
+
+
+        <div class="col-md-3">
+          <label for="inputEmail3">Por</label>
+          <select class="custom-select" id="filter-type" (change)="updateFilter()">
+            <option value="=">=</option>
+            <option value="<">
+              << /option>
+            <option value="<=">
+              <=< /option>
+            <option value=">">></option>
+            <option value=">=">>=</option>
+            <option value="!=">!=</option>
+            <option value="like">Like</option>
+          </select>
+        </div>
+
+
+
+        <div class="col-md-3">
+          <label for="inputEmail3">Valor</label>
+          <input type="text" class="form-control" (keyup)="updateFilter()" id="filter-value" placeholder="Activos">
+        </div>
+
+
+
+        <div class="col-md-3">
+          <button class="btn btn-danger lim" (click)="limpieza()">Limpiar Filtros</button>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Campos</mat-label>
+            <mat-select multiple (ngModelChange)="mostrarOcultar($event)" [(ngModel)]="losElegidos">
+              <mat-option *ngFor="let topping of toppingList" [value]="topping.value">{{topping.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <mat-form-field appearance="fill">
+            <mat-label>Agrupar Por</mat-label>
+            <mat-select multiple (ngModelChange)="mostrarAgrupar($event)" [(ngModel)]="losGrupos">
+              <mat-option value="categoria">Categoria</mat-option>
+              <mat-option value="nombrecuenta">Cuenta</mat-option>
+              <mat-option value="auxiliar">Auxiliar</mat-option>
+              <mat-option value="auxiliarAyuda">Auxiliar Nombre</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-md-6">
+          <h2>Suma del Periodo</h2>
+          <h4>Total Debe: <strong>{{debe}}</strong> </h4>
+          <h4>Total Haber: <strong>{{haber}}</strong> </h4>
+
+
+        </div>
+        <div class="col-md-6">
+          <h2>Suma y Saldos Finales</h2>
+          <h4>Total Debe: <strong>{{debe}}</strong> </h4>
+          <h4>Total Haber: <strong>{{haber}}</strong> </h4>
+        </div>
+        <div class="col-md-12">
+          <div id="mitabla"></div>
+        </div>
+      </div>
+
+
+    </div>
+  </mat-tab>
+
+  <mat-tab index="3">
+    <ng-template mat-tab-label>
+      <i class="fas fa-envelope-open-text"></i>
+      Reportes Total
+    </ng-template>
+    <div class="container todo">
+      <div class="row contenido" *ngIf="reporteporbuscar">
+        <div class="col-md-12">
+          <div class="row ">
+            <div class="col-md-3">
+
+              <mat-form-field class="f">
+                <input matInput [matDatepicker]="picker3" [(ngModel)]="fechadesde1" placeholder="Fecha Desde">
+                <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                <mat-datepicker #picker3></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="col-md-3">
+
+              <mat-form-field class="f">
+                <input matInput [matDatepicker]="picker4" [(ngModel)]="fechahasta1" placeholder="Fecha Hasta">
+                <mat-datepicker-toggle matSuffix [for]="picker4"></mat-datepicker-toggle>
+                <mat-datepicker #picker4></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <!--<div class="col-md-3">
+            <label>Categoria</label>
+            <angular2-multiselect [data]="dropdownList2" [(ngModel)]="selectedItems2" 
+              [settings]="dropdownSettings2" 
+              (onSelect)="onItemSelect2($event)" 
+              (onDeSelect)="OnItemDeSelect2($event)"
+              (onSelectAll)="onSelectAll2($event)"
+              (onDeSelectAll)="onDeSelectAll2($event)"></angular2-multiselect>
+          </div>-->
+            <div class="col-md-3">
+              <button (click)="cambiofecha()" class="btn btn-primary"><i class="fas fa-redo"></i></button>
+              <button class="btn btn-primary" style="float: right;" (click)="reporte1()">Buscar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="reporteporbuscar">
+        <div id="jstree_demo_div1" class="demo"></div>
+
+      </div>
+      <div class="row" *ngIf="!reporteporbuscar">
+        <div class="col-md-12 cai">
+          <div class="row" *ngIf="tablaabierta1">
+            <div class="col-md-12">
+              <button class="btn btn-outline-primary  sup" (click)="imprimir1(1)">Imprimir</button>
+              <button class="btn btn-outline-dark  sup" (click)="imprimir1(2)">CSV</button>
+              <button class="btn btn-outline-warning sup" (click)="imprimir1(3)">JSON</button>
+              <button class="btn btn-outline-success  sup" (click)="imprimir1(4)">EXCEL</button>
+              <button class="btn btn-outline-danger  sup" (click)="imprimir1(5)">PDF</button>
+              <button class="btn btn-outline-danger " style="float: right;" (click)="denuevo()">Otra Busqueda</button>
+            </div>
+
+
+
+          </div>
+          <div id="otratabla"></div>
+        </div>
+      </div>
+
+    </div>
+
+  </mat-tab>
+  <mat-tab index="4">
+    <ng-template mat-tab-label>
+      <i class="fas fa-envelope-open-text"></i>
+      Importaciones
+    </ng-template>
+    <div class="container">
+      <div class="col-md-12">
+        <div class="cuadro">
+          <div class="paso1" *ngIf="paso1">
+            <h1>Paso 1</h1>
+
+            <h3>Ingrese el archivo excel con los comprobantes</h3>
+            <form action="/api/subir" method="post" enctype="multipart/form-data">
+              <input type="file" name="file" (change)="diferente($event)">
+
+            </form>
+
+
+
+
+
+            <button type="button" class="btn btn-primary" (click)="enviar()">
+              Importar
+            </button>
+
+          </div>
+          <div class="paso2" *ngIf="paso2">
+            <h1>Paso 2</h1>
+            <h2>Importar Fechas</h2>
+            <h3>Ingrese el nombre exacto del archivo con extension .json</h3>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">Tipo de Dato</label>
+              <select class="form-control" id="exampleFormControlSelect1" name="dsfsaaaa" [(ngModel)]="tipoDeImporte"> 
+                <option value='ingreso'>Ingreso</option>
+                <option value='egreso'>Egreso</option>
+                <option value='traspaso'>Traspaso</option>
+                <option value='apertura'>Apertura</option>
+                
+              </select>
+            </div>
+            <input type="text" name="buscando" class="form-control" style="padding-left: 10px;" [(ngModel)]="jsona">
+            <button type="button" class="btn btn-success" (click)="fechascargar()">
+              Importar
+            </button>
+          </div>
+          <div class="paso3" *ngIf="paso3">
+            <h1>Paso 3</h1>
+            <h3>Corregir los errores</h3>
+            <button type="button" class="btn btn-success" (click)="enviar1()">
+              Corregir
+            </button>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+
+
+
+
+  </mat-tab>
+  <mat-tab index="5">
+    <ng-template mat-tab-label>
+      <i class="fas fa-envelope-open-text"></i>
+      Estado de Resultado
+    </ng-template>
+    <div class="container" style="margin-top: 15px;">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-3">
+
+            <mat-form-field class="f">
+              <input matInput [matDatepicker]="picker6" [(ngModel)]="fechadesde2" placeholder="Fecha Desde">
+              <mat-datepicker-toggle matSuffix [for]="picker6"></mat-datepicker-toggle>
+              <mat-datepicker #picker6></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+
+            <mat-form-field class="f">
+              <input matInput [matDatepicker]="picker5" [(ngModel)]="fechahasta2" placeholder="Fecha Hasta">
+              <mat-datepicker-toggle matSuffix [for]="picker5"></mat-datepicker-toggle>
+              <mat-datepicker #picker5></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-3">
+            <mat-form-field appearance="fill" (change)="revisar()" >
+              <mat-label>Tipo de Documento</mat-label>
+              <mat-select [(ngModel)]="tipito" multiple>
+              
+                <mat-option value="all" selected="true">Todos</mat-option>
+                <mat-option value="ingreso" selected="true">Ingresos</mat-option>
+                <mat-option value="egreso" selected="true">Egresos</mat-option>
+                <mat-option value="traspaso" selected="true">Traspasos</mat-option>
+
+              </mat-select>
+            </mat-form-field>
+           
+          </div>
+          <div class="col-md-3">
+            <label for="inputEm">Proyectos</label>
+            <angular2-multiselect [data]="itemspro" name="nose" [(ngModel)]="selectedItemsproy" name="nom1111"
+              [settings]="dropdownSettings11" (onSelect)="onItemSelect11($event)"
+              (onDeSelect)="OnItemDeSelect11($event)" (onSelectAll)="onSelectAll11($event)"
+              (onDeSelectAll)="onDeSelectAll11($event)"></angular2-multiselect>
+          </div>
+          <div class="col-md-1">
+            <button class="btn btn-primary" (click)="bucandoq()">Busqueda</button>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <div class="col-md-12" style="margin-top: 10px;">
+        <button class="btn btn-outline-primary  sup" (click)="imprimir11(1)">Imprimir</button>
+        <button class="btn btn-outline-dark  sup" (click)="imprimir11(2)">CSV</button>
+        <button class="btn btn-outline-warning sup" (click)="imprimir11(3)">JSON</button>
+        <button class="btn btn-outline-success  sup" (click)="imprimir11(4)">EXCEL</button>
+        <button class="btn btn-outline-danger  sup" (click)="imprimir11(5)">PDF</button>
+
+      </div>
+
+      <!--/*"*/-->
+      <div id="print-section">
+        <h3>5000000 : {{elcinco1}} </h3>
+        <h3>4000000 : {{elcuatro1}} </h3>
+        <h2>Resultado {{eltotal}} </h2>
+        <img src="./assets/log.jpg" style="width: 150px;">
+        <div id="otratabla1"></div>
+      </div>
+
+    </div>
+
+
+
+
+
+  </mat-tab>
+  <mat-tab index="6">
+    <ng-template mat-tab-label>
+      <i class="fas fa-envelope-open-text"></i>
+      Balance General
+    </ng-template>
+    <div class="container" style="margin-top: 15px;">
+      <div class="col-md-12">
+        <div class="row">
+
+          <div class="col-md-3">
+
+            <mat-form-field class="f">
+              <input matInput [matDatepicker]="picker61" [(ngModel)]="fechahasta3" placeholder="Fecha Hasta">
+              <mat-datepicker-toggle matSuffix [for]="picker61"></mat-datepicker-toggle>
+              <mat-datepicker #picker61></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <div class="col-md-5">
+            <label for="inputEm">Proyectos</label>
+            <angular2-multiselect [data]="itemspro" name="nose" [(ngModel)]="selectedItemsproy1" name="nom1111"
+              [settings]="dropdownSettings11" (onSelect)="onItemSelect11($event)"
+              (onDeSelect)="OnItemDeSelect11($event)" (onSelectAll)="onSelectAll11($event)"
+              (onDeSelectAll)="onDeSelectAll11($event)"></angular2-multiselect>
+          </div>
+          <div class="col-md-1">
+            <button class="btn btn-primary" (click)="bucandoq1()">Busqueda</button>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <div class="col-md-12" style="margin-top: 10px;">
+        <button class="btn btn-outline-primary  sup" (click)="imprimir111(1)">Imprimir</button>
+        <button class="btn btn-outline-dark  sup" (click)="imprimir111(2)">CSV</button>
+        <button class="btn btn-outline-warning sup" (click)="imprimir111(3)">JSON</button>
+        <button class="btn btn-outline-success  sup" (click)="imprimir111(4)">EXCEL</button>
+        <button class="btn btn-outline-danger  sup" (click)="imprimir111(5)">PDF</button>
+
+      </div>
+      <h3>1000000 : {{eluno1}} </h3>
+      <h3>2000000 : {{eldos1}} </h3>
+      <h2>Resultado :{{eltotal2}} </h2>
+      <img src="./assets/log.jpg" style="width: 150px;">
+      <div id="otratabla12"></div>
+    </div>
+
+
+
+
+
+  </mat-tab>
+  <mat-tab index="7">
+    <ng-template mat-tab-label>
+      <i class="fas fa-envelope-open-text"></i>
+      Auxiliar
+    </ng-template>
+    <div class="container" style="margin-top: 15px;">
+      <app-auxiliar></app-auxiliar>
+    </div>
+
+
+
+
+
+  </mat-tab>
+</mat-tab-group>
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-8" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <h4 class="modal-title text-primary">Comprobantes</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Buscador</label>
+              <input type="text" class="form-control" [(ngModel)]="buscador" (ngModelChange)="buscar()" name="busca"
+                id="exampleFormControlInput1" placeholder="Glosa">
+            </div>
+
+            <table class="table table-hover table-dark">
+              <thead>
+                <tr>
+                  <th>Entidad</th>
+                  <th>Glosa</th>
+                  <th>Documento</th>
+                  <th>Numero</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let x of posiblescomprobantes" class="se" (click)="agregado(x)" data-dismiss="modal">
+                  <td>{{x.numeroimportado}}</td>
+                  <td>{{x.entidad}}</td>
+                  <td>{{x.glosa}}</td>
+                  <td>{{x.documento}}</td>
+                  <td>{{x.numero}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+
+      </div>
+      <div class="modal-footer">
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-112" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <h4 class="modal-title text-primary">Nueva Cuenta Contable</h4>
+        <div class="form-check cc">
+          <input class="form-check-input" type="checkbox" value="" (change)="cambiar()" name="tipocuenta"
+            [(ngModel)]="tipocuenta" id="defaultCheck1">
+          <label class="form-check-label" for="defaultCheck1">
+            Auxiliar
+          </label>
+        </div>
+        <div class="form-check cc">
+          <input class="form-check-input" type="checkbox" value="" (change)="sinpapi()" name="tipocuenta"
+            [(ngModel)]="papa" id="defaultCheck1">
+          <label class="form-check-label" for="defaultCheck1">
+            Sin Padre
+          </label>
+        </div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-md-12">
+
+            <form (ngSubmit)="auxiliarguardada()" *ngIf="tipocuenta">
+              <div class="form-row">
+
+                <div class="form-group col-md-6">
+                  <label for="inputPassword4">Numero de Cuenta</label>
+                  <select class="custom-select" name="cu" [(ngModel)]="aux.cuenta">
+                    <option *ngFor="let x of num" [value]="x._id">{{x.numero}} {{x.nombre}}</option>
+
+                  </select>
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="inputPassword4">Nombre</label>
+                  <input type="text" class="form-control" name="cue" [(ngModel)]="aux.nombre" id="inputPassword4"
+                    placeholder="00000001">
+                </div>
+                <div class="col-md-6">
+                  <label for="inputPassword4">Tipo</label>
+                  <select class="custom-select" name="auxx" [(ngModel)]="aux.tipo">
+                    <option selected value="egreso">Egreso</option>
+                    <option value="ingreso">Ingreso</option>
+
+                  </select>
+                </div>
+
+              </div>
+
+
+              <button type="submit" class="btn btn-primary">Guardar</button>
+            </form>
+            <form (ngSubmit)="cuentaguardada()" *ngIf="!tipocuenta">
+              <div class="form-row">
+
+                <div class="form-group col-md-6">
+                  <label for="inputEmail4">Nombre</label>
+                  <input type="text" class="form-control" name="nom" [(ngModel)]="cuenta.nombre" id="inputEmail4"
+                    placeholder="Activos">
+                </div>
+
+                <div class="form-group col-md-6">
+                  <label for="inputPassword4">Numero de Cuenta</label>
+                  <input type="text" class="form-control" name="cue" [(ngModel)]="cuenta.numero" id="inputPassword4"
+                    placeholder="00000001">
+                </div>
+                <div class="col-md-6">
+                  <label for="inputPassword4">Tipo</label>
+                  <select class="custom-select" name="tt" [(ngModel)]="cuenta.tipo">
+                    <option value="egreso" selected>Egreso</option>
+                    <option value="ingreso">Ingreso</option>
+
+                  </select>
+                </div>
+                <div class="form-group col-md-6" *ngIf="papichau">
+                  <label for="inputPassword4">Padre</label>
+                  <select class="custom-select" name="cu" [(ngModel)]="cuenta.padre">
+                    <option *ngFor="let x of num" [value]="x._id">{{x.numero}} {{x.nombre}}</option>
+
+                  </select>
+                </div>
+              </div>
+
+
+              <button type="submit" class="btn btn-success">Guardar</button>
+            </form>
+
+
+          </div>
+        </div>
+
+
+
+      </div>
+      <div class="modal-footer">
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-115" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <h4 class="modal-title text-primary">Cuentas</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Buscador</label>
+              <input type="text" class="form-control" [(ngModel)]="buscador1" (ngModelChange)="buscar1()" name="busca1"
+                id="exampleFormControlInput1" placeholder="Glosa">
+            </div>
+
+            <table class="table table-hover table-dark">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Codigo</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let x of posiblescuentas" class="se" (click)="agregado1(x)" data-dismiss="modal">
+                  <td>{{x.nombre}}</td>
+                  <td>{{x.numero}}</td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+
+      </div>
+      <div class="modal-footer">
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-118" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <h4 class="modal-title text-primary">Auxiliares</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Buscador</label>
+              <input type="text" class="form-control" [(ngModel)]="buscador1" (ngModelChange)="buscar1()" name="busca1"
+                id="exampleFormControlInput1" placeholder="Glosa">
+            </div>
+
+            <table class="table table-hover table-dark">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Codigo</th>
+
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let x of posiblescuentas" class="se" (click)="agregado1(x)" data-dismiss="modal">
+                  <td>{{x.nombre}}</td>
+                  <td>{{x.numero}}</td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+
+
+      </div>
+      <div class="modal-footer">
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

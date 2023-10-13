@@ -1,0 +1,59 @@
+
+<div class="cuadrocompleto">
+  <img src="https://media.reistock.com/wp-content/uploads-mkt-wp/sites/12/2019/03/22074402/cropped-cropped-architectural-design-wallpaper-1-design-wallpapers-v3-wallpaper-1.jpg" id="ji">
+
+
+<div class="row">
+  <div class="col-md-4 offset-md-4 col-sm-12 superior">
+    <div class="login-box animated fadeIn">
+
+<div class="cabecera">
+  <h1 style="color: white;">Casa Grande</h1>
+</div>
+
+  
+  <form (ngSubmit)="entrar()" id="makeLogin" class="ui form">
+    <div class="row">
+      <div class="col-md-12 cua">
+        <img src="assets/login.png" class="lo"> 
+      </div>
+      <div class="col-md-12">
+    <div class="in">
+      <span class="fa fa-paper-plane"></span>
+      <input type="text" name="nom1" autocomplete="true" [(ngModel)]="usu.login" placeholder="Username" >
+    </div>
+
+    <div class="in" style="display: flex; padding-left: 10px;" *ngIf="ver">
+      <span class="fa fa-key"></span>
+      <input type="password" name="nom2" autocomplete="true" [(ngModel)]="usu.pass" placeholder="Password.." >
+      <span class="fa fa-eye" style="float: right; cursor: pointer;" (click)="texto()"></span>
+    </div>
+    <div class="in" style="display: flex; padding-left: 10px;" *ngIf="!ver">
+      <span class="fa fa-key"></span>
+      <input type="text" name="nom2" autocomplete="true" [(ngModel)]="usu.pass" placeholder="Password.." >
+      <span class="fa fa-eye" style="float: right; cursor: pointer;" (click)="texto()"></span>
+    </div>
+
+    <button (click)="entrar()" class="ui btn submit">INGRESAR</button>
+    <a href="#">Olvidaste tu contraseña?</a>
+    </div>
+    </div>
+  </form>
+
+  <div class="welcome">
+
+    <div class="pic"></div>
+    <div class="ball-loader">
+      <div class="ball ball-1"></div>
+      <div class="ball ball-2"></div>
+      <div class="ball ball-3"></div>
+    </div>
+  </div>
+</div>    
+  </div>
+</div>
+
+
+
+
+</div>

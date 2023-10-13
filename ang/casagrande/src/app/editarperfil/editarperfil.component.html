@@ -1,0 +1,56 @@
+<app-navbar></app-navbar>
+<div class="container">
+	<div class="row">
+		<div class="col-md-6" style="text-align: center;">
+			<img src="assets/user.png">
+			<h3 style="margin-top: 20px;">EDICION DE USUARIO</h3>
+		</div>
+		<div class="col-md-6">
+			<form (ngSubmit)="actualizaciondeusuarios()">
+				  <div class="form-row">
+				    <div class="form-group col-md-4">
+				      <label for="inputEmail4">Nombre</label>
+				      <input type="text" class="form-control" id="inputEmail4" [(ngModel)]="actu.nombre" name="nom" placeholder="Retroexcavadora">
+				    </div>
+				    <div class="form-group col-md-4">
+				      <label for="inputPassword4">Apellido Paterno</label>
+				      <input type="text" class="form-control" id="inputPassword4" [(ngModel)]="actu.apaterno" name="nom2" placeholder="Excalibur">
+				    </div>
+				    <div class="form-group col-md-4">
+				      <label for="inputPassword4">Apellido Materno</label>
+				      <input type="text" class="form-control" id="inputPassword4" [(ngModel)]="actu.amaterno" name="nom3" placeholder="Excalibur">
+				    </div>
+				  </div>
+				  <div class="form-row">
+				  <div class="form-group col-md-6">
+				    <label for="inputAddress">CI</label>
+				    <input type="text" [(ngModel)]="actu.ci" name="nom3" class="form-control" id="inputAddress" >
+				  </div>
+				  <div class="form-group col-md-6">
+				    <label for="inputAddress">Telefono</label>
+				    <input type="text" [(ngModel)]="actu.telefono" name="nom55" class="form-control" id="inputAddress" >
+				  </div>
+				  </div>
+				  <div class="form-row">
+				  <div class="form-group col-md-4">
+				    <label for="inputAddress">Username</label>
+				    <input type="text" [(ngModel)]="actu.username" name="nom66" class="form-control" id="inputAddress" >
+				  </div>
+				  <div class="form-group col-md-4">
+				    <label for="inputAddress">Password</label>
+				    <input type="text" [(ngModel)]="actu.pass" name="nom77" class="form-control" id="inputAddress" value="" >
+				  </div>
+				
+				 	
+				  </div>
+				  <button type="submit" class="btn btn-primary btn-lg btn-block">Guardar</button>
+				
+                
+        </form>
+        
+          
+
+        </div>
+		</div>
+	</div>
+	

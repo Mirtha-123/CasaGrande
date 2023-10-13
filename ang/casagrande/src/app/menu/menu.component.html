@@ -1,0 +1,107 @@
+<app-navbar></app-navbar>
+
+
+
+
+
+
+
+<div class="full ">
+  <div class="base containe">
+    <div class="row">
+      <!--	<div class="col-md-12" *ngFor="let x of menus; let i = index" [ngClass]="['hola']"
+				[ngStyle]="{'background-color': i % 2 == 0? '#d67347' : '#92949c'}" [class]='x.clase' style="height: 100px;
+				margin-bottom: 15px;
+				vertical-align: middle;
+				align-items: center;
+				border-radius: 20px;
+				">
+				<div *ngIf="x.verificacion!=false" class="row">
+					<div class="col-sm-4 col-md-2 ">
+						<h4>dsad</h4>
+					</div>
+					<div class="col-sm-8 col-md-6 offset-md-4 ">
+						<span class="">
+							{{x.nombre}}
+						</span>
+					</div>
+
+				</div>
+			</div>-->
+      <!--MENU ULTIMO-->
+      <ng-container *ngFor="let x of menus">
+				<ng-container *ngIf="x.verificacion!=false">
+					<div class="col col-lg-4 col-md-4 col-sm-6 cuadro">
+						<a [routerLink]="x.path" [ngClass]="['hola']" [class]='x.clase'>
+							<img [src]="x.img" class="men" style="border-radius: 50%;">
+							<span class="flow-text tt">
+								{{x.nombre}}
+							</span>
+						</a>
+					</div>
+				</ng-container>
+				
+			</ng-container>
+
+    </div>
+  </div>
+
+
+
+
+
+
+
+
+  <!--<a href="usuarios.html" class="bloque">
+      	<div id="usuariosmenu" class="col s6 m4 l4 full center-align green white-text menus" >
+        <img src="assets/1.png" alt="" class="menuimages circle responsive-img">
+        <h2 class="algo">Bienes</h2>
+        </div>
+    </a>
+
+        <a href="ventas.html" class="bloque"><div id="ventasmenu" class="col s6 m4 l4 full center-align light-blue accent-4 white-text menus">
+          <img src="assets/2.png" alt="" class="menuimages circle responsive-img">
+          <h2 class="algo">Partes</h2>
+          </div></a>
+
+
+          <a href="compras.html" class="bloque"><div id="comprasmenu" class="col s6 m4 l4 full center-align lime accent-3 white-text menus">
+            <img src="assets/e.png" alt="" class="menuimages circle responsive-img">
+            <h2 class="algo">Usuarios</h2>
+            </div></a>
+
+            <a href="productos.html" class="bloque"><div id="productosmenu" class="col s6 m4 l4 full center-align red darken-4 white-text menus">
+              <img src="assets/3.png" alt="" class="menuimages circle responsive-img">
+              <h2 class="algo">Ordenes</h2>
+            </div></a>
+
+              <a href="estadistica.html" class="bloque"><div id="estadisticamenu" class="col s6 m4 l4 full center-align purple darken-4 white-text menus">
+                 <img src="assets/4.png" alt="" class="menuimages circle responsive-img">
+                <h2 class="algo">Reportes</h2>
+                </div></a>
+
+                <a href="proveedores.html" class="bloque"><div  id="proovedoresmenu" class="col s6 m4 l4 full center-align pink accent-1 white-text menus">
+                  <img src="assets/5.png" alt="" class="menuimages circle responsive-img">
+                  <h2 class="algo">Proovedores</h2>
+                  </div></a>
+
+                  <a href="almacen.html" class="bloque"><div id="almacen" class="col s6 m4 l4 full center-align teal darken-2 white-text menus">
+                    <img src="assets/6.png" alt="" class="menuimages circle responsive-img">
+                    <h2 class="algo">Almacen</h2>
+                  </div></a>
+
+                    <a href="cotizacion.html" class="bloque"><div class="col s6 m4 l4 full center-align orange darken-4 white-text menus">
+                       <img src="assets/7.png" alt="" class="menuimages circle responsive-img">
+                      <h2 class="algo">Cotizaciones</h2>
+                      </div></a>
+
+                      <a href="facturas.html" class="bloque"><div class="col s6 m4 l4 full center-align  grey darken-4 white-text menus">
+                        <img src="assets/8.png" alt="" class="menuimages circle responsive-img">
+                        <h2 class="algo">Facturas</h2>
+                        </div></a>
+    </div>-->
+
+
+
+</div>

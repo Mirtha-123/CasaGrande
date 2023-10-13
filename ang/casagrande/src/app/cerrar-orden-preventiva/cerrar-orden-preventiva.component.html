@@ -1,0 +1,164 @@
+<app-navbar></app-navbar>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12 cabezera">
+      <div class="bot">
+        <button type='button' class='editar btn btn-primary' (click)="volver()">Atras</button>
+      </div>
+      <h1>Cerrar Orden</h1>
+      <mat-form-field class="f">
+        <input matInput [matDatepicker]="picker1" [(ngModel)]="fechaconclusion" placeholder="Fecha Orden">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+
+
+
+
+    </div>
+    <div class="col-md-12">
+      <label>Mantenimientos Completados </label>
+      <angular2-multiselect [data]="itemsbienes" name="nose" *ngIf="tipox=='preventivo' || viene=='depreventivo'"
+        [(ngModel)]="selectedItems" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+        (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)"
+        (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>
+    </div>
+    <!-- <div class="col-md-12">
+      <label>Solicitud anexada</label>
+      <angular2-multiselect [data]="solicitudes" name="nose" [(ngModel)]="selectedItems1" 
+    [settings]="dropdownSettings1" 
+    (onSelect)="onItemSelect1($event)" 
+    (onDeSelect)="OnItemDeSelect1($event)"
+    (onSelectAll)="onSelectAll1($event)"
+    (onDeSelectAll)="onDeSelectAll1($event)"></angular2-multiselect> 
+
+    </div>-->
+    <div class="col-md-12">
+      <form (ngSubmit)="terminado()">
+        <div class="form-row">
+          <div class="form-group col-md-4">
+            <label for="inputEmail4">Maquinaria</label>
+            <input type="text" class="form-control" id="inputEmail4" [(ngModel)]="concluir.nombre" disabled name="nom1"
+              placeholder="Retroexcavadora">
+          </div>
+          <div class="form-group col-md-4">
+            <label for="exampleFormControlTextarea1">Observaciones</label>
+            <textarea class="form-control" name="area" [(ngModel)]="concluir.observaciones"
+              id="exampleFormControlTextarea1" rows="3"></textarea>
+          </div>
+          <div class="form-group col-md-4" *ngIf="tipo=='horometro'">
+            <label for="cuadro">Horometro de Salida </label>
+            <input class="form-control" name="sal" [(ngModel)]="concluir.horometro" id="cuadro3" type="number"
+              placeholder="Default input">
+          </div>
+          <div class="form-group col-md-4" *ngIf="tipo=='hodometro'">
+            <label for="cuadro">Hodometro de Salida</label>
+            <input class="form-control" name="sal1" [(ngModel)]="concluir.hodometro" id="cuadro2" type="number"
+              placeholder="Default input">
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-7">
+            <div class="table-resposive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Falla</th>
+                    <th scope="col">Accion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let x of susfallas.lista; let id = index">
+                    <th scope="row">{{id+1}}</th>
+                    <td>{{x}}</td>
+                    <td>
+                      <section class="example-section">
+                        <mat-checkbox class="example-margin" [id]="'e'+id">Completado</mat-checkbox>
+                      </section>
+                    </td>
+
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-md-5">
+            <div class="table-resposive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Falla</th>
+                    <th scope="col">Accion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let x of tareas; let id = index">
+                    <th scope="row">{{id+1}}</th>
+                    <td>{{x.subtarea}}</td>
+                    <td>
+                      <section class="example-section">
+                        <mat-checkbox class="example-margin" [id]="'tarea'+id" [name]="'tarea'+id"
+                          [(ngModel)]="x.completa">Completado</mat-checkbox>
+                      </section>
+                    </td>
+
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+
+        </div>
+
+
+
+
+        <button type="submit" class="btn btn-primary btn-lg btn-block">Guardar</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-7" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <h4 class="modal-title">Importacion</h4>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+
+        <form action="/api/subir" method="post" enctype="multipart/form-data">
+          <input type="file" name="file" (change)="diferente($event)">
+
+        </form>
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="enviar1()">
+          Importar
+        </button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

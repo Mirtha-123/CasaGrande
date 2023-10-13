@@ -1,0 +1,25 @@
+.cabezera{
+	text-align: center;
+}
+.bot{
+	text-align: left;
+	padding-top: 2em;
+}
+.cabezita{
+  display: inline-flex;
+  padding-left: 40%;
+}
+.un{
+  padding-top: 1.5em;
+  padding-left: 1em;
+}
+form{
+	margin-bottom: 3em;
+}
+.objs{
+	padding: 10px;
+
+}
+table{
+	width: 100%;
+}

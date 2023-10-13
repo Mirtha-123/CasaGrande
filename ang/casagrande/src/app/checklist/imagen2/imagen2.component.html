@@ -1,0 +1,23 @@
+<!-- TITULO -->
+<div mat-dialog-title>
+  <div class="row">
+    <div class="col-md-3">
+      <i class="fas fa-plus"></i>
+      Combustible
+    </div>
+
+    <div class="col-md-1 offset-8" style="text-align: right; cursor: pointer;" (click)="onNoClick()">
+      <i class="fas fa-window-close"></i>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+</div>
+
+<div class="row">
+  <div class="col-md-12" style="height: 250px;">
+      <image-drawing src="./assets/llantas.png" outputMimeType="'image/jpeg'" outputQuality="0.8"
+          (save)="save($event)" (cancel)="cancel()">
+      </image-drawing>
+  </div>
+ 
+</div>

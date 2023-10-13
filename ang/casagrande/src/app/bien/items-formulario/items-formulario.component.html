@@ -1,0 +1,112 @@
+<!-- TITULO -->
+<div mat-dialog-title>
+  <div class="row">
+    <div class="col-md-3">
+      <i class="fas fa-plus"></i>
+      Crear Item
+    </div>
+
+    <div class="col-md-1 offset-8" style="text-align: right; cursor: pointer;" (click)="onNoClick()">
+      <i class="fas fa-window-close"></i>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+</div>
+
+<!-- FORM -->
+<form (ngSubmit)="onSubmit()">
+
+  <!-- CUERPO -->
+  <div mat-dialog-content>
+
+    <div class="row">
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Nombre</mat-label>
+          <input matInput autocomplete="off" [(ngModel)]="item.nombre" name="nombre-item" placeholder="Bateria"
+            type="text" [required]="true">
+
+        </mat-form-field>
+      </div>
+
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Codigo</mat-label>
+          <input matInput autocomplete="off" [(ngModel)]="item.codigo" name="codigo-item" placeholder="19-02-2000"
+            type="text">
+
+
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Codigo de Empresa</mat-label>
+          <input matInput autocomplete="off" [(ngModel)]="item.codigoEmpresa" name="codigo-empresa-itemzz"
+            placeholder="" type="text" [required]="true">
+
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Descripcion</mat-label>
+          <input matInput autocomplete="off" placeholder="Celular" [(ngModel)]="item.descripcion"
+            name="descripcion-item" type="text" [required]="true">
+
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Horometro</mat-label>
+          <input matInput autocomplete="off" placeholder="Celular" [(ngModel)]="item.horometro"
+            name="descripcion-itemas" type="number" [required]="true">
+
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Marca</mat-label>
+          <input type="text" matInput [required]="true" [(ngModel)]="item.marca" name="marca-item55">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <label for="exampleFormControlSelect1">Tipo</label>
+        <select class="form-control" [(ngModel)]="item.tipo" name="ssdsssa4" id="exampleFormControlSelect1"
+          appearance="outline">
+          <option value="ruedas" selected>Ruedas</option>
+          <option value="rodados">Rodados</option>
+          <option value="baja">Baja</option>
+          <option value="otro">Otro</option>
+          <option value="ninguno">Ninguno</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <mat-form-field appearance="outline">
+          <mat-label>Posicion</mat-label>
+          <input type="text" matInput  [(ngModel)]="item.posicion" name="marca-item2">
+        </mat-form-field>
+      </div>
+      <div class="col-md-6">
+        <label for="exampleFormControlSelect1">Estado</label>
+        <select class="form-control" [(ngModel)]="item.estado" name="ssdxvvv" id="exampleFormControlSelect1"
+          appearance="outline">
+          <option value="disponible" selected>Disponible</option>
+          <option value="espera">Espera</option>
+          <option value="baja">Baja</option>
+        </select>
+      </div>
+    </div>
+
+
+
+
+    <span>Nota: guardar toda información en Mayúscula</span>
+  </div>
+
+  <mat-divider></mat-divider>
+
+  <!-- PIE -->
+  <div mat-dialog-actions>
+    <button type="submit" class="btn btn-primary">Generar</button>
+  </div>
+
+</form>

@@ -1,0 +1,278 @@
+<app-navbar></app-navbar>
+<div class="todo">
+	<mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)"  class="totalidad" color="primary" backgroundColor="primary">
+	  <mat-tab class="t" >
+	  	<ng-template mat-tab-label>
+	  		<i class="fa fa-users ti"></i>
+      Usuarios
+    </ng-template>
+	  	<div class="container contenido">
+	  		<div class="row">
+	  			<div class="col-md-12">
+	  				<h1>Lista de Usuarios</h1>
+	  				<div class="tabla">
+    <mat-form-field>
+  <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+</mat-form-field>
+
+<div class="table-responsive mat-elevation-z8 example">
+  <table mat-table [dataSource]="latabla" matSort class="mat-elevation-z8">
+     <ng-container matColumnDef="id">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+    <td mat-cell *matCellDef="let element"> {{element._id}} </td>
+  </ng-container>
+
+
+
+    <ng-container matColumnDef="nombre">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Mombre </th>
+    <td mat-cell *matCellDef="let element"> {{element.nombre | titlecase }} </td>
+  </ng-container>
+
+
+  <ng-container matColumnDef="apaterno">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Paterno </th>
+    <td mat-cell *matCellDef="let element"> {{element.apaterno | titlecase}} </td>
+  </ng-container>
+
+  
+  <ng-container matColumnDef="amaterno">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Materno </th>
+    <td mat-cell *matCellDef="let element"> {{element.amaterno | titlecase}} </td>
+  </ng-container>
+
+ 
+  <ng-container matColumnDef="ci">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>  CI </th>
+    <td mat-cell *matCellDef="let element"> {{element.ci}} </td>
+  </ng-container>
+    <ng-container matColumnDef="telefono">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Telefono </th>
+    <td mat-cell *matCellDef="let element"> {{element.telefono}} </td>
+  </ng-container>
+  <ng-container matColumnDef="username">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Username </th>
+    <td mat-cell *matCellDef="let element"> {{element.username}} </td>
+  </ng-container>
+  
+ <ng-container matColumnDef="acciones">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+    <td mat-cell *matCellDef="let row" class="final">
+    
+     <button type='button' class='editar btn btn-success' data-toggle="modal" data-target=".bd-example-modal-lg" (click)="verpermisos(row)"><i class="fas fa-pen"></i></button>
+     <button type='button' (click)="editarusuario(row)" class='editar btn btn-primary' data-toggle="modal" data-target="#test-modal-3"><i class="fas fa-edit"></i></button>
+     <button type='button' (click)="eliminarusuario(row)" class='editar btn btn-danger'><i class="fas fa-trash-alt"></i></button>
+
+    </td>
+    
+</ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  </table>
+
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+</div>
+  </div>
+	  			</div>
+	  		</div>
+	  	</div>
+	  </mat-tab>
+	  <mat-tab class="t" >
+	  	<ng-template mat-tab-label>
+	  		<i class="fa fa-plus ti"></i>
+      Crear Usuario
+    </ng-template>
+	  	<div class="container contenido">
+	  	<div class="row">
+	  		<div class="col-md-4">
+	  			<h1>Nuevo Usuario</h1>
+	  			<img src="assets/user.png" class="us">
+
+	  		</div>
+	  		<div class="col-md-8 ">
+	  			<form (ngSubmit)="terminar()">
+				  <div class="form-row">
+				    <div class="form-group col-md-4">
+				      <label for="inputEmail4">Nombre</label>
+				      <input type="text" class="form-control" id="inputEmail4" [(ngModel)]="bien.nombre" name="nom" placeholder="Retroexcavadora">
+				    </div>
+				    <div class="form-group col-md-4">
+				      <label for="inputPassword4">Apellido Paterno</label>
+				      <input type="text" class="form-control" id="inputPassword4" [(ngModel)]="bien.apaterno" name="nom2" placeholder="Excalibur">
+				    </div>
+				    <div class="form-group col-md-4">
+				      <label for="inputPassword4">Apellido Materno</label>
+				      <input type="text" class="form-control" id="inputPassword4" [(ngModel)]="bien.amaterno" name="nom2" placeholder="Excalibur">
+				    </div>
+				  </div>
+				  <div class="form-row">
+				  <div class="form-group col-md-6">
+				    <label for="inputAddress">CI</label>
+				    <input type="text" [(ngModel)]="bien.ci" name="nom3" class="form-control" id="inputAddress" >
+				  </div>
+				  <div class="form-group col-md-6">
+				    <label for="inputAddress">Telefono</label>
+				    <input type="text" [(ngModel)]="bien.telefono" name="nom3" class="form-control" id="inputAddress" >
+				  </div>
+				  </div>
+				  <div class="form-row">
+				  <div class="form-group col-md-4">
+				    <label for="inputAddress">Username</label>
+				    <input type="text" [(ngModel)]="bien.username" name="nom3" class="form-control" id="inputAddress" >
+				  </div>
+				  <div class="form-group col-md-4">
+				    <label for="inputAddress">Password</label>
+				    <input type="text" [(ngModel)]="bien.pass" name="nom3" class="form-control" id="inputAddress" >
+				  </div>
+				 <div class="form-group col-md-4">
+				 <label for="inputAddress">Permisos</label>
+
+<button type="button" class="btn btn-info btn-lg btn-block" (click)="nuevopermi()" data-toggle="modal" data-target=".bd-example-modal-lg ">Ver</button>
+				  </div>
+				 	
+				  </div>
+				  <button type="submit" class="btn btn-primary btn-lg btn-block">Guardar</button>
+				</form>
+
+	  		</div>
+	  	</div>
+	  	</div>
+	  
+	
+    	
+
+
+
+     </mat-tab>
+	</mat-tab-group>
+	
+</div>
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="tee8" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Permisos</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+      	<div class="row" >
+      	
+      	
+      		<div class="col col-md-4 permi">
+      			<h3>Permisos</h3>
+      			 <div id="data" class="demo">
+					
+				</div>
+      			 
+      			
+      		</div>
+      		<div class="col col-md-6">
+      			<h3>Proyectos</h3>
+      			<div id="data1" class="demo">
+					
+				</div>
+      		</div>
+      	</div>
+      	
+
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+       
+        <button type="button" class="btn btn-primary"   (click)="darpermisos()">Actualizar Permisos</button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content segunda">
+        <div class="modal-header">
+          <h4 class="modal-title">Editar Permiso</h4>
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          
+        </div>
+        <div class="modal-body">
+          
+               <form (ngSubmit)="actualizaciondeusuarios()">
+				  <div class="form-row">
+				    <div class="form-group col-md-4">
+				      <label for="inputEmail4">Nombre</label>
+				      <input type="text" class="form-control" id="inputEmail4" [(ngModel)]="actu.nombre" name="nom" placeholder="Retroexcavadora">
+				    </div>
+				    <div class="form-group col-md-4">
+				      <label for="inputPassword4">Apellido Paterno</label>
+				      <input type="text" class="form-control" id="inputPassword4" [(ngModel)]="actu.apaterno" name="nom2" placeholder="Excalibur">
+				    </div>
+				    <div class="form-group col-md-4">
+				      <label for="inputPassword4">Apellido Materno</label>
+				      <input type="text" class="form-control" id="inputPassword4" [(ngModel)]="actu.amaterno" name="nom3" placeholder="Excalibur">
+				    </div>
+				  </div>
+				  <div class="form-row">
+				  <div class="form-group col-md-6">
+				    <label for="inputAddress">CI</label>
+				    <input type="text" [(ngModel)]="actu.ci" name="nom3" class="form-control" id="inputAddress" >
+				  </div>
+				  <div class="form-group col-md-6">
+				    <label for="inputAddress">Telefono</label>
+				    <input type="text" [(ngModel)]="actu.telefono" name="nom55" class="form-control" id="inputAddress" >
+				  </div>
+				  </div>
+				  <div class="form-row">
+				  <div class="form-group col-md-4">
+				    <label for="inputAddress">Username</label>
+				    <input type="text" [(ngModel)]="actu.username" name="nom66" class="form-control" id="inputAddress" >
+				  </div>
+				  <div class="form-group col-md-4">
+				    <label for="inputAddress">Password</label>
+				    <input type="text" [(ngModel)]="actu.pass" name="nom77" class="form-control" id="inputAddress" value="" >
+				  </div>
+				
+				 	
+				  </div>
+				  <button type="submit" class="btn btn-primary btn-lg btn-block">Guardar</button>
+				
+                
+        </form>
+        
+          
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+        </div>
+      </div>
+    
+    </div>
+   
+  </div>
+
+
+
+
+
+
+
+
+ 

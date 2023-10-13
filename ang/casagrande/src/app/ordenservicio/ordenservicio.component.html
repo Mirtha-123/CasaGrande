@@ -1,0 +1,1017 @@
+<app-navbar></app-navbar>
+<mat-tab-group [selectedIndex]="selected.value" (selectedIndexChange)="selected.setValue($event)">
+  <mat-tab label="Servicios">
+    <div class="container">
+      <h1>Ordenes de Servicio </h1>
+
+      <div class="resumen row">
+        <div class="col-md-3 separacion">
+          <div class="resumen1 res animated  rollIn ">
+            <div class="sector1">
+              <span class="total">{{resumentodo.general}}</span>
+              <i class="iconillo sinpa fas fa-tractor"></i>
+            </div>
+            <div class="sector2">
+              <span class="letra">Bajo Direccion</span>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="col-md-3 separacion">
+          <div class="resumen2 res animated  rollIn ">
+            <div class="sector1">
+              <span class="total">{{resumentodo.alerta}}</span>
+              <i class="iconillo sinpa fas fa-cogs"></i>
+            </div>
+            <div class="sector2">
+              <span class="letra">Alerta</span>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="col-md-3 separacion">
+          <div class="resumen3 res animated  rollIn ">
+            <div class="sector1">
+              <span class="total">{{resumentodo.atencion}}</span>
+              <i class="iconillo sinpa fas fa-thumbs-up"></i>
+            </div>
+            <div class="sector2">
+              <span class="letra">Precaución</span>
+            </div>
+
+
+          </div>
+        </div>
+        <div class="col-md-3 separacion">
+          <div class="resumen4 res animated  rollIn ">
+            <div class="sector1">
+              <span class="total">{{resumentodo.tranquilos}}</span>
+              <i class="iconillo sinpa fas fa-lock"></i>
+            </div>
+            <div class="sector2">
+              <span class="letra">Regular</span>
+            </div>
+
+
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="tabla">
+            <mat-form-field>
+
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscar">
+            </mat-form-field>
+
+            <div class="mat-elevation-z8 example example-container">
+              <table mat-table [dataSource]="latabla" matSort class="mat-elevation-z8">
+                <ng-container matColumnDef="semaforizacion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Leyenda </th>
+                  <td mat-cell *matCellDef="let element"> {{element.semaforizacion}} </td>
+                </ng-container>
+
+
+
+                <ng-container matColumnDef="codigo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Codigo </th>
+                  <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="nombre">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nombre | titlecase}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="descripcion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </th>
+                  <td mat-cell *matCellDef="let element"> {{element.descripcion | titlecase}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="horometro">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Horometro </th>
+                  <td mat-cell *matCellDef="let element"> {{element.horometro}} </td>
+                </ng-container>
+                <ng-container matColumnDef="hodometro">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Hodometro </th>
+                  <td mat-cell *matCellDef="let element"> {{element.hodometro}} </td>
+                </ng-container>
+                <ng-container matColumnDef="estado">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+                  <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="status">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Status </th>
+                  <td mat-cell *matCellDef="let element" [ngSwitch]="element.status"> <img src="assets/alerta.png"
+                      class="iconoo" *ngSwitchCase="'alerta'"> <img src="assets/precaucion.png" class="iconoo"
+                      *ngSwitchCase="'atencion'"> <img src="assets/good.png" class="iconoo"
+                      *ngSwitchCase="'tranquilos'"> </td>
+                </ng-container>
+
+                <ng-container matColumnDef="ubicacion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Ubicacion </th>
+                  <td mat-cell *matCellDef="let element"> {{element.ubicacion}} </td>
+                </ng-container>
+                <ng-container matColumnDef="acciones">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                  <td mat-cell *matCellDef="let row" class="final" style="display: flex;">
+                    <button type='button' class='editar btn btn-secondary' 
+                      matTooltip="Autorizar Proceso" aria-label="Autorizar"
+                      *ngIf="row.estado=='mantenimiento' && mispermitidos.cerrarorden==true" (click)="autorizar(row)"><i
+                        class="fas fa-check-double"></i></button>
+
+                    <button type='button' class='editar btn btn-primary'  matTooltip="Generar Informe"
+                      aria-label="Permisos" data-toggle="modal"
+                      *ngIf="mispermitidos.generarorden && row.estadofalla!='pendiente'" data-target="#test-modal-5"
+                      (click)="maquina(row)"><i class="fas fa-file-import sinpa"></i></button>
+                    <!--<button type='button' class='editar btn btn-light' mat-raised-button
+        matTooltip="Terceros"
+        aria-label="Terceros" data-toggle="modal"  data-target="#test-modal-007"  *ngIf="row.estado=='mantenimiento' && mispermitidos.cerrarorden==true" ><i class="fa fa-cogs" aria-hidden="true"></i></button>-->
+                    <button type='button' class='editar btn btn-warning'  matTooltip="Solicitar Pedido"
+                      aria-label="Solicitud" *ngIf="row.estado=='mantenimiento' && mispermitidos.cerrarorden==true"
+                      (click)="soli(row)"><i class="fa fa-file-text" aria-hidden="true"></i></button>
+                    <button type='button' class='editar btn btn-info' matTooltip="Imprimir Fallas"
+                      aria-label="Permisos" data-toggle="modal"
+                      *ngIf="mispermitidos.generarorden && row.estadofalla=='pendiente'" data-target="#test-modal-5441"
+                      (click)="imprimir(row)"><i class="fa fa-print" aria-hidden="true"></i></button>
+                    <button type='button' class='editar btn btn-dark' matTooltip="Fallas"
+                      aria-label="Fallas" data-toggle="modal" *ngIf="row.estadofalla=='pendiente'"
+                      data-target="#test-modal-544" (click)="maquinafalla(row)"><i
+                        class="fas fa-file-import sinpa"></i></button>
+                    <button type='button' matTooltip="Cerrar OD" aria-label="Permisos"
+                      class='editar btn btn-danger'
+                      *ngIf="row.estado=='mantenimiento' && mispermitidos.cerrarorden==true" data-toggle="modal"
+                      data-target="#test-modal-6" [routerLink]="['/ordenes_servicio/cerrar_od/correctivo', row]"><i
+                        class="fas fa-file-import sinpa"></i></button>
+                    <button type='button' matTooltip="Reporte OD" aria-label="Permisos"
+                      class='editar btn btn-success' *ngIf="mispermitidos.reporteorden" (click)="reporteunico(row)"><i
+                        class="fas fa-list-alt sinpa"></i></button>
+
+
+                  </td>
+
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Reporte">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h1>Reporte </h1>
+          <form>
+            <div class="form-row">
+              <div class="form-group col-md-4">
+                <button type="button" data-toggle="modal" *ngIf="false" data-target="#test-modal-8"
+                  (click)="verdetalle()" class="btn btn-primary btn-lg btn-block">Ver Detalles</button>
+              </div>
+
+
+
+            </div>
+
+          </form>
+          <div class="table-responsive" id="datatabless">
+
+            <table class="table table-hover display table-striped table-bordered" id="tablita123">
+              <thead>
+                <tr>
+
+                  <th>Nro</th>
+                  <th>Fecha de Entrada</th>
+                  <th>Estado</th>
+                  <th>Maquinaria</th>
+                  <th>Descripcion</th>
+                  <th>Fecha de Finalizacion</th>
+                  <th>Observaciones</th>
+
+
+
+
+
+                </tr>
+              </thead>
+
+            </table>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Reporte Especifico">
+    <app-orden-reporte></app-orden-reporte>
+  </mat-tab>
+  <mat-tab label="Mantenimiento">
+    <app-mantenimientos></app-mantenimientos>
+  </mat-tab>
+
+</mat-tab-group>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-5" tabindex="-1" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header" *ngIf="informe">
+        <div class="row">
+          <div class="col-md-3">
+            <h4 class="modal-title">Nueva Orden</h4>
+          </div>
+          <div class="col-md-3 offset-md-1">
+            <mat-form-field class="f">
+              <input matInput [matDatepicker]="picker" [(ngModel)]="fechaactual" placeholder="Fecha Orden">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-1 ">
+
+          </div>
+        </div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Close</span></button>
+
+
+
+
+
+
+
+      </div>
+      <div class="modal-header" *ngIf="!informe">
+        <div class="row">
+          <div class="col-md-6">
+            <h4 class="modal-title">Informe de Fallas</h4>
+          </div>
+          <!--<div class="col-md-3">
+              <button class="btn btn-danger" (click)="rechazarfallas()">Rechazar</button>
+            </div>
+            <div class="col-md-3">
+              <button class="btn btn-primary">Generar OD</button>
+            </div>-->
+        </div>
+      </div>
+      <div class="modal-body" *ngIf="rechazo">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <form>
+                <div class="form-group">
+                  <label for="exampleFormControlInput1">Observaciones Finales</label>
+                  <input type="text" class="form-control" name="2111" [(ngModel)]="motivorechazo"
+                    id="exampleFormControlInput1">
+                </div>
+
+                <div class="form-group">
+                  <button class="btn btn-success" (click)="fallasrechaza()">Agregar</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body" *ngIf="informe">
+        <div class="container">
+          <div class="col-md-12">
+            <form>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Fecha</label>
+                <input type="date" class="form-control" name="2111" [(ngModel)]="falla.fecha"
+                  id="exampleFormControlInput1">
+              </div>
+              <div class="form-group col-md-12 bloques">
+                <label for="inputEm">Proyectos</label>
+                <angular2-multiselect [data]="itemsbienes1" name="nose" [(ngModel)]="selectedItems1" name="nom1111"
+                  [settings]="dropdownSettings1" (onSelect)="onItemSelect1($event)"
+                  (onDeSelect)="OnItemDeSelect1($event)" (onSelectAll)="onSelectAll1($event)"
+                  (onDeSelectAll)="onDeSelectAll1($event)"></angular2-multiselect>
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Solicitante</label>
+                <input type="text" class="form-control" name="545" [(ngModel)]="falla.solicitante"
+                  id="exampleFormControlInput1">
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Ubicacion</label>
+                <input type="text" class="form-control" name="12343" [(ngModel)]="falla.ubicacion"
+                  id="exampleFormControlInput1">
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Fallas</label>
+                <input type="text" class="form-control" name="123431aaa" [(ngModel)]="fallas"
+                  id="exampleFormContwqeqrrolInput1">
+              </div>
+              <div class="form-group">
+                <button class="btn btn-success" (click)="fallasagregar()">Agregar</button>
+              </div>
+            </form>
+            <table class="table">
+              <thead>
+                <tr>
+
+                  <th>Item</th>
+                  <th>Descripcion</th>
+                  <th>Eliminar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let x of listafallas;let i = index">
+                  <td>{{i}}</td>
+                  <td>{{x}}</td>
+                  <td><button class="btn btn-danger" (click)="quitar(x)">Quitar</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body" *ngIf="!informe">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <form (ngSubmit)="enviar()">
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputEmail4">Maquinaria</label>
+                    <input type="text" class="form-control" id="inputEmail4" [(ngModel)]="orden.nombre" disabled
+                      name="nom1" placeholder="Retroexcavadora">
+                  </div>
+                  
+                  <div class="form-group col-md-12">
+                    <label for="exampleFormControlTextarea1">Observaciones</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" name="nom7"
+                      [(ngModel)]="orden.observaciones" rows="3"></textarea>
+                  </div>
+
+
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Guardar</button>
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" (click)="fallitas()" *ngIf="informe">Guardar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-8" tabindex="-1" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <div class="row">
+          <div class="col-md-3">
+            <h4 class="modal-title">Detalle</h4>
+          </div>
+
+
+          <div class="col-md-1 ">
+
+          </div>
+        </div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Close</span></button>
+
+
+
+
+
+
+
+      </div>
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <table cellpadding="5" cellspacing="0" border="0" style="padding-left:50px;width:100%;">
+              <thead>
+                <tr style="background:#17223b;color:white;font-family: sans-serif;">
+                  <th>Pieza</th>
+                  <th>Cantidad</th>
+                  <th>Costo</th>
+                  <th>Unidad</th>
+                </tr>
+              </thead>
+              <tbody id="fila">
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        </div>
+
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-756" tabindex="-1" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <div class="row">
+          <div class="col-md-3">
+            <h4 class="modal-title">Prevencion Nueva</h4>
+          </div>
+
+
+          <div class="col-md-1 ">
+
+          </div>
+        </div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Close</span></button>
+
+
+
+
+
+
+
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="inputEmail4">Nombre</label>
+              <input type="text" class="form-control" [(ngModel)]="prevencionnueva.nombre" id="inputEmail4"
+                name="operador111232">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="exampleFormControlSelect1">Tipo</label>
+              <select class="form-control" [(ngModel)]="prevencionnueva.tipo" name="tipo123"
+                id="exampleFormControlSelect1">
+                <option value="hr">Horometro</option>
+                <option value="hd">Hodometro</option>
+                <option value="otro">Otro</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+              <label for="inputPassword4">Cada Cuanto</label>
+              <input type="number" class="form-control" [(ngModel)]="prevencionnueva.anticipacion" name="operador23234"
+                id="inputPassword4">
+            </div>
+            <div class="form-group col-md-4">
+              <label for="inputPassword4">Tiempo de Anterioridad</label>
+              <input type="number" class="form-control" [(ngModel)]="prevencionnueva.aviso" name="operador23"
+                id="inputPassword4">
+            </div>
+          </div>
+
+
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="enviarprevencion()">Guardar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-748" tabindex="-1" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <div class="row">
+          <div class="col-md-12">
+            <h4 class="modal-title">Estado de Prevenciones</h4>
+          </div>
+
+
+          <div class="col-md-1 ">
+
+          </div>
+        </div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Close</span></button>
+
+
+
+
+
+
+
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-row">
+            <div class="form-group col-md-12">
+              <label for="inputEmail4">Nombre</label>
+              <input type="text" class="form-control" [(ngModel)]="prevencionnueva.nombre" id="inputEmail4"
+                name="operador111232">
+            </div>
+          </div>
+          <div class="table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Nombre</th>
+                  <th>Prevención</th>
+                  <th>Estado</th>
+                  <th>Reiniciar</th>
+                  <th>Editar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let x of lasprevenciones">
+                  <td>{{x.nombre}}</td>
+                  <td>{{x.anticipacion}}</td>
+                  <td>{{x.proximo}}</td>
+                  <td>Estado</td>
+                  <td><button class="btn btn-success">Reiniciar</button></td>
+                  <td><button class="btn btn-primary">Editar</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </form>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" (click)="enviarprevencion()">Guardar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-5441" tabindex="-1" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+
+      <div class="modal-header">
+        <div class="row">
+          <div class="col-md-4">
+            <h4 class="modal-title">Fallas</h4>
+          </div>
+
+        </div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Close</span></button>
+
+
+
+
+
+
+
+      </div>
+
+      <div class="modal-body">
+        <div class="container" id="parai">
+          <div class="row">
+            <div class="col-md-12" style="text-align: center;">
+              <img src="./assets/log.jpg" style="width: 200px;">
+              <h3>Informe de Fallas</h3>
+              <h4>{{paraim.maquina.nombre}} {{paraim.maquina.descripcion}}</h4>
+            </div>
+            <div class="col-md-3">
+              <p>Fecha: <strong>{{paraim.fecha |date}} </strong></p>
+              <p>Solicitante: <strong>{{paraim.solicitante}} </strong></p>
+              <p>Ubicacion <strong>{{paraim.ubicacion}} </strong> </p>
+              <p>Proyecto: <strong>{{paraim.proyecto.nombre}} {{paraim.proyecto.descripcion}}</strong></p>
+            </div>
+            <div class="col-md-3 offset-md-6" style="float: right;">
+              <p>Codigo: <strong>{{paraim.maquina.codigo}} </strong></p>
+              <p>Horometro: <strong>{{paraim.maquina.horometro}} </strong></p>
+            </div>
+            <div class="col-md-12">
+              <h5>Descripcion de Fallas</h5>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Item</th>
+                    <th>Descripcion</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let x of paraim.lista;let i = index">
+                    <td>{{i}}</td>
+                    <td>{{x}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="col-md-12">
+              <h5>Observaciones</h5>
+              <table>
+                <tr style="border-top:1px solid black;height: 30px;">
+                  <td></td>
+                </tr>
+                <tr style="border-top:1px solid black;height: 30px;">
+                  <td></td>
+                </tr>
+                <tr style="border-top:1px solid black;height: 30px;">
+                  <td></td>
+                </tr>
+                <tr style="border-top:1px solid black;height: 30px;">
+                  <td></td>
+                </tr>
+              </table>
+
+              <div class="row" style="margin-top: 20px;">
+                <div class="col-md-6" style="text-align: center;">
+                  SOLICITADO
+                </div>
+                <div class="col-md-6" style="text-align: center;">
+                  RECIBIDO
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-success" [useExistingCss]="true" printSectionId="parai"
+          ngxPrint>Imprimir</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-544" tabindex="-1" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header" *ngIf="!informe">
+        <div class="row">
+          <div class="col-md-3">
+            <h4 class="modal-title">Nueva Orden</h4>
+          </div>
+          <div class="col-md-3 offset-md-1">
+            <mat-form-field class="f">
+              <input matInput [matDatepicker]="picker" [(ngModel)]="fechaactual" placeholder="Fecha Orden">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-1 ">
+
+          </div>
+        </div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Close</span></button>
+
+
+
+
+
+
+
+      </div>
+      <div class="modal-header" *ngIf="informe">
+        <div class="row">
+          <div class="col-md-4">
+            <h4 class="modal-title">Fallas</h4>
+          </div>
+          <div class="col-md-3">
+            <button class="btn btn-danger" *ngIf="mispermitidos.aprobarorden==true"
+              (click)="rechazarfallas()">Rechazar</button>
+          </div>
+          <div class="col-md-3">
+            <button class="btn btn-primary" *ngIf="mispermitidos.aprobarorden==true" (click)="god()">Generar OD</button>
+          </div>
+
+          <div class="col-md-1 ">
+
+          </div>
+        </div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Close</span></button>
+
+
+
+
+
+
+
+      </div>
+      <div class="modal-body" *ngIf="!informe">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <form (ngSubmit)="enviar()">
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputEmail4">Maquinaria</label>
+                    <input type="text" class="form-control" id="inputEmail4" [(ngModel)]="orden.nombre" disabled
+                      name="nom1" placeholder="Retroexcavadora">
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="exampleFormControlTextarea1">Mecanico</label>
+                    <input type="text" class="form-control" id="exampleFormControlTextarea1" name="nom7s"
+                      [(ngModel)]="orden.mecanicoo" >
+                      
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="exampleFormControlTextarea1">Electricista</label>
+                    <input type="text" class="form-control" id="exampleFormControlTextarea1" name="nom7sx"
+                      [(ngModel)]="orden.electricista" >
+                      
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="exampleFormControlTextarea1">Soldador</label>
+                    <input type="text" class="form-control" id="exampleFormControlTextarea1" name="nom7sxx"
+                      [(ngModel)]="orden.soldador" >
+                      
+                  </div>
+                  <div class="form-group col-md-6">
+                    <label for="exampleFormControlTextarea1">Otro</label>
+                    <input type="text" class="form-control" id="exampleFormControlTextarea1" name="nom7sz"
+                      [(ngModel)]="orden.otroo" >
+                      
+                  </div>
+                  <div class="form-group col-md-12">
+                    <label for="exampleFormControlTextarea1">Observaciones</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" name="nom7"
+                      [(ngModel)]="observaparag" rows="3"></textarea>
+                  </div>
+
+
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Guardar</button>
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+
+
+      </div>
+      <div class="modal-body" *ngIf="rechazo">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <form>
+                <div class="form-group">
+                  <label for="exampleFormControlInput1">Observaciones Finales</label>
+                  <input type="text" class="form-control" name="2111" [(ngModel)]="motivorechazo"
+                    id="exampleFormControlInput1">
+                </div>
+
+
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-body" *ngIf="informe">
+
+        <div class="container">
+          <div class="col-md-12">
+            <form>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Fecha</label>
+                <input type="date" class="form-control" name="2111" [(ngModel)]="falla.fecha"
+                  id="exampleFormControlInput1">
+              </div>
+              <div class="form-group col-md-12 bloques">
+                <label for="inputEm">Proyectos</label>
+                <angular2-multiselect [data]="itemsbienes1" name="nose" [(ngModel)]="selectedItems1" name="nom1111"
+                  [settings]="dropdownSettings1" (onSelect)="onItemSelect1($event)"
+                  (onDeSelect)="OnItemDeSelect1($event)" (onSelectAll)="onSelectAll1($event)"
+                  (onDeSelectAll)="onDeSelectAll1($event)"></angular2-multiselect>
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Solicitante</label>
+                <input type="text" class="form-control" name="545" [(ngModel)]="falla.solicitante"
+                  id="exampleFormControlInput1">
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Ubicacion</label>
+                <input type="text" class="form-control" name="12343" [(ngModel)]="falla.ubicacion"
+                  id="exampleFormControlInput1">
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Fallas</label>
+                <input type="text" class="form-control" name="123431" [(ngModel)]="fallas"
+                  id="exampleFormControlInput1">
+              </div>
+              <div class="form-group">
+                <button class="btn btn-success" (click)="fallasagregar()">Agregar</button>
+              </div>
+            </form>
+            <table class="table">
+              <thead>
+                <tr>
+
+                  <th>Item</th>
+                  <th>Descripcion</th>
+                  <th>Eliminar</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let x of listafallas;let i = index">
+                  <td>{{i}}</td>
+                  <td>{{x}}</td>
+                  <td><button class="btn btn-danger" (click)="quitar(x)">Quitar</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" *ngIf="informe" (click)="actualizarfalla()">Actualizar</button>
+        <button type="button" class="btn btn-success" *ngIf="rechazo" (click)="rechazado()">Rechazar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-007" tabindex="-1" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <div class="row">
+          <div class="col-md-3">
+            <h4 class="modal-title">Orden de Trabajo</h4>
+          </div>
+          <div class="col-md-3 offset-md-1">
+            <mat-form-field class="f">
+              <input matInput [matDatepicker]="picker" [(ngModel)]="fechaactual" placeholder="Fecha Orden">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div class="col-md-1 ">
+
+          </div>
+        </div>
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Close</span></button>
+
+
+
+
+
+
+
+      </div>
+
+      <div class="modal-body">
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <form (ngSubmit)="enviar()">
+                <div class="form-row">
+                  <div class="form-group col-md-4">
+                    <label for="inputEmail4">Maquinaria</label>
+                    <input type="text" class="form-control" id="inputEmail4" [(ngModel)]="orden.nombre" disabled
+                      name="nom1" placeholder="Retroexcavadora">
+                  </div>
+
+                  <div class="form-group col-md-12">
+                    <label for="exampleFormControlTextarea1">Observaciones</label>
+                    <textarea class="form-control" id="exampleFormControlTextarea1" name="nom7"
+                      [(ngModel)]="observaparag" rows="3"></textarea>
+                  </div>
+
+
+                </div>
+
+                <button type="submit" class="btn btn-primary btn-lg btn-block">Guardar</button>
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+
+
+
+
+
+      </div>
+
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-info" *ngIf="informe" (click)="actualizarfalla()">Actualizar</button>
+        <button type="button" class="btn btn-success" *ngIf="rechazo" (click)="rechazado()">Rechazar</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

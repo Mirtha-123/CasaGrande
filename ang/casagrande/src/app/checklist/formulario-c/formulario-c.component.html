@@ -1,0 +1,119 @@
+<app-navbar></app-navbar>
+<button id="ee22" class="btn btn-success" (click)="guardarcheck()">Guarssdar</button>
+<div class="row">
+
+  <div class="col-md-12">
+
+    <form>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Fecha</label>
+        <input type="date" class="form-control" name="2111" [(ngModel)]="mas.fecha" id="exampleFormControlInput1">
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Lugar</label>
+        <input type="text" class="form-control" name="2111" [(ngModel)]="mas.lugar" id="exampleFormControlInput1">
+      </div>
+      <div class="form-group">
+        <label for="exampleFormControlInput1">Observaciones</label>
+        <input type="text" class="form-control" name="211124" [(ngModel)]="mas.observaciones"
+          id="exampleFormControlInput1">
+      </div>
+      <div class="">
+        <label id="example-radio-group-label">Motivo</label>
+        <mat-radio-group aria-labelledby="example-radio-group-label" name="ddd" class="example-radio-group"
+          [(ngModel)]="mas.motivo">
+          <mat-radio-button class="example-radio-button" value="Inspeccion por Alquiler">
+            Inspeccion por Alquiler
+          </mat-radio-button>
+          <mat-radio-button class="example-radio-button" value="Movilización">
+            Movilización
+          </mat-radio-button>
+          <mat-radio-button class="example-radio-button" value="Recepción de Equipo">
+            Recepción de Equipo
+          </mat-radio-button>
+          <mat-radio-button class="example-radio-button" value="Desmovilización">
+            Desmovilización
+          </mat-radio-button>
+
+        </mat-radio-group>
+
+      </div>
+
+
+    </form>
+  </div>
+  <div class="col-md-6">
+    <div class="esto"></div>
+  </div>
+  <div class="col-md-6">
+    <div class="combustibles">
+      <div class="row">
+        <div class="col-md-12">
+          <img src="./assets/combustible.png" width="200px" alt="">
+        </div>
+        <div class="col-md-12" id="screen" style="background: white;">
+          <p for="">Nivel de Combustible (1-5)</p>
+
+          <app-imagen1></app-imagen1>
+          <mat-slider class="example-margin" max="5" min="0" step="1" thumbLabel="true" [(ngModel)]="mas.combustible"
+            vertical="false">
+          </mat-slider>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="combustibles">
+      <div class="row">
+        <div class="col-md-12">
+          <img src="./assets/llantas.png" width="100%" alt="">
+        </div>
+        <div class="col-md-12">
+
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Neumaticos</label>
+            <input type="text" class="form-control" name="211124a" [(ngModel)]="mas.neumaticos"
+              id="exampleFormControlInput1">
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="combustibles">
+      <div class="row">
+        <div class="col-md-12">
+          <img src="./assets/rodillo.png" width="100%" alt="">
+        </div>
+        <div class="col-md-12">
+
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Rodillo</label>
+            <input type="text" class="form-control" name="211124az" [(ngModel)]="mas.rodillo"
+              id="exampleFormControlInput1">
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="combustibles">
+      <div class="row">
+        <div class="col-md-12">
+          <img src="./assets/rodado.png" width="100%" alt="">
+        </div>
+        <div class="col-md-12">
+
+          <div class="form-group">
+            <label for="exampleFormControlInput1">Rodado</label>
+            <input type="text" class="form-control" name="211124azg" [(ngModel)]="mas.rodado"
+              id="exampleFormControlInput1">
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+</div>

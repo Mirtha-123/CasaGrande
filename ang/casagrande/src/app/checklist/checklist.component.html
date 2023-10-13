@@ -1,0 +1,270 @@
+<app-navbar></app-navbar>
+<mat-tab-group>
+  <mat-tab label="Bienes">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-12">
+          <h3>Lista de Bienes</h3>
+        </div>
+        <div class="col-md-12">
+
+          <div class="tabla">
+            <div class="buscador ">
+
+              <i class="fas fa-search lupa"></i>
+
+              <mat-form-field>
+                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Buscador">
+              </mat-form-field>
+
+
+            </div>
+
+
+            <div class="mat-elevation-z8 example">
+              <table mat-table [dataSource]="latabla" matSort class="mat-elevation-z8">
+                <ng-container matColumnDef="semaforizacion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Leyenda </th>
+                  <td mat-cell *matCellDef="let element"> {{element.semaforizacion}} </td>
+                </ng-container>
+
+
+
+                <ng-container matColumnDef="codigo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Codigo </th>
+                  <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="nombre">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre </th>
+                  <td mat-cell *matCellDef="let element"> {{element.nombre | titlecase}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="descripcion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Descripcion </th>
+                  <td mat-cell *matCellDef="let element"> {{element.descripcion | titlecase}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="horometro">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Horometro </th>
+                  <td mat-cell *matCellDef="let element"> {{element.horometro}} </td>
+                </ng-container>
+                <ng-container matColumnDef="hodometro">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Hodometro </th>
+                  <td mat-cell *matCellDef="let element"> {{element.hodometro}} </td>
+                </ng-container>
+                <ng-container matColumnDef="estado">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+                  <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+                </ng-container>
+
+
+                <ng-container matColumnDef="ubicacion">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Ubicacion </th>
+                  <td mat-cell *matCellDef="let element"> {{element.ubicacion}} </td>
+                </ng-container>
+                <ng-container matColumnDef="acciones">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header> Acciones </th>
+                  <td mat-cell *matCellDef="let row" class="final">
+
+                    <button type='button' color="primary" mat-raised-button matTooltip="Check List"
+                      aria-label="Permisos" class='editar btn btn-success' *ngIf="mispermitidos.crear"
+                      data-toggle="modal" data-target="#test-modal-118" (click)="checkq(row)"><i
+                        class="fas fa-user-tag sinpa"></i></button>
+
+                    <button type='button' color="accent" mat-raised-button matTooltip="Reportes" aria-label="Permisos"
+                      (click)="reporte(row)"><i class="fas fa-user-tag sinpa"></i></button>
+
+                  </td>
+
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              </table>
+
+              <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+
+
+  </mat-tab>
+ 
+</mat-tab-group>
+
+
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-118" tabindex="0" role="dialog"
+  aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content segunda">
+      <div class="modal-header">
+        <div class="row">
+          <div class="col-md-6">
+            <h4 class="modal-title text-primary">Check List</h4>
+
+          </div>
+          <div class="col-md-6" style="float: right;">
+            <button id="ee" class="btn btn-success" (click)="guardarcheck()">Guardar</button>
+          </div>
+        </div>
+
+
+        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span
+            class="sr-only">Cerrar</span></button>
+
+      </div>
+      <div class="modal-body">
+        <div class="row">
+
+          <div class="col-md-12">
+
+            <form>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Fecha</label>
+                <input type="date" class="form-control" name="2111" [(ngModel)]="mas.fecha"
+                  id="exampleFormControlInput1">
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Nombre</label>
+                <input type="text" class="form-control" name="2111" [(ngModel)]="mas.nombreR"
+                  id="exampleFormControlInput1">
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Obra</label>
+                <input type="text" class="form-control" name="2111" [(ngModel)]="mas.obra"
+                  id="exampleFormControlInput1">
+              </div>
+
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Horometro</label>
+                <input type="text" class="form-control" name="2111" [(ngModel)]="mas.horometro"
+                  id="exampleFormControlInput1">
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Baterias</label>
+                <input type="text" class="form-control" name="2111" [(ngModel)]="mas.baterias"
+                  id="exampleFormControlInput1">
+              </div>
+              <div class="form-group">
+                <label for="exampleFormControlInput1">Observaciones</label>
+                <input type="text" class="form-control" name="211124" [(ngModel)]="mas.observaciones"
+                  id="exampleFormControlInput1">
+              </div>
+              <div class="">
+                <label id="example-radio-group-label">Motivo</label>
+                <mat-radio-group aria-labelledby="example-radio-group-label" name="ddd" class="example-radio-group"
+                  [(ngModel)]="mas.motivo">
+                  <mat-radio-button class="example-radio-button" value="Inspeccion por Alquiler">
+                    Inspeccion por Alquiler
+                  </mat-radio-button>
+                  <mat-radio-button class="example-radio-button" value="Movilización">
+                    Movilización
+                  </mat-radio-button>
+                  <mat-radio-button class="example-radio-button" value="Recepción de Equipo">
+                    Recepción de Equipo
+                  </mat-radio-button>
+                  <mat-radio-button class="example-radio-button" value="Desmovilización">
+                    Desmovilización
+                  </mat-radio-button>
+
+                </mat-radio-group>
+
+              </div>
+
+
+            </form>
+          </div>
+          <div class="col-md-12" style="margin-top: 10px;margin-bottom: 10px;">
+            <div class="combustibles">
+              <div class="row">
+
+                <div class="col-md-12" id="screen">
+                  
+                  <button (click)="nivelCombustible()" style="margin-right: 3px;" color="primary" mat-raised-button>Nivel de Combustible</button>
+                  <button (click)="nivelNeumaticos()" style="margin-right: 3px;" color="accent" mat-raised-button>Estado de LLantas y neumaticos</button>
+                  <button (click)="nivelRodillo()" style="margin-right: 3px;" color="primary" mat-raised-button>Estado de Rodillo o Drum</button>
+                  <button (click)="nivelRodado()" color="accent" mat-raised-button>Estado de Rodado</button>
+
+
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+          <div class="col-md-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>
+                    Leyenda
+                  </th>
+                  <th>
+                    Simbolo
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Bueno</td>
+                  <td>OK</td>
+                </tr>
+                <tr>
+                  <td>Defectuso</td>
+                  <td>D</td>
+                </tr>
+                <tr>
+                  <td>Regular</td>
+                  <td>RE</td>
+                </tr>
+                <tr>
+                  <td>Falta</td>
+                  <td>F</td>
+                </tr>
+                <tr>
+                  <td>No aplica</td>
+                  <td>NA</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="col-md-6">
+            <div class="esto">
+             
+            </div>
+          </div>
+          <div class="col-md-6">
+
+            
+           
+
+          </div>
+        </div>
+
+
+
+      </div>
+      <div class="modal-footer">
+
+
+      </div>
+    </div>
+
+  </div>
+
+</div>

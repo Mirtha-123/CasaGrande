@@ -1,0 +1,48 @@
+<!-- TITULO -->
+<div mat-dialog-title>
+  <div class="row">
+    <div class="col-md-3">
+      <i class="fas fa-plus"></i>
+      Transferencia
+    </div>
+
+    <div class="col-md-1 offset-8" style="text-align: right; cursor: pointer;" (click)="onNoClick()">
+      <i class="fas fa-window-close"></i>
+    </div>
+  </div>
+  <mat-divider></mat-divider>
+</div>
+
+<div mat-dialog-content style="height: 100%;">
+  <div class="row">
+    <div class="col-md-6">
+      <label for="">Maquina a Transferir</label>
+      <angular2-multiselect [data]="dropdownList" style="color: black;" name="nose" [(ngModel)]="selectedItems"
+        name="nom1111" [settings]="dropdownSettings" (onSelect)="onItemSelect($event)"
+        (onDeSelect)="OnItemDeSelect($event)" (onSelectAll)="onSelectAll($event)"
+        (onDeSelectAll)="onDeSelectAll($event)"></angular2-multiselect>
+    </div>
+    <div class="col-md-6">
+      <mat-form-field appearance="outline">
+        <mat-label>Observacion</mat-label>
+        <textarea matInput [required]="true" [(ngModel)]="transferencia.observacion" name="marca-item" id="" cols="30"
+          rows="10"></textarea>
+      </mat-form-field>
+    </div>
+    <div class="col-md-6">
+      <mat-form-field color="accent" appearance="fill">
+        <mat-label>Fecha</mat-label>
+        <input matInput [matDatepicker]="picker1" disabled [(ngModel)]="fecha" name="fff">
+        <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+        <mat-datepicker #picker1></mat-datepicker>
+      </mat-form-field>
+    </div>
+  </div>
+</div>
+
+<mat-divider></mat-divider>
+
+<!-- PIE -->
+<div mat-dialog-actions align="end">
+  <button type="button" [mat-dialog-close]="true" (click)="transferir()" class="btn btn-primary"  cdkFocusInitial>{{ datos.nuevo? 'Transferir!':'Transferir!'}}</button>
+</div>

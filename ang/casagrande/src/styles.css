@@ -1,0 +1,39 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import '@angular/material/prebuilt-themes/indigo-pink.css';
+html{
+	height: 100%
+}
+body{
+	height: 100%;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+.cdk-global-overlay-wrapper, .cdk-overlay-container{
+    z-index: 1200;
+}
+.pure-checkbox input[type=checkbox]+label:after{
+	border-color: #3f35b3 !important;
+}
+.selected-list .c-btn {
+    border: 1px solid rgba(0,0,0,0.2);
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    border-radius: 10px;
+}
+::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5);
+}
+.tabulator-print-header, tabulator-print-footer{
+    text-align:center;
+  }
+.tabulator-print-footer{
+    margin-top: 10px;
+    text-align:center;
+}

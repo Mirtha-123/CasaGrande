@@ -1,0 +1,233 @@
+<app-navbar></app-navbar>
+<link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
+<div class="todito row sinmar">
+    <div class="l1 col-md-2 sinpa">
+      <div class="lateral">
+        <nav>
+          <ul>
+            <li><a href="#"><i class="fas fa-home"></i>Inicio</a></li>
+            <li><a href="#"><i class="fas fa-bacon"></i>Transpaso</a></li>
+            <li><a href="#"><i class="fas fa-credit-card"></i>Encargados</a></li>
+            <li><a href="#"><i class="fas fa-credit-card"></i>Ajustes</a></li>
+          </ul>
+        </nav>
+        </div>
+    </div>
+    <div class="l2 col-md-10 col-sm-12">
+    
+    
+
+
+
+
+
+<div class="caja">
+  <h1>BIENES</h1>
+  <div class="resumen row">
+      <div class="col-md-3">
+          <div class="resumen1 res">
+            <div class="sector1">
+            <span class="total">254</span>
+            <i class="iconillo fas fa-check-circle"></i>
+            </div>
+            <div class="sector2">
+              <span class="letra">Total Bienes</span>
+            </div>
+              
+              
+          </div>
+      </div>
+      <div class="col-md-3">
+          <div class="resumen2 res">
+            <div class="sector1">
+            <span class="total">254</span>
+            <i class="iconillo fas fa-check-circle"></i>
+            </div>
+            <div class="sector2">
+              <span class="letra">Total Bienes</span>
+            </div>
+              
+              
+          </div>
+      </div>
+      <div class="col-md-3">
+          <div class="resumen3 res">
+            <div class="sector1">
+            <span class="total">254</span>
+            <i class="iconillo fas fa-check-circle"></i>
+            </div>
+            <div class="sector2">
+              <span class="letra">Total Bienes</span>
+            </div>
+              
+              
+          </div>
+      </div>
+      <div class="col-md-3">
+          <div class="resumen4 res">
+            <div class="sector1">
+            <span class="total">254</span>
+            <i class="iconillo fas fa-check-circle"></i>
+            </div>
+            <div class="sector2">
+              <span class="letra">Total Bienes</span>
+            </div>
+              
+              
+          </div>
+      </div>
+  </div>
+  
+  
+
+  <div class="row">
+<div class="tabla col-md-12">
+
+	<table class="table" id="tablita" >
+	  <thead>
+	    <tr>
+	    	<th>Codigo</th>
+	      <th>Nombre</th>
+	      <th>Descripcion</th>
+	      <th>Horometro</th>
+	      <th>Hodometro</th>
+	      <th>Estado</th>
+	      <th>Semaforizacion</th>
+	    </tr>
+	  </thead>
+	  <tbody>
+	    
+	  </tbody>
+	</table>
+
+   
+</div>
+</div>
+</div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Nuevo Bien</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form (ngSubmit)="terminar()">
+  <div class="form-row">
+    <div class="form-group col-md-6">
+      <label for="inputEmail4">Nombre</label>
+      <input type="text" class="form-control" id="inputEmail4" [(ngModel)]="bien.nombre" name="nom" placeholder="Retroexcavadora">
+    </div>
+    <div class="form-group col-md-6">
+      <label for="inputPassword4">Descripcion</label>
+      <input type="text" class="form-control" id="inputPassword4" [(ngModel)]="bien.descripcion" name="nom2" placeholder="Excalibur">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="inputAddress">Horometro</label>
+    <input type="number" [(ngModel)]="bien.horometro" name="nom3" class="form-control" id="inputAddress" >
+  </div>
+  <div class="form-group">
+    <label for="inputAddress2">Hodometro</label>
+    <input type="number" [(ngModel)]="bien.hodometro" name="nom5" class="form-control" id="inputAddress2" >
+  </div>
+  <div class="form-row">
+    <div class="form-group col-md-4">
+      <label for="inputState">Estado</label>
+      <select id="inputState" [(ngModel)]="bien.estado" name="nom6" class="form-control">
+        <option selected>Choose...</option>
+        <option>...</option>
+      </select>
+    </div>
+    
+  </div>
+  <div class="form-group">
+    <label for="inputAddress2">Ubicacion</label>
+    <input type="text" class="form-control" [(ngModel)]="bien.ubicacion" name="nom7" id="inputAddress2" placeholder="Apartment, studio, or floor">
+  </div>
+  <button type="submit" class="btn btn-primary">Sign in</button>
+</form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+    </div>
+</div>
+
+<div id="circularMenu" class="circular-menu">
+
+  <a class="floating-btn" onclick="document.getElementById('circularMenu').classList.toggle('active');">
+    <i class="fa fa-plus"></i>
+  </a>
+
+  <menu class="items-wrapper">
+    <a class="menu-item fa fa-user-plus" data-toggle="modal" data-target="#exampleModal"></a>
+    <a class="menu-item fa fa-file-import" data-toggle="modal" data-target="#test-modal-3"></a>
+    <a href="#" class="menu-item fa fa-users"></a>
+    <a href="#" class="menu-item fa fa-times"></a>
+  </menu>
+
+</div>
+
+
+<!--<div id="circularMenu1" class="circular-menu circular-menu-left active">
+
+  <a class="floating-btn" onclick="document.getElementById('circularMenu1').classList.toggle('active');">
+    <i class="fa fa-bars"></i>
+  </a>
+
+  <menu class="items-wrapper">
+    <a href="#" class="menu-item fa fa-home"></a>
+    <a href="#" class="menu-item fa fa-user"></a>
+    <a href="#" class="menu-item fa fa-pie-chart"></a>
+    <a href="#" class="menu-item fa fa-cog"></a>
+  </menu>
+
+</div>-->
+
+
+
+
+
+<div class="modal fade bd-example-modal-lg" id="test-modal-3" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content segunda">
+        <div class="modal-header">
+          <h4 class="modal-title">Importacion</h4>
+          <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+          
+        </div>
+        <div class="modal-body">
+          
+                 <form action="/api/subir" method="post" enctype="multipart/form-data">
+                <input type="file" name="file" (change)="diferente($event)">
+                
+        </form>
+        
+          
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" (click)="enviar()">
+          Importar
+        </button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+
+        </div>
+      </div>
+    
+    </div>
+   
+  </div>
