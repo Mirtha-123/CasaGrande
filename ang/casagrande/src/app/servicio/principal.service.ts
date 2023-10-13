@@ -24,9 +24,9 @@ export class PrincipalService {
     })
   };
   //dominio: string = 'http://167.99.230.192:3000/'
-  dominio: string = 'http://localhost:3000/'
+  //dominio: string = 'http://localhost:3000/'
   dominioDGS: string = 'https://www.redux.com.bo/api/apisat/ultimoreporte'
-  //dominio: string = 'https://casagrande-erp.com/'
+  dominio: string = 'https://casagrande-erp.com/'
   constructor(private http: Http, private https: HttpClient) { }
   descargarPartes(x) {
     return this.http.post(`${this.dominio}partes/download`, x)
