@@ -5,13 +5,15 @@ const
 app = express()
 path = require('path'),
 	rou1 = require('./routes/principal.js')
-	rou2 = require('./routes/partesDiarias.js')
-	rou3 = require('./routes/solicitudes.js')
+rou2 = require('./routes/partesDiarias.js')
+rou3 = require('./routes/solicitudes.js')
 server = require('http').Server(app);
 cors = require('cors')
 session = require('express-session'),
 	cookie = require('cookie-parser'),
 	cookiesession = require('cookie-session')
+
+const RoutesNew = require('./routes/refactorDayParts.js')
 
 
 var io = require('socket.io')(server)
@@ -52,9 +54,7 @@ app.use(express.static(path.join(__dirname, 'ang/casagrande/dist/casagrande')))
 
 
 
-app.get('/hola', (req, res) => {
-	res.end("hola")
-})
+app.use('/', RoutesNew)
 
 //app.use(rutas);
 app.use('/Solicitud', rou3)
