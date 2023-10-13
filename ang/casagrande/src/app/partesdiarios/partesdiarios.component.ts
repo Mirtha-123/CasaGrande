@@ -164,10 +164,10 @@ export class PartesdiariosComponent implements OnInit {
   }
   constructor(public api: PrincipalService, public dialog: MatDialog, private socket: Socket, private router: Router, private cookieService: CookieService) {
 
-    this.socket.on('parteactualizado', (data) => {
+    /*this.socket.on('parteactualizado', (data) => {
       this.ngOnInit()
 
-    });
+    });*/
 
 
   }
@@ -658,22 +658,6 @@ export class PartesdiariosComponent implements OnInit {
 
   ngOnInit() {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     var x3 = {
       id: this.cookieService.get('cokidemiproyecto'),
       modulo: "Partes"
@@ -707,9 +691,6 @@ export class PartesdiariosComponent implements OnInit {
           this.mispermitidos.reporte = true
         }
       }
-
-
-
 
     })
     this.chart = new Chart(this.chartRef.nativeElement, {

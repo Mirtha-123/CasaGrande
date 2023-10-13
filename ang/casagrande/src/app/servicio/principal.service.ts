@@ -302,7 +302,7 @@ export class PrincipalService {
     return this.http.post(`${this.dominio}comprobantes/fechascargadas`, x);
   }
   partesresumen() {
-    return this.http.get(`${this.dominio}partes/resumenes`);
+    return this.http.get(`${this.dominio}parts/summary`);
   }
   solicitudreporte(x) {
     return this.http.post(`${this.dominio}solicitud/reporte`, x);
